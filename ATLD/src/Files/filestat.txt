@@ -1,0 +1,11 @@
+Numero totale di caratteri: 1722.
+Numero totale di parole nel file: 252.
+Numero totale di frasi nel file: 8.
+La frase piu' lunga e': 'Nelle telecomunicazioni, per protocollo di rete si intende un particolare tipo di protocollo di comunicazione preposto al funzionamento di una rete informatica ovvero la definizione formale a priori delle modalità di interazione che due o più apparecchiature elettroniche collegate tra loro devono rispettare per operare particolari funzionalità di elaborazione necessarie all'espletamento di un certo servizio di rete.',
+' ed e' lunga 419 caratteri.
+La frase piu' corta e': 'È evidente l'importanza della standardizzazione dei protocolli di rete.', ed e' lunga 71 caratteri.
+La parola piu' lunga e': 'telecomunicazioni', ed e' lunga 17 caratteri.
+La parola piu' corta e': ',', ed e' lunga 1 caratteri.
+Numero di righe nel file: 4.
+Numero di consonanti presenti nel file: 984.
+Numero di vocali presenti nel file: 660.
