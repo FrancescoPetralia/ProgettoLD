@@ -18,8 +18,8 @@ class TextAnalyzer:
     flag = ''
 
     def __init__(self):
-        self.p1 = "/Users/francesco/Documents/Università/Linguaggi Dinamici/Progetto Nuovo/ATLD/src/Files/prova.txt"
-        self.p2 = "/Users/francesco/Documents/Università/Linguaggi Dinamici/Progetto Nuovo/ATLD/src/Files/analisys.txt"
+        self.p1 = "/Users/francesco/Documents/Università/Linguaggi Dinamici/ProgettoLD/ATLD/src/Files/prova.txt"
+        self.p2 = "/Users/francesco/Documents/Università/Linguaggi Dinamici/ProgettoLD/ATLD/src/Files/analisys.txt"
         #self.e = ExecutionTimeMeasurement()
         self.path_of_file_to_read = self.p1
         self.my_file = self.read_file(self.path_of_file_to_read)
@@ -174,7 +174,7 @@ class TextAnalyzer:
 
 def main():
 
-    global NS, PYRO_OBJ_NAME
+    global nsip, PYRO_OBJ_NAME
     text_analyzer_name = "Text_Analyzer_"
 
     # Configurazione del parser per gli argomenti in input

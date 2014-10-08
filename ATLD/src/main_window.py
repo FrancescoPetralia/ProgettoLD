@@ -10,7 +10,7 @@ class MainWindow(Connection):
 
     def __init__(self):
 
-        super(MainWindow, self).__init__()
+        '''super(MainWindow, self).__init__()
 
         self.na = 0
         self.offset_label = 60
@@ -42,9 +42,9 @@ class MainWindow(Connection):
 
         self.labelhost = QtGui.QLabel("", self)
         self.labelhost.resize(300, 30)
-        self.labelhost.move(50, 550)
+        self.labelhost.move(50, 550)'''
 
-    def set_hosts_number(self, n_addresses):
+    '''def set_hosts_number(self, n_addresses):
 
         self.na = n_addresses
 
@@ -75,7 +75,7 @@ class MainWindow(Connection):
     def on_click_button_connect(self):
 
         #self.open_server_connection()
-        self.find_obj(0, self.textboxlist_addresses[0].text(), self.textboxlist_password[0].text())
+        self.find_obj(0, self.textboxlist_addresses[0].text(), self.textboxlist_password[0].text())'''
 
 
 
