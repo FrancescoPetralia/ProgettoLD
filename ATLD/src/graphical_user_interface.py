@@ -22,7 +22,7 @@ class SetHostsWindow(QtGui.QMainWindow):
 
         self.label = QtGui.QLabel("Numero di hosts?", self)
         self.label.resize(150, 40)
-        self.label.move(130, 10)
+        self.label.move(150, 10)
 
         self.textbox = QtGui.QLineEdit(self)
         self.textbox.resize(75, 20)
@@ -161,6 +161,44 @@ class TextAnalysisWindow(QtGui.QMainWindow):
 
         super(TextAnalysisWindow, self).__init__()
 
-        self.resize(900, 620)
-        self.move(225, 60)
+        self.resize(1000, 680)
+        self.move(125, 60)
         self.setWindowTitle("Analizzatore Testuale")
+
+        self.loaded_file_textbox = QtGui.QLineEdit(self)
+        self.loaded_file_textbox.resize(450, 30)
+        self.loaded_file_textbox.move(20, 20)
+
+        self.load_file_button = QtGui.QPushButton("Carica file", self)
+        self.load_file_button.resize(100, 45)
+        self.load_file_button.move(13, 70)
+
+        QtCore.QObject.connect(self.load_file_button, QtCore.SIGNAL('clicked()'), self.load_file)
+
+        self.loaded_file_textarea = QtGui.QTextEdit(self)
+        self.loaded_file_textarea.resize(450, 550)
+        self.loaded_file_textarea.move(520, 20)
+
+        self.start_analysis_button = QtGui.QPushButton("Avvia Analisi", self)
+        self.start_analysis_button.resize(250, 65)
+        self.start_analysis_button.move(630, 600)
+
+        QtCore.QObject.connect(self.start_analysis_button, QtCore.SIGNAL('clicked()'), self.start_analysis())
+
+    def load_file(self):
+
+        self.loaded_file_textbox.setText(QtGui.QFileDialog.getOpenFileName())
+        file_path = self.loaded_file_textbox.text()
+        self.loaded_file_textarea.setText(self.read_file(file_path))
+
+    def read_file(self, p1):
+        #lettura del file
+        in_file = open(p1, "r")
+        self.my_file = in_file.read()
+        #self.my_file = self.my_file.decode("cp1252")
+        #self.my_file.encode("utf-8", "ignore")
+        in_file.close()
+        return self.my_file
+
+    def start_analysis(self):
+        pass

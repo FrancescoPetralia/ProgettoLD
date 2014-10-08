@@ -18,7 +18,7 @@ class TextAnalyzer:
     flag = ''
 
     def __init__(self):
-        self.p1 = "prova.txt"
+        #self.p1 = "prova.txt"
         self.p2 = "text_analisys_results.txt"
         #self.e = ExecutionTimeMeasurement()
         self.path_of_file_to_read = self.p1
@@ -26,14 +26,14 @@ class TextAnalyzer:
         self.all_tokenized_word = self.words_inside_file()
         self.all_tokenized_sentences = self.sentences_inside_file()
 
-    def read_file(self, p1):
+    '''def read_file(self, p1):
         #lettura del file
         in_file = open(p1, "r")
         self.my_file = in_file.read()
         #self.my_file = self.my_file.decode("cp1252")
         #self.my_file.encode("utf-8", "ignore")
         in_file.close()
-        return self.my_file
+        return self.my_file'''
 
     def get_number_of_chars_in_file(self):
         return len(self.my_file)
