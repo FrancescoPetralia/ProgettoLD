@@ -18,8 +18,8 @@ class TextAnalyzer:
     flag = ''
 
     def __init__(self):
-        self.p1 = "/Users/francesco/Documents/Università/Linguaggi Dinamici/ProgettoLD/ATLD/src/Files/prova.txt"
-        self.p2 = "/Users/francesco/Documents/Università/Linguaggi Dinamici/ProgettoLD/ATLD/src/Files/analisys.txt"
+        self.p1 = "prova.txt"
+        self.p2 = "text_analisys_results.txt"
         #self.e = ExecutionTimeMeasurement()
         self.path_of_file_to_read = self.p1
         self.my_file = self.read_file(self.path_of_file_to_read)
