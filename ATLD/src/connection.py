@@ -19,6 +19,7 @@ class Connection(QtGui.QMainWindow):
         self.password = None
         self.object_pid = None
         #self.port = None
+        self.authentication_ok = False
 
     # Questo metodo ritorna l'indirizzo ip del server
     def get_ip_addr(self):
@@ -42,20 +43,19 @@ class Connection(QtGui.QMainWindow):
 
         time.sleep(5)
 
-        if self.authentication_ok:
+        if self.authentication_ok is True:
 
             try:
                 ns = Pyro4.naming.locateNS()
+                print("Return del locateNS(): " + str(ns))
                 uri_text_analyzer = ns.lookup(self.text_analyzer_name + str(self.identifier))
                 print(self.text_analyzer_name + " trovato. Il suo uri è: " + uri_text_analyzer)
                 self.text_analyzer = Pyro4.Proxy(uri_text_analyzer)
-
                 return True
 
             except Pyro4.errors.NamingError as e:
                 print("Oggetto non trovato, errore: " + str(e))
                 self.ssh_connection_close_and_cleanup()
-
                 return False
 
     def open_server_connection(self):

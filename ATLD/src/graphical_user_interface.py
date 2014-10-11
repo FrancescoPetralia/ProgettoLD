@@ -57,17 +57,19 @@ class SetHostsWindow(QtGui.QMainWindow):
         if state == QtGui.QValidator.Acceptable:
              # Green
             color = '#c4df9b'
-            print("Correct")
+            #print("Correct")
         else:
             # Red
             color = '#f6989d'
-            print("Incorrect")
+            #print("Incorrect")
 
         sender.setStyleSheet('QLineEdit { background-color: %s }' % color)
 
     def get_hosts_number(self):
 
         return self.textbox.text()
+
+#=======================================================================================================================
 
 
 class HostsConnectionWindow(Connection):
@@ -154,6 +156,8 @@ class HostsConnectionWindow(Connection):
             print("Errore nell'esecuzione del metodo .find_obj()")
             self.open_text_analysis_window()
 
+#=======================================================================================================================
+
 
 class TextAnalysisWindow(QtGui.QMainWindow):
 
@@ -183,7 +187,7 @@ class TextAnalysisWindow(QtGui.QMainWindow):
         self.start_analysis_button.resize(250, 65)
         self.start_analysis_button.move(630, 600)
 
-        QtCore.QObject.connect(self.start_analysis_button, QtCore.SIGNAL('clicked()'), self.start_analysis())
+        QtCore.QObject.connect(self.start_analysis_button, QtCore.SIGNAL('clicked()'), self.start_analysis)
 
     def load_file(self):
 
@@ -194,11 +198,9 @@ class TextAnalysisWindow(QtGui.QMainWindow):
     def read_file(self, p1):
         #lettura del file
         in_file = open(p1, "r")
-        self.my_file = in_file.read()
-        #self.my_file = self.my_file.decode("cp1252")
-        #self.my_file.encode("utf-8", "ignore")
+        file = in_file.read()
         in_file.close()
-        return self.my_file
+        return file
 
     def start_analysis(self):
         pass
