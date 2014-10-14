@@ -25,8 +25,8 @@ class SetHostsWindow(QtGui.QMainWindow):
         self.label.move(150, 10)
 
         self.textbox = QtGui.QLineEdit(self)
-        self.textbox.resize(75, 20)
-        self.textbox.move(165, 50)
+        self.textbox.resize(125, 30)
+        self.textbox.move(140, 50)
         self.textbox.returnPressed.connect(self.open_main_window)
 
         #Settaggio dell'espressione regolare che prevede solo numeri (0-9), da 1 fino a massimo 8
@@ -72,7 +72,7 @@ class SetHostsWindow(QtGui.QMainWindow):
 #=======================================================================================================================
 
 
-class HostsConnectionWindow(Connection):
+class HostsConnectionWindow(QtGui.QMainWindow):
 
     def __init__(self):
 
@@ -142,26 +142,20 @@ class HostsConnectionWindow(Connection):
 
     def open_text_analysis_window(self):
 
-        self.taw = TextAnalysisWindow()
+        self.taw = TextAnalysisWindow(0, self.textboxlist_addresses[0].text(), self.textboxlist_password[0].text())
         self.taw.show()
         self.hide()
 
     def on_click_button_connect(self):
 
-        #self.open_server_connection()
-        if self.find_obj(0, self.textboxlist_addresses[0].text(), self.textboxlist_password[0].text()):
-            print("Metodo .find_obj() eseguito correttamente.")
-            self.open_text_analysis_window()
-        else:
-            print("Errore nell'esecuzione del metodo .find_obj()")
-            self.open_text_analysis_window()
+        self.open_text_analysis_window()
 
 #=======================================================================================================================
 
 
-class TextAnalysisWindow(QtGui.QMainWindow):
+class TextAnalysisWindow(Connection):
 
-    def __init__(self):
+    def __init__(self, identifier, address, password):
 
         super(TextAnalysisWindow, self).__init__()
 
@@ -187,6 +181,10 @@ class TextAnalysisWindow(QtGui.QMainWindow):
         self.start_analysis_button.resize(250, 65)
         self.start_analysis_button.move(630, 600)
 
+        self.identifier = identifier
+        self.address = address
+        self.password = password
+
         QtCore.QObject.connect(self.start_analysis_button, QtCore.SIGNAL('clicked()'), self.start_analysis)
 
     def load_file(self):
@@ -203,4 +201,10 @@ class TextAnalysisWindow(QtGui.QMainWindow):
         return file
 
     def start_analysis(self):
-        pass
+
+        self.open_server_connection(self.identifier, self.address, self.password)
+
+        if self.find_obj(self.identifier, self.address, self.password):
+            print("Metodo .find_obj() eseguito correttamente.")
+        else:
+            print("Errore nell'esecuzione del metodo .find_obj()")

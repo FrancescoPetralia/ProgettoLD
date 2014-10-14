@@ -169,7 +169,7 @@ class TextAnalyzer():
         s.connect(("8.8.8.8", 80))
         ns_ip = str(s.getsockname()[0])
         s.close()
-        #print(ns_ip)
+        print(ns_ip)
         return ns_ip
 
     '''def save_pyro_obj_uri(self, uri):

@@ -14,11 +14,8 @@ class Connection(QtGui.QMainWindow):
         super(Connection, self).__init__()
 
         self.text_analyzer_name = "Text_Analyzer_"
-        self.identifier = None
-        self.address = None
-        self.password = None
+        self.text_analyzer = None
         self.object_pid = None
-        #self.port = None
         self.authentication_ok = False
 
     # Questo metodo ritorna l'indirizzo ip del server
@@ -32,14 +29,7 @@ class Connection(QtGui.QMainWindow):
         return ns_ip
 
     # Metodo che cerca l'oggetto sul server
-    def find_obj(self, identifier, a, p):
-
-        self.identifier = identifier
-        self.address = a
-        self.password = p
-
-        self.open_server_connection()
-        #pyro_obj_address = str(self.open_server_connection())
+    def find_obj(self, identifier, address, password):
 
         time.sleep(5)
 
@@ -48,17 +38,19 @@ class Connection(QtGui.QMainWindow):
             try:
                 ns = Pyro4.naming.locateNS()
                 print("Return del locateNS(): " + str(ns))
-                uri_text_analyzer = ns.lookup(self.text_analyzer_name + str(self.identifier))
+                print("Cerco sul server l'oggetto " + self.text_analyzer_name + str(identifier) + "...")
+                print(ns.list())
+                uri_text_analyzer = ns.lookup(self.text_analyzer_name + str(identifier))
                 print(self.text_analyzer_name + " trovato. Il suo uri è: " + uri_text_analyzer)
                 self.text_analyzer = Pyro4.Proxy(uri_text_analyzer)
                 return True
 
             except Pyro4.errors.NamingError as e:
                 print("Oggetto non trovato, errore: " + str(e))
-                self.ssh_connection_close_and_cleanup()
+                self.ssh_connection_close_and_cleanup(identifier, address, password)
                 return False
 
-    def open_server_connection(self):
+    def open_server_connection(self, identifier, address, password):
 
         print("ID Oggetto: " + str(self.identifier))
 
@@ -66,30 +58,28 @@ class Connection(QtGui.QMainWindow):
 
         ssh_connection = paramiko.SSHClient()
 
-        ssh_connection.load_system_host_keys()
-
         # Confermo in automatico la connessione ssh, senza input da utente
-        ssh_connection.set_missing_host_key_policy(paramiko.AutoAddPolicy)
+        ssh_connection.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+
+        #ssh_connection.load_system_host_keys()
 
         # Divido la stringa address(utente@hostname) in utente e hostname
         try:
-            if str(self.address).__contains__('@'):
-                (username, hostname) = self.address.split('@')
+            if str(address).__contains__('@'):
+                (username, hostname) = str(address).split('@')
                 print("User: " + username + ", Host: " + hostname)
-                print("Tento la connessione.")
-                ssh_connection.connect(str(hostname), username=username, password=str(self.password), timeout=5, allow_agent=False)
-                #obj_address = hostname
+                print("Tento la connessione...")
+                ssh_connection.connect(hostname, username=username, password=password, timeout=5, allow_agent=False)
 
             else:
-                ssh_connection.connect(str(self.address), password=str(self.password), timeout=5, allow_agent=False)
-                #obj_address = self.address
+                ssh_connection.connect(str(address), password=str(password), timeout=5, allow_agent=False)
 
             self.authentication_ok = True
 
             ns_ip = self.get_ip_addr()
             sftp_connection = ssh_connection.open_sftp()
             print("Connessione sftp aperta.")
-            print("Trasferisco il " + self.text_analyzer_name + str(self.identifier) + "...")
+            print("Trasferisco il " + self.text_analyzer_name + str(identifier) + "...")
             sftp_connection.put("text_analyzer.py", "./text_analyzer.py")
             print("Trasferisco Pyro4...")
             sftp_connection.put("Pyro4.zip", "./Pyro4.zip")
@@ -99,11 +89,11 @@ class Connection(QtGui.QMainWindow):
             # Con "echo $$" ritorno il pid del processo che sto per fare eseguire
             # Con "exec python3 text_analyzer.py" eseguo l'analizzatore testuale, con i parametri -id e -ns_ip
             print("Esecuzione " + self.text_analyzer_name + str(self.identifier) + ":")
-            stdin, stdout, stderr = ssh_connection.exec_command("echo $$; exec python3 text_analyzer.py -id {} -nsip {}".format(self.identifier, ns_ip))
-            print("'exec python3 text_analyzer.py -id {} -nsip {}'".format(self.identifier, ns_ip))
+            stdin, stdout, stderr = ssh_connection.exec_command("echo $$; exec python3 text_analyzer.py -id {} -nsip {}".format(identifier, ns_ip))
+            print("'exec python3 text_analyzer.py -id {} -nsip {}'".format(identifier, ns_ip))
             # Salvo il PID dell'oggetto
             self.object_pid = int(stdout.readline())
-            print("PID del " + self.text_analyzer_name + str(self.identifier) + ": " + str(self.object_pid))
+            print("PID del " + self.text_analyzer_name + str(identifier) + ": " + str(self.object_pid))
             # Chiudo le connessioni
             ssh_connection.close()
             sftp_connection.close()
@@ -119,7 +109,7 @@ class Connection(QtGui.QMainWindow):
 
     # Metodo che provvede alla chiusura della connessione ssh. Questo metodo provvede inoltre all'eliminazione del
     # Text_Analyzer_N, dove N = (1, 2, 3, ...), killandone anche il processo.
-    def ssh_connection_close_and_cleanup(self):
+    def ssh_connection_close_and_cleanup(self, identifier, address, password):
 
         ssh_connection = paramiko.SSHClient()
 
@@ -128,13 +118,12 @@ class Connection(QtGui.QMainWindow):
         ssh_connection.set_missing_host_key_policy(paramiko.AutoAddPolicy)
 
         try:
-            if str(self.address).__contains__('@'):
-                (username, hostname) = self.address.split('@')
-                ssh_connection.connect(str(hostname), username=username, password=str(self.password), timeout=5, allow_agent=False)
+            if str(address).__contains__('@'):
+                (username, hostname) = str(address).split('@')
+                ssh_connection.connect(str(hostname), username=username, password=str(password), timeout=5, allow_agent=False)
             else:
-                ssh_connection.connect(str(self.address), password=str(self.password), timeout=5, allow_agent=False)
+                ssh_connection.connect(str(address), password=str(password), timeout=5, allow_agent=False)
 
-            self.host = hostname
             print("Sto killando il PID: " + str(self.object_pid))
             ssh_connection.exec_command("/bin/kill -KILL {}".format(self.object_pid))
             ssh_connection.exec_command("rm -r Pyro4")
