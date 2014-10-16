@@ -2,7 +2,13 @@
 
 __author__ = 'Francesco'
 
-import nltk, argparse, Pyro4, socket
+import os
+os.environ["PYRO_LOGFILE"] = "pyro.log"
+os.environ["PYRO_LOGLEVEL"] = "DEBUG"
+import nltk
+import argparse
+import Pyro4
+import socket
 #import execution_time_measurement
 
 
@@ -163,77 +169,68 @@ class TextAnalyzer():
             return True
 
     # Questo metodo ritorna l'indirizzo ip del Name Server
-    def get_ip_addr(self):
+    def get_ip_address(self):
 
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         s.connect(("8.8.8.8", 80))
-        ns_ip = str(s.getsockname()[0])
+        ip = str(s.getsockname()[0])
         s.close()
-        print(ns_ip)
-        return ns_ip
-
-    '''def save_pyro_obj_uri(self, uri):
-        self.my_uri = uri
-        return self.my_uri'''
+        print(ip)
+        return ip
 
 
 def main():
 
-    global nsip, PYRO_OBJ_NAME
+    global ns, PYRO_OBJ_NAME
     text_analyzer_name = "Text_Analyzer_"
 
     # Configurazione del parser per gli argomenti in input
     parser = argparse.ArgumentParser(description="Valori di avvio: ")
     parser.add_argument("-id", help="Imposta l'id dell'analizzatore testuale.")
-    parser.add_argument("-nsip", help="Imposta l'indirizzo ip del Name Server.")
+    parser.add_argument("-ns", help="Imposta l'indirizzo ip del Name Server.")
     args = parser.parse_args()
 
     # Controllo che gli argomenti siano settati correttamente
 
     if args.id is not None:
         identifier = str(args.id)
-        print("identifier: " + identifier)
+        #print("identifier: " + identifier)
     else:
         identifier = ""
-        print("identifier: " + identifier)
+        #print("identifier: " + identifier)
 
-    if args.nsip is not None:
-        name_server_ip = str(args.nsip)
-        print("name_server_ip: " + name_server_ip)
+    if args.ns is not None:
+        name_server_ip = str(args.ns)
+        #print("name_server_ip: " + name_server_ip)
     else:
         name_server_ip = ""
-        print("name_server_ip: " + name_server_ip)
+        #print("name_server_ip: " + name_server_ip)
 
     try:
 
         if name_server_ip != "":
-            nsip = Pyro4.naming.locateNS(name_server_ip)
-            print("nsip - locateNS(name_server_ip): " + str(nsip))
+            ns = Pyro4.naming.locateNS(name_server_ip)
+            print("nsip - locateNS(name_server_ip): " + str(ns))
         else:
-            nsip = Pyro4.naming.locateNS()
-            print("nsip: locateNS() " + str(nsip))
+            ns = Pyro4.naming.locateNS()
+            print("nsip: locateNS() " + str(ns))
 
         PYRO_OBJ_NAME = text_analyzer_name + str(identifier)
         print("Nome PyRO Object: " + PYRO_OBJ_NAME)
 
         a = TextAnalyzer()
 
-        daemon = Pyro4.core.Daemon(a.get_ip_addr())
-        print("Daemon: " + str(daemon))
+        try:
+            daemon = Pyro4.Daemon(a.get_ip_address())
+            print("Daemon: " + str(daemon))
 
-        '''try:
-            # Siccome Pyro associa un Pyro Object al Text_Analizer_N (dove N = (0, 1, 2, 3, ...)), una volta reperito
-            # l'uri del Pyro Object, posso rimuoverlo, perché non mi serve più.
-            uri_text_analyzer = nsip.lookup(PYRO_OBJ_NAME)
-            nsip.remove(PYRO_OBJ_NAME)
-
-        except Pyro4.naming.NamingError as e:
-
-            print("Errore durante il remove dell'oggetto: " + str(e))'''
+        except:
+            daemon = Pyro4.Daemon("127.0.0.1")
+            print("Daemon: " + str(daemon))
 
         # Associazione e registrazione sul server dell'uri del Pyro Object (eliminato) al TextAnalyzer
         uri_text_analyzer = daemon.register(a)
-        nsip.register(PYRO_OBJ_NAME, uri_text_analyzer, safe=True)
+        ns.register(PYRO_OBJ_NAME, uri_text_analyzer, safe=True)
 
         print("URI " + PYRO_OBJ_NAME + ": " + str(uri_text_analyzer))
 

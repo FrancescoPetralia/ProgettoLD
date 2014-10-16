@@ -1,10 +1,16 @@
 __author__ = 'francesco'
 
+import os
+os.environ["PYRO_LOGFILE"] = "pyro.log"
+os.environ["PYRO_LOGLEVEL"] = "DEBUG"
 import threading, socket, sys
 import Pyro4
 
 
-class Server():
+class NameServer():
+
+    def __init__(self):
+        self.start_ns_loop()
 
     def start_ns(self):
 
@@ -22,6 +28,5 @@ class Server():
     def start_ns_loop(self):
 
         ns_thread = threading.Thread(target=self.start_ns, args=[])
-        #ns_thread.daemon = True
-        ns_thread.setDaemon(True)
+        ns_thread.daemon = True
         ns_thread.start()

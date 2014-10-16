@@ -1,0 +1,307 @@
+[2014-10-16 23:34:01.950,Pyro4,INFO] Pyro log configured using built-in defaults, level=DEBUG
+[2014-10-16 23:34:02.003,Pyro4.core,DEBUG] exposing all members of <class 'Pyro4.core.DaemonObject'>
+[2014-10-16 23:34:02.866,Pyro4.threadpoolserver,INFO] starting thread pool socketserver
+[2014-10-16 23:34:02.872,Pyro4.threadpool,DEBUG] worker pool of size 16 created
+[2014-10-16 23:34:02.872,Pyro4.core,DEBUG] created daemon on 0.0.0.0:9090
+[2014-10-16 23:34:02.872,Pyro4.core,DEBUG] accepted serializers: {'serpent', 'json', 'marshal'}
+[2014-10-16 23:34:02.873,Pyro4.naming,INFO] nameserver daemon created
+[2014-10-16 23:34:02.873,Pyro4.naming,INFO] ns broadcast server created on 0.0.0.0:9091
+[2014-10-16 23:34:02.873,Pyro4.naming,DEBUG] broadcast server loop running in own thread
+[2014-10-16 23:34:02.873,Pyro4.core,INFO] daemon 0.0.0.0:9090 entering requestloop
+[2014-10-16 23:34:02.873,Pyro4.threadpoolserver,DEBUG] threadpool server requestloop
+[2014-10-16 23:34:14.418,paramiko.transport,DEBUG] starting thread (client mode): 0x50668d0
+[2014-10-16 23:34:14.434,paramiko.transport,INFO] Connected (version 2.0, client OpenSSH_6.2)
+[2014-10-16 23:34:14.437,paramiko.transport,DEBUG] kex algos:['diffie-hellman-group-exchange-sha256', 'diffie-hellman-group-exchange-sha1', 'diffie-hellman-group14-sha1', 'diffie-hellman-group1-sha1'] server key:['ssh-rsa', 'ssh-dss'] client encrypt:['aes128-ctr', 'aes192-ctr', 'aes256-ctr', 'arcfour256', 'arcfour128', 'aes128-gcm@openssh.com', 'aes256-gcm@openssh.com', 'aes128-cbc', '3des-cbc', 'blowfish-cbc', 'cast128-cbc', 'aes192-cbc', 'aes256-cbc', 'arcfour', 'rijndael-cbc@lysator.liu.se'] server encrypt:['aes128-ctr', 'aes192-ctr', 'aes256-ctr', 'arcfour256', 'arcfour128', 'aes128-gcm@openssh.com', 'aes256-gcm@openssh.com', 'aes128-cbc', '3des-cbc', 'blowfish-cbc', 'cast128-cbc', 'aes192-cbc', 'aes256-cbc', 'arcfour', 'rijndael-cbc@lysator.liu.se'] client mac:['hmac-md5-etm@openssh.com', 'hmac-sha1-etm@openssh.com', 'umac-64-etm@openssh.com', 'umac-128-etm@openssh.com', 'hmac-sha2-256-etm@openssh.com', 'hmac-sha2-512-etm@openssh.com', 'hmac-ripemd160-etm@openssh.com', 'hmac-sha1-96-etm@openssh.com', 'hmac-md5-96-etm@openssh.com', 'hmac-md5', 'hmac-sha1', 'umac-64@openssh.com', 'umac-128@openssh.com', 'hmac-sha2-256', 'hmac-sha2-512', 'hmac-ripemd160', 'hmac-ripemd160@openssh.com', 'hmac-sha1-96', 'hmac-md5-96'] server mac:['hmac-md5-etm@openssh.com', 'hmac-sha1-etm@openssh.com', 'umac-64-etm@openssh.com', 'umac-128-etm@openssh.com', 'hmac-sha2-256-etm@openssh.com', 'hmac-sha2-512-etm@openssh.com', 'hmac-ripemd160-etm@openssh.com', 'hmac-sha1-96-etm@openssh.com', 'hmac-md5-96-etm@openssh.com', 'hmac-md5', 'hmac-sha1', 'umac-64@openssh.com', 'umac-128@openssh.com', 'hmac-sha2-256', 'hmac-sha2-512', 'hmac-ripemd160', 'hmac-ripemd160@openssh.com', 'hmac-sha1-96', 'hmac-md5-96'] client compress:['none', 'zlib@openssh.com'] server compress:['none', 'zlib@openssh.com'] client lang:[''] server lang:[''] kex follows?False
+[2014-10-16 23:34:14.437,paramiko.transport,DEBUG] Ciphers agreed: local=aes128-ctr, remote=aes128-ctr
+[2014-10-16 23:34:14.437,paramiko.transport,DEBUG] using kex diffie-hellman-group14-sha1; server key type ssh-rsa; cipher: local aes128-ctr, remote aes128-ctr; mac: local hmac-sha1, remote hmac-sha1; compression: local none, remote none
+[2014-10-16 23:34:14.481,paramiko.transport,DEBUG] Switch to new keys ...
+[2014-10-16 23:34:14.483,paramiko.transport,DEBUG] Adding ssh-rsa host key for MacBook-Pro-di-Francesco.local: b'eec77c5b0a946fabeec6cdccccba8663'
+[2014-10-16 23:34:14.484,paramiko.transport,DEBUG] userauth is OK
+[2014-10-16 23:34:14.545,paramiko.transport,DEBUG] Authentication type (password) not permitted.
+[2014-10-16 23:34:14.545,paramiko.transport,DEBUG] Allowed methods: ['publickey', 'keyboard-interactive']
+[2014-10-16 23:34:14.546,paramiko.transport,DEBUG] userauth is OK
+[2014-10-16 23:34:14.675,paramiko.transport,INFO] Authentication (keyboard-interactive) successful!
+[2014-10-16 23:34:14.676,paramiko.transport,DEBUG] [chan 1] Max packet in: 32768 bytes
+[2014-10-16 23:34:14.691,paramiko.transport,DEBUG] [chan 1] Max packet out: 32768 bytes
+[2014-10-16 23:34:14.691,paramiko.transport,DEBUG] Secsh channel 1 opened.
+[2014-10-16 23:34:14.692,paramiko.transport,DEBUG] [chan 1] Sesch channel 1 request ok
+[2014-10-16 23:34:14.699,paramiko.transport.sftp,INFO] [chan 1] Opened sftp connection (server version 3)
+[2014-10-16 23:34:14.699,paramiko.transport.sftp,DEBUG] [chan 1] open(b'./text_analyzer.py', 'wb')
+[2014-10-16 23:34:14.700,paramiko.transport.sftp,DEBUG] [chan 1] open(b'./text_analyzer.py', 'wb') -> b'00000000'
+[2014-10-16 23:34:14.700,paramiko.transport.sftp,DEBUG] [chan 1] close(b'00000000')
+[2014-10-16 23:34:14.701,paramiko.transport.sftp,DEBUG] [chan 1] stat(b'./text_analyzer.py')
+[2014-10-16 23:34:14.701,paramiko.transport.sftp,DEBUG] [chan 1] open(b'./Pyro4.zip', 'wb')
+[2014-10-16 23:34:14.702,paramiko.transport.sftp,DEBUG] [chan 1] open(b'./Pyro4.zip', 'wb') -> b'00000000'
+[2014-10-16 23:34:14.708,paramiko.transport.sftp,DEBUG] [chan 1] close(b'00000000')
+[2014-10-16 23:34:14.708,paramiko.transport.sftp,DEBUG] [chan 1] stat(b'./Pyro4.zip')
+[2014-10-16 23:34:14.709,paramiko.transport,DEBUG] [chan 2] Max packet in: 32768 bytes
+[2014-10-16 23:34:14.709,paramiko.transport,DEBUG] [chan 2] Max packet out: 32768 bytes
+[2014-10-16 23:34:14.709,paramiko.transport,DEBUG] Secsh channel 2 opened.
+[2014-10-16 23:34:14.710,paramiko.transport,DEBUG] [chan 2] Sesch channel 2 request ok
+[2014-10-16 23:34:14.735,paramiko.transport,DEBUG] [chan 2] EOF received (2)
+[2014-10-16 23:34:14.735,paramiko.transport,DEBUG] [chan 2] EOF sent (2)
+[2014-10-16 23:34:17.711,paramiko.transport,DEBUG] [chan 3] Max packet in: 32768 bytes
+[2014-10-16 23:34:17.712,paramiko.transport,DEBUG] [chan 3] Max packet out: 32768 bytes
+[2014-10-16 23:34:17.712,paramiko.transport,DEBUG] Secsh channel 3 opened.
+[2014-10-16 23:34:17.728,paramiko.transport,DEBUG] [chan 3] Sesch channel 3 request ok
+[2014-10-16 23:34:17.729,paramiko.transport,DEBUG] [chan 3] Sesch channel 3 request ok
+[2014-10-16 23:34:17.733,paramiko.transport,DEBUG] [chan 3] EOF received (3)
+[2014-10-16 23:34:17.734,paramiko.transport.sftp,INFO] [chan 1] sftp session closed.
+[2014-10-16 23:34:17.735,paramiko.transport,DEBUG] starting thread (client mode): 0x5076d68
+[2014-10-16 23:34:17.743,paramiko.transport,INFO] Connected (version 2.0, client OpenSSH_6.2)
+[2014-10-16 23:34:17.744,paramiko.transport,DEBUG] kex algos:['diffie-hellman-group-exchange-sha256', 'diffie-hellman-group-exchange-sha1', 'diffie-hellman-group14-sha1', 'diffie-hellman-group1-sha1'] server key:['ssh-rsa', 'ssh-dss'] client encrypt:['aes128-ctr', 'aes192-ctr', 'aes256-ctr', 'arcfour256', 'arcfour128', 'aes128-gcm@openssh.com', 'aes256-gcm@openssh.com', 'aes128-cbc', '3des-cbc', 'blowfish-cbc', 'cast128-cbc', 'aes192-cbc', 'aes256-cbc', 'arcfour', 'rijndael-cbc@lysator.liu.se'] server encrypt:['aes128-ctr', 'aes192-ctr', 'aes256-ctr', 'arcfour256', 'arcfour128', 'aes128-gcm@openssh.com', 'aes256-gcm@openssh.com', 'aes128-cbc', '3des-cbc', 'blowfish-cbc', 'cast128-cbc', 'aes192-cbc', 'aes256-cbc', 'arcfour', 'rijndael-cbc@lysator.liu.se'] client mac:['hmac-md5-etm@openssh.com', 'hmac-sha1-etm@openssh.com', 'umac-64-etm@openssh.com', 'umac-128-etm@openssh.com', 'hmac-sha2-256-etm@openssh.com', 'hmac-sha2-512-etm@openssh.com', 'hmac-ripemd160-etm@openssh.com', 'hmac-sha1-96-etm@openssh.com', 'hmac-md5-96-etm@openssh.com', 'hmac-md5', 'hmac-sha1', 'umac-64@openssh.com', 'umac-128@openssh.com', 'hmac-sha2-256', 'hmac-sha2-512', 'hmac-ripemd160', 'hmac-ripemd160@openssh.com', 'hmac-sha1-96', 'hmac-md5-96'] server mac:['hmac-md5-etm@openssh.com', 'hmac-sha1-etm@openssh.com', 'umac-64-etm@openssh.com', 'umac-128-etm@openssh.com', 'hmac-sha2-256-etm@openssh.com', 'hmac-sha2-512-etm@openssh.com', 'hmac-ripemd160-etm@openssh.com', 'hmac-sha1-96-etm@openssh.com', 'hmac-md5-96-etm@openssh.com', 'hmac-md5', 'hmac-sha1', 'umac-64@openssh.com', 'umac-128@openssh.com', 'hmac-sha2-256', 'hmac-sha2-512', 'hmac-ripemd160', 'hmac-ripemd160@openssh.com', 'hmac-sha1-96', 'hmac-md5-96'] client compress:['none', 'zlib@openssh.com'] server compress:['none', 'zlib@openssh.com'] client lang:[''] server lang:[''] kex follows?False
+[2014-10-16 23:34:17.744,paramiko.transport,DEBUG] Ciphers agreed: local=aes128-ctr, remote=aes128-ctr
+[2014-10-16 23:34:17.745,paramiko.transport,DEBUG] using kex diffie-hellman-group14-sha1; server key type ssh-rsa; cipher: local aes128-ctr, remote aes128-ctr; mac: local hmac-sha1, remote hmac-sha1; compression: local none, remote none
+[2014-10-16 23:34:17.786,paramiko.transport,DEBUG] Switch to new keys ...
+[2014-10-16 23:34:17.787,paramiko.transport,DEBUG] Adding ssh-rsa host key for MacBook-Pro-di-Francesco.local: b'eec77c5b0a946fabeec6cdccccba8663'
+[2014-10-16 23:34:17.787,paramiko.transport,DEBUG] userauth is OK
+[2014-10-16 23:34:17.789,paramiko.transport,DEBUG] Authentication type (password) not permitted.
+[2014-10-16 23:34:17.789,paramiko.transport,DEBUG] Allowed methods: ['publickey', 'keyboard-interactive']
+[2014-10-16 23:34:17.789,paramiko.transport,DEBUG] userauth is OK
+[2014-10-16 23:34:17.905,paramiko.transport,INFO] Authentication (keyboard-interactive) successful!
+[2014-10-16 23:34:17.906,paramiko.transport,DEBUG] [chan 1] Max packet in: 32768 bytes
+[2014-10-16 23:34:17.922,paramiko.transport,DEBUG] [chan 1] Max packet out: 32768 bytes
+[2014-10-16 23:34:17.922,paramiko.transport,DEBUG] Secsh channel 1 opened.
+[2014-10-16 23:34:17.923,paramiko.transport,DEBUG] [chan 1] Sesch channel 1 request ok
+[2014-10-16 23:34:17.932,paramiko.transport.sftp,INFO] [chan 1] Opened sftp connection (server version 3)
+[2014-10-16 23:34:17.932,paramiko.transport.sftp,DEBUG] [chan 1] open(b'./text_analyzer.py', 'wb')
+[2014-10-16 23:34:17.933,paramiko.transport.sftp,DEBUG] [chan 1] open(b'./text_analyzer.py', 'wb') -> b'00000000'
+[2014-10-16 23:34:17.933,paramiko.transport.sftp,DEBUG] [chan 1] close(b'00000000')
+[2014-10-16 23:34:17.934,paramiko.transport.sftp,DEBUG] [chan 1] stat(b'./text_analyzer.py')
+[2014-10-16 23:34:17.934,paramiko.transport.sftp,DEBUG] [chan 1] open(b'./Pyro4.zip', 'wb')
+[2014-10-16 23:34:17.935,paramiko.transport.sftp,DEBUG] [chan 1] open(b'./Pyro4.zip', 'wb') -> b'00000000'
+[2014-10-16 23:34:17.941,paramiko.transport.sftp,DEBUG] [chan 1] close(b'00000000')
+[2014-10-16 23:34:17.942,paramiko.transport.sftp,DEBUG] [chan 1] stat(b'./Pyro4.zip')
+[2014-10-16 23:34:17.943,paramiko.transport,DEBUG] [chan 2] Max packet in: 32768 bytes
+[2014-10-16 23:34:17.943,paramiko.transport,DEBUG] [chan 2] Max packet out: 32768 bytes
+[2014-10-16 23:34:17.944,paramiko.transport,DEBUG] Secsh channel 2 opened.
+[2014-10-16 23:34:17.945,paramiko.transport,DEBUG] [chan 2] Sesch channel 2 request ok
+[2014-10-16 23:34:17.971,paramiko.transport,DEBUG] [chan 2] EOF received (2)
+[2014-10-16 23:34:17.971,paramiko.transport,DEBUG] [chan 2] EOF sent (2)
+[2014-10-16 23:34:20.946,paramiko.transport,DEBUG] [chan 3] Max packet in: 32768 bytes
+[2014-10-16 23:34:20.947,paramiko.transport,DEBUG] [chan 3] Max packet out: 32768 bytes
+[2014-10-16 23:34:20.947,paramiko.transport,DEBUG] Secsh channel 3 opened.
+[2014-10-16 23:34:20.951,paramiko.transport,DEBUG] [chan 3] Sesch channel 3 request ok
+[2014-10-16 23:34:20.953,paramiko.transport,DEBUG] [chan 3] Sesch channel 3 request ok
+[2014-10-16 23:34:20.956,paramiko.transport,DEBUG] [chan 3] EOF received (3)
+[2014-10-16 23:34:20.956,paramiko.transport.sftp,INFO] [chan 1] sftp session closed.
+[2014-10-16 23:35:56.607,Pyro4,INFO] Pyro log configured using built-in defaults, level=DEBUG
+[2014-10-16 23:35:56.619,Pyro4.core,DEBUG] exposing all members of <class 'Pyro4.core.DaemonObject'>
+[2014-10-16 23:35:56.622,Pyro4.naming,DEBUG] locating the NS: PYRO:Pyro.NameServer@192.168.1.100:9090
+[2014-10-16 23:35:56.622,Pyro4.core,DEBUG] getting metadata for object Pyro.NameServer
+[2014-10-16 23:35:56.622,Pyro4.core,DEBUG] connecting to PYRO:Pyro.NameServer@192.168.1.100:9090
+[2014-10-16 23:35:56.625,Pyro4.core,ERROR] cannot connect: [Errno 61] Connection refused
+[2014-10-16 23:36:08.074,Pyro4,INFO] Pyro log configured using built-in defaults, level=DEBUG
+[2014-10-16 23:36:08.123,Pyro4.core,DEBUG] exposing all members of <class 'Pyro4.core.DaemonObject'>
+[2014-10-16 23:36:08.919,Pyro4.threadpoolserver,INFO] starting thread pool socketserver
+[2014-10-16 23:36:08.926,Pyro4.threadpool,DEBUG] worker pool of size 16 created
+[2014-10-16 23:36:08.926,Pyro4.core,DEBUG] created daemon on 0.0.0.0:9090
+[2014-10-16 23:36:08.926,Pyro4.core,DEBUG] accepted serializers: {'json', 'marshal', 'serpent'}
+[2014-10-16 23:36:08.927,Pyro4.naming,INFO] nameserver daemon created
+[2014-10-16 23:36:08.927,Pyro4.naming,INFO] ns broadcast server created on 0.0.0.0:9091
+[2014-10-16 23:36:08.927,Pyro4.naming,DEBUG] broadcast server loop running in own thread
+[2014-10-16 23:36:08.927,Pyro4.core,INFO] daemon 0.0.0.0:9090 entering requestloop
+[2014-10-16 23:36:08.927,Pyro4.threadpoolserver,DEBUG] threadpool server requestloop
+[2014-10-16 23:36:35.631,paramiko.transport,DEBUG] starting thread (client mode): 0x5066940
+[2014-10-16 23:36:35.643,paramiko.transport,INFO] Connected (version 2.0, client OpenSSH_6.2)
+[2014-10-16 23:36:35.645,paramiko.transport,DEBUG] kex algos:['diffie-hellman-group-exchange-sha256', 'diffie-hellman-group-exchange-sha1', 'diffie-hellman-group14-sha1', 'diffie-hellman-group1-sha1'] server key:['ssh-rsa', 'ssh-dss'] client encrypt:['aes128-ctr', 'aes192-ctr', 'aes256-ctr', 'arcfour256', 'arcfour128', 'aes128-gcm@openssh.com', 'aes256-gcm@openssh.com', 'aes128-cbc', '3des-cbc', 'blowfish-cbc', 'cast128-cbc', 'aes192-cbc', 'aes256-cbc', 'arcfour', 'rijndael-cbc@lysator.liu.se'] server encrypt:['aes128-ctr', 'aes192-ctr', 'aes256-ctr', 'arcfour256', 'arcfour128', 'aes128-gcm@openssh.com', 'aes256-gcm@openssh.com', 'aes128-cbc', '3des-cbc', 'blowfish-cbc', 'cast128-cbc', 'aes192-cbc', 'aes256-cbc', 'arcfour', 'rijndael-cbc@lysator.liu.se'] client mac:['hmac-md5-etm@openssh.com', 'hmac-sha1-etm@openssh.com', 'umac-64-etm@openssh.com', 'umac-128-etm@openssh.com', 'hmac-sha2-256-etm@openssh.com', 'hmac-sha2-512-etm@openssh.com', 'hmac-ripemd160-etm@openssh.com', 'hmac-sha1-96-etm@openssh.com', 'hmac-md5-96-etm@openssh.com', 'hmac-md5', 'hmac-sha1', 'umac-64@openssh.com', 'umac-128@openssh.com', 'hmac-sha2-256', 'hmac-sha2-512', 'hmac-ripemd160', 'hmac-ripemd160@openssh.com', 'hmac-sha1-96', 'hmac-md5-96'] server mac:['hmac-md5-etm@openssh.com', 'hmac-sha1-etm@openssh.com', 'umac-64-etm@openssh.com', 'umac-128-etm@openssh.com', 'hmac-sha2-256-etm@openssh.com', 'hmac-sha2-512-etm@openssh.com', 'hmac-ripemd160-etm@openssh.com', 'hmac-sha1-96-etm@openssh.com', 'hmac-md5-96-etm@openssh.com', 'hmac-md5', 'hmac-sha1', 'umac-64@openssh.com', 'umac-128@openssh.com', 'hmac-sha2-256', 'hmac-sha2-512', 'hmac-ripemd160', 'hmac-ripemd160@openssh.com', 'hmac-sha1-96', 'hmac-md5-96'] client compress:['none', 'zlib@openssh.com'] server compress:['none', 'zlib@openssh.com'] client lang:[''] server lang:[''] kex follows?False
+[2014-10-16 23:36:35.645,paramiko.transport,DEBUG] Ciphers agreed: local=aes128-ctr, remote=aes128-ctr
+[2014-10-16 23:36:35.645,paramiko.transport,DEBUG] using kex diffie-hellman-group14-sha1; server key type ssh-rsa; cipher: local aes128-ctr, remote aes128-ctr; mac: local hmac-sha1, remote hmac-sha1; compression: local none, remote none
+[2014-10-16 23:36:35.689,paramiko.transport,DEBUG] Switch to new keys ...
+[2014-10-16 23:36:35.691,paramiko.transport,DEBUG] Adding ssh-rsa host key for MacBook-Pro-di-Francesco.local: b'eec77c5b0a946fabeec6cdccccba8663'
+[2014-10-16 23:36:35.692,paramiko.transport,DEBUG] userauth is OK
+[2014-10-16 23:36:35.749,paramiko.transport,DEBUG] Authentication type (password) not permitted.
+[2014-10-16 23:36:35.749,paramiko.transport,DEBUG] Allowed methods: ['publickey', 'keyboard-interactive']
+[2014-10-16 23:36:35.750,paramiko.transport,DEBUG] userauth is OK
+[2014-10-16 23:36:35.866,paramiko.transport,INFO] Authentication (keyboard-interactive) successful!
+[2014-10-16 23:36:35.867,paramiko.transport,DEBUG] [chan 1] Max packet in: 32768 bytes
+[2014-10-16 23:36:35.881,paramiko.transport,DEBUG] [chan 1] Max packet out: 32768 bytes
+[2014-10-16 23:36:35.881,paramiko.transport,DEBUG] Secsh channel 1 opened.
+[2014-10-16 23:36:35.882,paramiko.transport,DEBUG] [chan 1] Sesch channel 1 request ok
+[2014-10-16 23:36:35.888,paramiko.transport.sftp,INFO] [chan 1] Opened sftp connection (server version 3)
+[2014-10-16 23:36:35.888,paramiko.transport.sftp,DEBUG] [chan 1] open(b'./text_analyzer.py', 'wb')
+[2014-10-16 23:36:35.889,paramiko.transport.sftp,DEBUG] [chan 1] open(b'./text_analyzer.py', 'wb') -> b'00000000'
+[2014-10-16 23:36:35.889,paramiko.transport.sftp,DEBUG] [chan 1] close(b'00000000')
+[2014-10-16 23:36:35.890,paramiko.transport.sftp,DEBUG] [chan 1] stat(b'./text_analyzer.py')
+[2014-10-16 23:36:35.891,paramiko.transport.sftp,DEBUG] [chan 1] open(b'./Pyro4.zip', 'wb')
+[2014-10-16 23:36:35.891,paramiko.transport.sftp,DEBUG] [chan 1] open(b'./Pyro4.zip', 'wb') -> b'00000000'
+[2014-10-16 23:36:35.897,paramiko.transport.sftp,DEBUG] [chan 1] close(b'00000000')
+[2014-10-16 23:36:35.898,paramiko.transport.sftp,DEBUG] [chan 1] stat(b'./Pyro4.zip')
+[2014-10-16 23:36:35.899,paramiko.transport,DEBUG] [chan 2] Max packet in: 32768 bytes
+[2014-10-16 23:36:35.899,paramiko.transport,DEBUG] [chan 2] Max packet out: 32768 bytes
+[2014-10-16 23:36:35.899,paramiko.transport,DEBUG] Secsh channel 2 opened.
+[2014-10-16 23:36:35.900,paramiko.transport,DEBUG] [chan 2] Sesch channel 2 request ok
+[2014-10-16 23:36:35.922,paramiko.transport,DEBUG] [chan 2] EOF received (2)
+[2014-10-16 23:36:35.922,paramiko.transport,DEBUG] [chan 2] EOF sent (2)
+[2014-10-16 23:36:38.901,paramiko.transport,DEBUG] [chan 3] Max packet in: 32768 bytes
+[2014-10-16 23:36:38.902,paramiko.transport,DEBUG] [chan 3] Max packet out: 32768 bytes
+[2014-10-16 23:36:38.902,paramiko.transport,DEBUG] Secsh channel 3 opened.
+[2014-10-16 23:36:38.908,paramiko.transport,DEBUG] [chan 3] Sesch channel 3 request ok
+[2014-10-16 23:36:38.909,paramiko.transport,DEBUG] [chan 3] Sesch channel 3 request ok
+[2014-10-16 23:36:38.912,paramiko.transport,DEBUG] [chan 3] EOF received (3)
+[2014-10-16 23:36:38.913,paramiko.transport,DEBUG] EOF in transport thread
+[2014-10-16 23:36:38.913,paramiko.transport.sftp,INFO] [chan 1] sftp session closed.
+[2014-10-16 23:36:38.915,paramiko.transport,DEBUG] starting thread (client mode): 0x5078d30
+[2014-10-16 23:36:38.922,paramiko.transport,INFO] Connected (version 2.0, client OpenSSH_6.2)
+[2014-10-16 23:36:38.924,paramiko.transport,DEBUG] kex algos:['diffie-hellman-group-exchange-sha256', 'diffie-hellman-group-exchange-sha1', 'diffie-hellman-group14-sha1', 'diffie-hellman-group1-sha1'] server key:['ssh-rsa', 'ssh-dss'] client encrypt:['aes128-ctr', 'aes192-ctr', 'aes256-ctr', 'arcfour256', 'arcfour128', 'aes128-gcm@openssh.com', 'aes256-gcm@openssh.com', 'aes128-cbc', '3des-cbc', 'blowfish-cbc', 'cast128-cbc', 'aes192-cbc', 'aes256-cbc', 'arcfour', 'rijndael-cbc@lysator.liu.se'] server encrypt:['aes128-ctr', 'aes192-ctr', 'aes256-ctr', 'arcfour256', 'arcfour128', 'aes128-gcm@openssh.com', 'aes256-gcm@openssh.com', 'aes128-cbc', '3des-cbc', 'blowfish-cbc', 'cast128-cbc', 'aes192-cbc', 'aes256-cbc', 'arcfour', 'rijndael-cbc@lysator.liu.se'] client mac:['hmac-md5-etm@openssh.com', 'hmac-sha1-etm@openssh.com', 'umac-64-etm@openssh.com', 'umac-128-etm@openssh.com', 'hmac-sha2-256-etm@openssh.com', 'hmac-sha2-512-etm@openssh.com', 'hmac-ripemd160-etm@openssh.com', 'hmac-sha1-96-etm@openssh.com', 'hmac-md5-96-etm@openssh.com', 'hmac-md5', 'hmac-sha1', 'umac-64@openssh.com', 'umac-128@openssh.com', 'hmac-sha2-256', 'hmac-sha2-512', 'hmac-ripemd160', 'hmac-ripemd160@openssh.com', 'hmac-sha1-96', 'hmac-md5-96'] server mac:['hmac-md5-etm@openssh.com', 'hmac-sha1-etm@openssh.com', 'umac-64-etm@openssh.com', 'umac-128-etm@openssh.com', 'hmac-sha2-256-etm@openssh.com', 'hmac-sha2-512-etm@openssh.com', 'hmac-ripemd160-etm@openssh.com', 'hmac-sha1-96-etm@openssh.com', 'hmac-md5-96-etm@openssh.com', 'hmac-md5', 'hmac-sha1', 'umac-64@openssh.com', 'umac-128@openssh.com', 'hmac-sha2-256', 'hmac-sha2-512', 'hmac-ripemd160', 'hmac-ripemd160@openssh.com', 'hmac-sha1-96', 'hmac-md5-96'] client compress:['none', 'zlib@openssh.com'] server compress:['none', 'zlib@openssh.com'] client lang:[''] server lang:[''] kex follows?False
+[2014-10-16 23:36:38.924,paramiko.transport,DEBUG] Ciphers agreed: local=aes128-ctr, remote=aes128-ctr
+[2014-10-16 23:36:38.924,paramiko.transport,DEBUG] using kex diffie-hellman-group14-sha1; server key type ssh-rsa; cipher: local aes128-ctr, remote aes128-ctr; mac: local hmac-sha1, remote hmac-sha1; compression: local none, remote none
+[2014-10-16 23:36:38.966,paramiko.transport,DEBUG] Switch to new keys ...
+[2014-10-16 23:36:38.967,paramiko.transport,DEBUG] Adding ssh-rsa host key for MacBook-Pro-di-Francesco.local: b'eec77c5b0a946fabeec6cdccccba8663'
+[2014-10-16 23:36:38.967,paramiko.transport,DEBUG] userauth is OK
+[2014-10-16 23:36:38.968,paramiko.transport,DEBUG] Authentication type (password) not permitted.
+[2014-10-16 23:36:38.968,paramiko.transport,DEBUG] Allowed methods: ['publickey', 'keyboard-interactive']
+[2014-10-16 23:36:38.969,paramiko.transport,DEBUG] userauth is OK
+[2014-10-16 23:36:39.084,paramiko.transport,INFO] Authentication (keyboard-interactive) successful!
+[2014-10-16 23:36:39.085,paramiko.transport,DEBUG] [chan 1] Max packet in: 32768 bytes
+[2014-10-16 23:36:39.100,paramiko.transport,DEBUG] [chan 1] Max packet out: 32768 bytes
+[2014-10-16 23:36:39.100,paramiko.transport,DEBUG] Secsh channel 1 opened.
+[2014-10-16 23:36:39.101,paramiko.transport,DEBUG] [chan 1] Sesch channel 1 request ok
+[2014-10-16 23:36:39.107,paramiko.transport.sftp,INFO] [chan 1] Opened sftp connection (server version 3)
+[2014-10-16 23:36:39.107,paramiko.transport.sftp,DEBUG] [chan 1] open(b'./text_analyzer.py', 'wb')
+[2014-10-16 23:36:39.108,paramiko.transport.sftp,DEBUG] [chan 1] open(b'./text_analyzer.py', 'wb') -> b'00000000'
+[2014-10-16 23:36:39.108,paramiko.transport.sftp,DEBUG] [chan 1] close(b'00000000')
+[2014-10-16 23:36:39.109,paramiko.transport.sftp,DEBUG] [chan 1] stat(b'./text_analyzer.py')
+[2014-10-16 23:36:39.110,paramiko.transport.sftp,DEBUG] [chan 1] open(b'./Pyro4.zip', 'wb')
+[2014-10-16 23:36:39.110,paramiko.transport.sftp,DEBUG] [chan 1] open(b'./Pyro4.zip', 'wb') -> b'00000000'
+[2014-10-16 23:36:39.117,paramiko.transport.sftp,DEBUG] [chan 1] close(b'00000000')
+[2014-10-16 23:36:39.118,paramiko.transport.sftp,DEBUG] [chan 1] stat(b'./Pyro4.zip')
+[2014-10-16 23:36:39.119,paramiko.transport,DEBUG] [chan 2] Max packet in: 32768 bytes
+[2014-10-16 23:36:39.119,paramiko.transport,DEBUG] [chan 2] Max packet out: 32768 bytes
+[2014-10-16 23:36:39.120,paramiko.transport,DEBUG] Secsh channel 2 opened.
+[2014-10-16 23:36:39.121,paramiko.transport,DEBUG] [chan 2] Sesch channel 2 request ok
+[2014-10-16 23:36:39.146,paramiko.transport,DEBUG] [chan 2] EOF received (2)
+[2014-10-16 23:36:39.147,paramiko.transport,DEBUG] [chan 2] EOF sent (2)
+[2014-10-16 23:36:42.123,paramiko.transport,DEBUG] [chan 3] Max packet in: 32768 bytes
+[2014-10-16 23:36:42.123,paramiko.transport,DEBUG] [chan 3] Max packet out: 32768 bytes
+[2014-10-16 23:36:42.124,paramiko.transport,DEBUG] Secsh channel 3 opened.
+[2014-10-16 23:36:42.128,paramiko.transport,DEBUG] [chan 3] Sesch channel 3 request ok
+[2014-10-16 23:36:42.129,paramiko.transport,DEBUG] [chan 3] Sesch channel 3 request ok
+[2014-10-16 23:36:42.131,paramiko.transport,DEBUG] [chan 3] EOF received (3)
+[2014-10-16 23:36:42.132,paramiko.transport.sftp,INFO] [chan 1] sftp session closed.
+[2014-10-16 23:36:48.148,Pyro4,INFO] Pyro log configured using built-in defaults, level=DEBUG
+[2014-10-16 23:36:48.159,Pyro4.core,DEBUG] exposing all members of <class 'Pyro4.core.DaemonObject'>
+[2014-10-16 23:36:48.161,Pyro4.naming,DEBUG] locating the NS: PYRO:Pyro.NameServer@192.168.1.100:9090
+[2014-10-16 23:36:48.162,Pyro4.core,DEBUG] getting metadata for object Pyro.NameServer
+[2014-10-16 23:36:48.162,Pyro4.core,DEBUG] connecting to PYRO:Pyro.NameServer@192.168.1.100:9090
+[2014-10-16 23:36:48.164,Pyro4.threadpoolserver,DEBUG] connected ('192.168.1.100', 50459)
+[2014-10-16 23:36:48.165,Pyro4.core,DEBUG] connected to PYRO:Pyro.NameServer@192.168.1.100:9090
+[2014-10-16 23:36:48.165,Pyro4.core,DEBUG] getting metadata for object Pyro.NameServer
+[2014-10-16 23:36:48.166,Pyro4.core,DEBUG] from meta: oneway methods=[]
+[2014-10-16 23:36:48.166,Pyro4.core,DEBUG] from meta: methods=['list', 'lookup', 'ping', 'register', 'remove']
+[2014-10-16 23:36:48.166,Pyro4.core,DEBUG] from meta: attributes=[]
+[2014-10-16 23:36:48.167,Pyro4.naming,DEBUG] located NS
+[2014-10-16 23:36:48.180,Pyro4.threadpoolserver,INFO] starting thread pool socketserver
+[2014-10-16 23:36:48.182,Pyro4.threadpool,DEBUG] worker pool of size 16 created
+[2014-10-16 23:36:48.183,Pyro4.core,DEBUG] created daemon on 192.168.1.100:50460
+[2014-10-16 23:36:48.183,Pyro4.core,DEBUG] accepted serializers: {'marshal', 'json', 'serpent'}
+[2014-10-16 23:36:48.184,Pyro4.core,INFO] daemon 192.168.1.100:50460 entering requestloop
+[2014-10-16 23:36:48.184,Pyro4.threadpoolserver,DEBUG] threadpool server requestloop
+[2014-10-16 23:37:06.374,Pyro4.threadpoolserver,DEBUG] stopping on break signal
+[2014-10-16 23:37:06.374,Pyro4.threadpoolserver,DEBUG] threadpool server exits requestloop
+[2014-10-16 23:37:06.374,Pyro4.core,DEBUG] daemon exits requestloop
+[2014-10-16 23:37:06.388,Pyro4.threadpool,DEBUG] closing down, 16 halt-jobs issued
+[2014-10-16 23:37:06.425,Pyro4.threadpoolserver,DEBUG] disconnected ('192.168.1.100', 50459)
+[2014-10-16 23:37:08.041,Pyro4,INFO] Pyro log configured using built-in defaults, level=DEBUG
+[2014-10-16 23:37:08.052,Pyro4.core,DEBUG] exposing all members of <class 'Pyro4.core.DaemonObject'>
+[2014-10-16 23:37:08.055,Pyro4.naming,DEBUG] locating the NS: PYRO:Pyro.NameServer@192.168.1.100:9090
+[2014-10-16 23:37:08.055,Pyro4.core,DEBUG] getting metadata for object Pyro.NameServer
+[2014-10-16 23:37:08.055,Pyro4.core,DEBUG] connecting to PYRO:Pyro.NameServer@192.168.1.100:9090
+[2014-10-16 23:37:08.058,Pyro4.threadpoolserver,DEBUG] connected ('192.168.1.100', 50462)
+[2014-10-16 23:37:08.059,Pyro4.core,DEBUG] connected to PYRO:Pyro.NameServer@192.168.1.100:9090
+[2014-10-16 23:37:08.059,Pyro4.core,DEBUG] getting metadata for object Pyro.NameServer
+[2014-10-16 23:37:08.060,Pyro4.core,DEBUG] from meta: oneway methods=[]
+[2014-10-16 23:37:08.061,Pyro4.core,DEBUG] from meta: methods=['list', 'lookup', 'ping', 'register', 'remove']
+[2014-10-16 23:37:08.061,Pyro4.core,DEBUG] from meta: attributes=[]
+[2014-10-16 23:37:08.061,Pyro4.naming,DEBUG] located NS
+[2014-10-16 23:37:08.070,Pyro4.threadpoolserver,INFO] starting thread pool socketserver
+[2014-10-16 23:37:08.072,Pyro4.threadpool,DEBUG] worker pool of size 16 created
+[2014-10-16 23:37:08.073,Pyro4.core,DEBUG] created daemon on 192.168.1.100:50463
+[2014-10-16 23:37:08.073,Pyro4.core,DEBUG] accepted serializers: {'marshal', 'json', 'serpent'}
+[2014-10-16 23:37:08.074,Pyro4.core,DEBUG] Exception occurred while handling request: NamingError('name already registered: Text_Analyzer_1',)
+[2014-10-16 23:37:08.093,Pyro4.threadpool,DEBUG] closing down, 16 halt-jobs issued
+[2014-10-16 23:37:08.139,Pyro4.threadpoolserver,DEBUG] disconnected ('192.168.1.100', 50462)
+[2014-10-16 23:38:01.772,Pyro4.threadpoolserver,DEBUG] connected ('127.0.0.1', 50480)
+[2014-10-16 23:38:01.774,Pyro4.threadpoolserver,DEBUG] disconnected ('127.0.0.1', 50480)
+[2014-10-16 23:55:37.770,Pyro4,INFO] Pyro log configured using built-in defaults, level=DEBUG
+[2014-10-16 23:55:37.818,Pyro4.core,DEBUG] exposing all members of <class 'Pyro4.core.DaemonObject'>
+[2014-10-16 23:55:38.642,Pyro4.threadpoolserver,INFO] starting thread pool socketserver
+[2014-10-16 23:55:38.648,Pyro4.threadpool,DEBUG] worker pool of size 16 created
+[2014-10-16 23:55:38.648,Pyro4.core,DEBUG] created daemon on 0.0.0.0:9090
+[2014-10-16 23:55:38.648,Pyro4.core,DEBUG] accepted serializers: {'json', 'serpent', 'marshal'}
+[2014-10-16 23:55:38.649,Pyro4.naming,INFO] nameserver daemon created
+[2014-10-16 23:55:38.649,Pyro4.naming,INFO] ns broadcast server created on 0.0.0.0:9091
+[2014-10-16 23:55:38.650,Pyro4.naming,DEBUG] broadcast server loop running in own thread
+[2014-10-16 23:55:38.650,Pyro4.core,INFO] daemon 0.0.0.0:9090 entering requestloop
+[2014-10-16 23:55:38.650,Pyro4.threadpoolserver,DEBUG] threadpool server requestloop
+[2014-10-16 23:56:44.445,Pyro4,INFO] Pyro log configured using built-in defaults, level=DEBUG
+[2014-10-16 23:56:44.493,Pyro4.core,DEBUG] exposing all members of <class 'Pyro4.core.DaemonObject'>
+[2014-10-16 23:56:45.318,Pyro4.threadpoolserver,INFO] starting thread pool socketserver
+[2014-10-16 23:56:45.323,Pyro4.threadpool,DEBUG] worker pool of size 16 created
+[2014-10-16 23:56:45.324,Pyro4.core,DEBUG] created daemon on 0.0.0.0:9090
+[2014-10-16 23:56:45.324,Pyro4.core,DEBUG] accepted serializers: {'json', 'serpent', 'marshal'}
+[2014-10-16 23:56:45.324,Pyro4.naming,INFO] nameserver daemon created
+[2014-10-16 23:56:45.324,Pyro4.naming,INFO] ns broadcast server created on 0.0.0.0:9091
+[2014-10-16 23:56:45.325,Pyro4.naming,DEBUG] broadcast server loop running in own thread
+[2014-10-16 23:56:45.325,Pyro4.core,INFO] daemon 0.0.0.0:9090 entering requestloop
+[2014-10-16 23:56:45.325,Pyro4.threadpoolserver,DEBUG] threadpool server requestloop
+[2014-10-16 23:58:49.413,Pyro4,INFO] Pyro log configured using built-in defaults, level=DEBUG
+[2014-10-16 23:58:49.452,Pyro4.core,DEBUG] exposing all members of <class 'Pyro4.core.DaemonObject'>
+[2014-10-16 23:58:50.245,Pyro4.threadpoolserver,INFO] starting thread pool socketserver
+[2014-10-16 23:58:50.251,Pyro4.threadpool,DEBUG] worker pool of size 16 created
+[2014-10-16 23:58:50.251,Pyro4.core,DEBUG] created daemon on 0.0.0.0:9090
+[2014-10-16 23:58:50.251,Pyro4.core,DEBUG] accepted serializers: {'marshal', 'serpent', 'json'}
+[2014-10-16 23:58:50.252,Pyro4.naming,INFO] nameserver daemon created
+[2014-10-16 23:58:50.252,Pyro4.naming,INFO] ns broadcast server created on 0.0.0.0:9091
+[2014-10-16 23:58:50.252,Pyro4.naming,DEBUG] broadcast server loop running in own thread
+[2014-10-16 23:58:50.252,Pyro4.core,INFO] daemon 0.0.0.0:9090 entering requestloop
+[2014-10-16 23:58:50.252,Pyro4.threadpoolserver,DEBUG] threadpool server requestloop
+[2014-10-17 00:00:17.790,Pyro4,INFO] Pyro log configured using built-in defaults, level=DEBUG
+[2014-10-17 00:00:17.833,Pyro4.core,DEBUG] exposing all members of <class 'Pyro4.core.DaemonObject'>
+[2014-10-17 00:00:18.644,Pyro4.threadpoolserver,INFO] starting thread pool socketserver
+[2014-10-17 00:00:18.650,Pyro4.threadpool,DEBUG] worker pool of size 16 created
+[2014-10-17 00:00:18.650,Pyro4.core,DEBUG] created daemon on 0.0.0.0:9090
+[2014-10-17 00:00:18.650,Pyro4.core,DEBUG] accepted serializers: {'json', 'marshal', 'serpent'}
+[2014-10-17 00:00:18.650,Pyro4.naming,INFO] nameserver daemon created
+[2014-10-17 00:00:18.651,Pyro4.naming,INFO] ns broadcast server created on 0.0.0.0:9091
+[2014-10-17 00:00:18.651,Pyro4.naming,DEBUG] broadcast server loop running in own thread
+[2014-10-17 00:00:18.651,Pyro4.core,INFO] daemon 0.0.0.0:9090 entering requestloop
+[2014-10-17 00:00:18.651,Pyro4.threadpoolserver,DEBUG] threadpool server requestloop
+[2014-10-17 00:00:34.380,paramiko.transport,DEBUG] starting thread (client mode): 0x528a2b0
+[2014-10-17 00:00:34.391,paramiko.transport,INFO] Connected (version 2.0, client OpenSSH_6.2)
+[2014-10-17 00:00:34.392,paramiko.transport,DEBUG] kex algos:['diffie-hellman-group-exchange-sha256', 'diffie-hellman-group-exchange-sha1', 'diffie-hellman-group14-sha1', 'diffie-hellman-group1-sha1'] server key:['ssh-rsa', 'ssh-dss'] client encrypt:['aes128-ctr', 'aes192-ctr', 'aes256-ctr', 'arcfour256', 'arcfour128', 'aes128-gcm@openssh.com', 'aes256-gcm@openssh.com', 'aes128-cbc', '3des-cbc', 'blowfish-cbc', 'cast128-cbc', 'aes192-cbc', 'aes256-cbc', 'arcfour', 'rijndael-cbc@lysator.liu.se'] server encrypt:['aes128-ctr', 'aes192-ctr', 'aes256-ctr', 'arcfour256', 'arcfour128', 'aes128-gcm@openssh.com', 'aes256-gcm@openssh.com', 'aes128-cbc', '3des-cbc', 'blowfish-cbc', 'cast128-cbc', 'aes192-cbc', 'aes256-cbc', 'arcfour', 'rijndael-cbc@lysator.liu.se'] client mac:['hmac-md5-etm@openssh.com', 'hmac-sha1-etm@openssh.com', 'umac-64-etm@openssh.com', 'umac-128-etm@openssh.com', 'hmac-sha2-256-etm@openssh.com', 'hmac-sha2-512-etm@openssh.com', 'hmac-ripemd160-etm@openssh.com', 'hmac-sha1-96-etm@openssh.com', 'hmac-md5-96-etm@openssh.com', 'hmac-md5', 'hmac-sha1', 'umac-64@openssh.com', 'umac-128@openssh.com', 'hmac-sha2-256', 'hmac-sha2-512', 'hmac-ripemd160', 'hmac-ripemd160@openssh.com', 'hmac-sha1-96', 'hmac-md5-96'] server mac:['hmac-md5-etm@openssh.com', 'hmac-sha1-etm@openssh.com', 'umac-64-etm@openssh.com', 'umac-128-etm@openssh.com', 'hmac-sha2-256-etm@openssh.com', 'hmac-sha2-512-etm@openssh.com', 'hmac-ripemd160-etm@openssh.com', 'hmac-sha1-96-etm@openssh.com', 'hmac-md5-96-etm@openssh.com', 'hmac-md5', 'hmac-sha1', 'umac-64@openssh.com', 'umac-128@openssh.com', 'hmac-sha2-256', 'hmac-sha2-512', 'hmac-ripemd160', 'hmac-ripemd160@openssh.com', 'hmac-sha1-96', 'hmac-md5-96'] client compress:['none', 'zlib@openssh.com'] server compress:['none', 'zlib@openssh.com'] client lang:[''] server lang:[''] kex follows?False
+[2014-10-17 00:00:34.392,paramiko.transport,DEBUG] Ciphers agreed: local=aes128-ctr, remote=aes128-ctr
+[2014-10-17 00:00:34.392,paramiko.transport,DEBUG] using kex diffie-hellman-group14-sha1; server key type ssh-rsa; cipher: local aes128-ctr, remote aes128-ctr; mac: local hmac-sha1, remote hmac-sha1; compression: local none, remote none
+[2014-10-17 00:00:34.434,paramiko.transport,DEBUG] Switch to new keys ...
+[2014-10-17 00:00:34.435,paramiko.transport,DEBUG] Adding ssh-rsa host key for MacBook-Pro-di-Francesco.local: b'eec77c5b0a946fabeec6cdccccba8663'
+[2014-10-17 00:00:34.436,paramiko.transport,DEBUG] userauth is OK
+[2014-10-17 00:00:34.497,paramiko.transport,DEBUG] Authentication type (password) not permitted.
+[2014-10-17 00:00:34.497,paramiko.transport,DEBUG] Allowed methods: ['publickey', 'keyboard-interactive']
+[2014-10-17 00:00:34.498,paramiko.transport,DEBUG] userauth is OK
+[2014-10-17 00:00:34.615,paramiko.transport,INFO] Authentication (keyboard-interactive) successful!
+[2014-10-17 00:00:34.617,paramiko.transport,DEBUG] [chan 1] Max packet in: 32768 bytes
+[2014-10-17 00:00:34.631,paramiko.transport,DEBUG] [chan 1] Max packet out: 32768 bytes
+[2014-10-17 00:00:34.631,paramiko.transport,DEBUG] Secsh channel 1 opened.
+[2014-10-17 00:00:34.632,paramiko.transport,DEBUG] [chan 1] Sesch channel 1 request ok
+[2014-10-17 00:00:34.638,paramiko.transport.sftp,INFO] [chan 1] Opened sftp connection (server version 3)
+[2014-10-17 00:00:34.639,paramiko.transport.sftp,DEBUG] [chan 1] open(b'./text_analyzer.py', 'wb')
+[2014-10-17 00:00:34.639,paramiko.transport.sftp,DEBUG] [chan 1] open(b'./text_analyzer.py', 'wb') -> b'00000000'
+[2014-10-17 00:00:34.640,paramiko.transport.sftp,DEBUG] [chan 1] close(b'00000000')
+[2014-10-17 00:00:34.640,paramiko.transport.sftp,DEBUG] [chan 1] stat(b'./text_analyzer.py')
+[2014-10-17 00:00:34.641,paramiko.transport.sftp,DEBUG] [chan 1] open(b'./Pyro4.zip', 'wb')
+[2014-10-17 00:00:34.641,paramiko.transport.sftp,DEBUG] [chan 1] open(b'./Pyro4.zip', 'wb') -> b'00000000'
+[2014-10-17 00:00:34.648,paramiko.transport.sftp,DEBUG] [chan 1] close(b'00000000')
+[2014-10-17 00:00:34.649,paramiko.transport.sftp,DEBUG] [chan 1] stat(b'./Pyro4.zip')
+[2014-10-17 00:00:34.649,paramiko.transport,DEBUG] [chan 2] Max packet in: 32768 bytes
+[2014-10-17 00:00:34.650,paramiko.transport,DEBUG] [chan 2] Max packet out: 32768 bytes
+[2014-10-17 00:00:34.650,paramiko.transport,DEBUG] Secsh channel 2 opened.
+[2014-10-17 00:00:34.651,paramiko.transport,DEBUG] [chan 2] Sesch channel 2 request ok
+[2014-10-17 00:00:34.673,paramiko.transport,DEBUG] [chan 2] EOF received (2)
+[2014-10-17 00:00:34.673,paramiko.transport,DEBUG] [chan 2] EOF sent (2)
+[2014-10-17 00:00:37.653,paramiko.transport,DEBUG] [chan 3] Max packet in: 32768 bytes
+[2014-10-17 00:00:37.653,paramiko.transport,DEBUG] [chan 3] Max packet out: 32768 bytes
+[2014-10-17 00:00:37.653,paramiko.transport,DEBUG] Secsh channel 3 opened.
+[2014-10-17 00:00:37.658,paramiko.transport,DEBUG] [chan 3] Sesch channel 3 request ok
+[2014-10-17 00:00:37.659,paramiko.transport,DEBUG] [chan 3] Sesch channel 3 request ok
+[2014-10-17 00:00:37.662,paramiko.transport,DEBUG] [chan 3] EOF received (3)
+[2014-10-17 00:00:37.663,paramiko.transport.sftp,INFO] [chan 1] sftp session closed.
