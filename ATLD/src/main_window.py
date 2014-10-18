@@ -75,7 +75,7 @@ class MainWindow(Connection):
     def on_click_button_connect(self):
 
         #self.open_server_connection()
-        self.find_obj(0, self.textboxlist_addresses[0].text(), self.textboxlist_password[0].text())'''
+        self.find_remote_object(0, self.textboxlist_addresses[0].text(), self.textboxlist_password[0].text())'''
 
 
 

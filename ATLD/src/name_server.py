@@ -1,8 +1,8 @@
 __author__ = 'francesco'
 
-import os
-os.environ["PYRO_LOGFILE"] = "pyro.log"
-os.environ["PYRO_LOGLEVEL"] = "DEBUG"
+#import os
+#os.environ["PYRO_LOGFILE"] = "pyro.log"
+#os.environ["PYRO_LOGLEVEL"] = "DEBUG"
 import threading, socket, sys
 import Pyro4
 

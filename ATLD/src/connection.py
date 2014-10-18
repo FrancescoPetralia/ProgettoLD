@@ -1,13 +1,12 @@
 __author__ = 'francesco'
 
-import os
-os.environ["PYRO_LOGFILE"] = "pyro.log"
-os.environ["PYRO_LOGLEVEL"] = "DEBUG"
+#import os
+#os.environ["PYRO_LOGFILE"] = "pyro.log"
+#os.environ["PYRO_LOGLEVEL"] = "DEBUG"
 import Pyro4
 import paramiko
 import socket
 import time
-import queue
 from PyQt4 import QtCore, QtGui
 
 
@@ -21,6 +20,11 @@ class Connection(QtGui.QMainWindow):
         self.text_analyzer = None
         self.object_pid = None
 
+    def start(self, identifier, address, password):
+
+        self.open_server_connection(identifier, address, password)
+        self.find_remote_object(identifier, address, password)
+
     # Questo metodo ritorna l'indirizzo ip del server
     def get_ip_address(self):
 
@@ -32,7 +36,7 @@ class Connection(QtGui.QMainWindow):
         return ip
 
     # Metodo che cerca l'oggetto sul server
-    def find_obj(self, identifier, address, password, q):
+    def find_remote_object(self, identifier, address, password):
 
         time.sleep(5)
 
@@ -44,21 +48,21 @@ class Connection(QtGui.QMainWindow):
             print("Cerco sul server l'oggetto " + self.text_analyzer_name + str(identifier) + "...")
             print(ns.list())
             uri_text_analyzer = ns.lookup(self.text_analyzer_name + str(identifier))
-            q.put(self.text_analyzer_name + " trovato. Il suo uri è: " + uri_text_analyzer)
+            print(self.text_analyzer_name + " trovato. Il suo uri è: " + uri_text_analyzer)
             self.text_analyzer = Pyro4.Proxy(uri_text_analyzer)
             print("\n")
 
         except Pyro4.errors.NamingError as e:
-            q.put("Oggetto non trovato, errore: " + str(e))
+            print("Oggetto non trovato, errore: " + str(e))
             print("\n")
             #print("".join(Pyro4.util.getPyroTraceback()))
             #print("\n")
             self.ssh_connection_close_and_cleanup(identifier, address, password)
 
-    def open_server_connection(self, identifier, address, password, q):
+    def open_server_connection(self, identifier, address, password):
 
         print("\n")
-        print("ID Oggetto: " + identifier)
+        print("ID Oggetto: " + str(identifier))
 
         # Istanzio l'oggetto ssh
         ssh_connection = paramiko.SSHClient()
@@ -94,9 +98,9 @@ class Connection(QtGui.QMainWindow):
             print("Scompatto l'archivio...")
             (stdin, stdout, stderr) = ssh_connection.exec_command("tar -xzvf Pyro4.zip")
             time.sleep(3)
-            # Con "echo $$" ritorno il pid del processo che sto per fare eseguire
+            # Con "echo $$" ritorno il pid del processo
             # Con "exec python3 text_analyzer.py" eseguo l'analizzatore testuale, con i parametri -id e -ns_ip
-            print("Esecuzione " + self.text_analyzer_name + identifier + ":")
+            print("Esecuzione " + self.text_analyzer_name + str(identifier) + ":")
             (stdin, stdout, stderr) = ssh_connection.exec_command("echo $$; exec python3 text_analyzer.py -id {} -ns {}".format(identifier, ns_ip), timeout=3, get_pty=True)
             print(stderr.readline())
             # Salvo il PID dell'oggetto
@@ -107,15 +111,14 @@ class Connection(QtGui.QMainWindow):
             sftp_connection.close()
 
             if stderr.readline() == "":
-                q.put(self.text_analyzer_name + identifier + " connesso.")
+                print(self.text_analyzer_name + str(identifier) + " connesso.")
             else:
-                q.put(self.text_analyzer_name + identifier + " non connesso.")
+                print(self.text_analyzer_name + str(identifier) + " non connesso.")
 
         except (paramiko.AuthenticationException, socket.error) as e:
             ssh_connection.close()
             print("La connessione è fallita, errore: " + str(e))
-
-            q.put(self.text_analyzer_name + identifier + " non connesso.")
+            print(self.text_analyzer_name + str(identifier) + " non connesso.")
 
     # Metodo che provvede alla chiusura della connessione ssh. Questo metodo provvede inoltre all'eliminazione del
     # Text_Analyzer_N, dove N = (1, 2, 3, ...), killandone anche il processo.

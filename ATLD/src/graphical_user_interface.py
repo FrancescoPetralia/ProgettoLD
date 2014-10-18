@@ -1,13 +1,12 @@
 __author__ = 'francesco'
 
-import os
-os.environ["PYRO_LOGFILE"] = "pyro.log"
-os.environ["PYRO_LOGLEVEL"] = "DEBUG"
+#import os
+#os.environ["PYRO_LOGFILE"] = "pyro.log"
+#os.environ["PYRO_LOGLEVEL"] = "DEBUG"
 import threading
 import socket
 import getpass
 import Pyro4
-import queue
 import time
 from PyQt4 import QtGui, QtCore
 from main_window import MainWindow
@@ -82,13 +81,13 @@ class SetHostsWindow(QtGui.QMainWindow):
 #=======================================================================================================================
 
 
-class HostsConnectionWindow(Connection):
+class HostsConnectionWindow(QtGui.QMainWindow):
 
     def __init__(self):
 
         super(HostsConnectionWindow, self).__init__()
 
-        self.na = 0
+        self.host_number = 0
         self.offset_label = 60
         self.offset_textbox = 60
         self.xpositionlabel_a = 50
@@ -104,19 +103,16 @@ class HostsConnectionWindow(Connection):
         self.move(225, 60)
         self.setWindowTitle("Connessione hosts")
 
-        self.identifiers = []
-
         self.labellist_addresses = []
         self.textboxlist_addresses = []
 
         self.labellist_password = []
         self.textboxlist_password = []
 
-        self.buttonconnect = QtGui.QPushButton("Connetti", self)
-        self.buttonconnect.resize(100, 45)
-        self.buttonconnect.move(735, 550)
-        # Al click del bottone, faccio partire la connessione al Name Server
-        QtCore.QObject.connect(self.buttonconnect, QtCore.SIGNAL('clicked()'), self.on_click_button_connect)
+        self.button_proceed = QtGui.QPushButton("Procedi", self)
+        self.button_proceed.resize(100, 45)
+        self.button_proceed.move(735, 550)
+        QtCore.QObject.connect(self.button_proceed, QtCore.SIGNAL('clicked()'), self.on_click_button_connect)
 
         self.labelhost = QtGui.QLabel("", self)
         self.labelhost.resize(300, 30)
@@ -126,19 +122,15 @@ class HostsConnectionWindow(Connection):
 
     def set_hosts_number(self, n_addresses):
 
-        self.na = n_addresses
+        self.host_number = n_addresses
 
-        for count in range(0, int(self.na)):
-            self.identifiers.append(None)
-            self.identifiers[count] = count
-
-        for count in range(0, int(self.na)):
+        for count in range(0, int(self.host_number)):
             self.labellist_addresses.append(QtGui.QLabel("Indirizzo host:", self))
             self.textboxlist_addresses.append(QtGui.QLineEdit(self))
             self.labellist_password.append(QtGui.QLabel("Password host:", self))
             self.textboxlist_password.append(QtGui.QLineEdit(self))
 
-        for count in range(0, int(self.na)):
+        for count in range(0, int(self.host_number)):
 
             self.labellist_addresses[count].resize(self.labelwidth, self.labelheight)
             self.labellist_addresses[count].move(self.xpositionlabel_a, (self.offset_label * (count + 1)))
@@ -154,38 +146,27 @@ class HostsConnectionWindow(Connection):
             self.textboxlist_password[count].resize(self.textboxwidth, self.textboxheight)
             self.textboxlist_password[count].move(self.xpositiontextbox_p, (self.offset_textbox * (count + 1)))
 
-        self.labelhost.setText("Numero di host su cui parallelizzare l'analisi: " + str(self.na))
+        self.labelhost.setText("Numero di host su cui parallelizzare l'analisi: " + str(self.host_number) + ".")
 
-    def open_text_analysis_window(self, identifiers, addresses, passwords):
+    def open_text_analysis_window(self, identifiers, addresses, passwords, hosts):
 
-        self.taw = TextAnalysisWindow(identifiers, addresses, passwords)
+        self.taw = TextAnalysisWindow(identifiers, addresses, passwords, hosts)
         self.taw.show()
         self.hide()
 
     def on_click_button_connect(self):
 
-        t = []
-        q = queue.Queue()
+        ids = []
+        addrs = []
+        pwds = []
 
-        idn = [self.na]
-        addr = [self.na]
-        psw = [self.na]
+        for count in range(0, int(self.host_number)):
 
-        for count in range(0, int(self.na)):
-            t.append(
-                threading.Thread(target=self.open_server_connection,
-                                 args=[str(count), self.textboxlist_addresses[count].text(),
-                                       self.textboxlist_password[count].text(), q]))
-            idn[count] = str(count)
-            addr[count] = self.textboxlist_addresses[count].text()
-            psw[count] = self.textboxlist_password[count].text()
-            t[count].start()
-            time.sleep(1)
-            t_ret_val = q.get()
-            print(t_ret_val)
-            print("\n")
+            ids.append(count)
+            addrs.append(self.textboxlist_addresses[count].text())
+            pwds.append(self.textboxlist_password[count].text())
 
-        self.open_text_analysis_window(idn, addr, psw)
+        self.open_text_analysis_window(ids, addrs, pwds, self.host_number)
 
 
 #=======================================================================================================================
@@ -193,37 +174,50 @@ class HostsConnectionWindow(Connection):
 
 class TextAnalysisWindow(Connection):
 
-    def __init__(self, identifiers, addresses, passwords):
+    def __init__(self, identifiers, addresses, passwords, hosts):
 
         super(TextAnalysisWindow, self).__init__()
 
-        self.resize(1000, 680)
-        self.move(125, 60)
+        self.host_number = hosts
+
+        self.resize(1020, 710)
+        self.move(125, 30)
         self.setWindowTitle("Analizzatore Testuale")
+
+        self.loaded_file_label = QtGui.QLabel("Percorso del file da analizzare:", self)
+        self.loaded_file_label.resize(450, 20)
+        self.loaded_file_label.move(20, 20)
 
         self.loaded_file_textbox = QtGui.QLineEdit(self)
         self.loaded_file_textbox.resize(450, 30)
-        self.loaded_file_textbox.move(20, 20)
+        self.loaded_file_textbox.move(20, 50)
 
         self.load_file_button = QtGui.QPushButton("Carica file", self)
         self.load_file_button.resize(100, 45)
-        self.load_file_button.move(13, 70)
-
+        self.load_file_button.move(14, 90)
         QtCore.QObject.connect(self.load_file_button, QtCore.SIGNAL('clicked()'), self.load_file)
 
+        self.loaded_file_label = QtGui.QLabel("Contenuto del file da analizzare:", self)
+        self.loaded_file_label.resize(450, 20)
+        self.loaded_file_label.move(520, 20)
+
         self.loaded_file_textarea = QtGui.QTextEdit(self)
-        self.loaded_file_textarea.resize(450, 550)
-        self.loaded_file_textarea.move(520, 20)
+        self.loaded_file_textarea.resize(470, 550)
+        self.loaded_file_textarea.move(520, 50)
+
+        self.hosts_connection_button = QtGui.QPushButton("Connetti Hosts", self)
+        self.hosts_connection_button.resize(247, 65)
+        self.hosts_connection_button.move(514, 595)
+        QtCore.QObject.connect(self.hosts_connection_button, QtCore.SIGNAL('clicked()'), self.remote_object_connection)
 
         self.start_analysis_button = QtGui.QPushButton("Avvia Analisi", self)
-        self.start_analysis_button.resize(250, 65)
-        self.start_analysis_button.move(630, 600)
+        self.start_analysis_button.resize(248, 65)
+        self.start_analysis_button.move(748, 595)
+        QtCore.QObject.connect(self.start_analysis_button, QtCore.SIGNAL('clicked()'), self.start_analysis)
 
         self.identifiers = identifiers
         self.addresses = addresses
         self.passwords = passwords
-
-        QtCore.QObject.connect(self.start_analysis_button, QtCore.SIGNAL('clicked()'), self.start_analysis)
 
     def load_file(self):
 
@@ -232,24 +226,21 @@ class TextAnalysisWindow(Connection):
         self.loaded_file_textarea.setText(self.read_file(file_path))
 
     def read_file(self, p1):
-        #lettura del file
+
+        #Lettura del file
         in_file = open(p1, "r")
         file = in_file.read()
         in_file.close()
         return file
 
-    def start_analysis(self):
+    def remote_object_connection(self):
 
         t = []
-        q = queue.Queue()
 
-        for count in range(0, int(self.na)):
-            t.append(
-                threading.Thread(target=self.find_obj,
-                                 args=[self.identifiers[count], self.addresses[count],
-                                       self.passwords[count], q]))
+        for count in range(0, int(self.host_number)):
+            t.append(threading.Thread(target=self.start, args=[self.identifiers[count], self.addresses[count], self.passwords[count]]))
             t[count].start()
             time.sleep(1)
-            t_ret_val = q.get()
-            print(t_ret_val)
-            print("\n")
+
+    def start_analysis(self):
+        pass
