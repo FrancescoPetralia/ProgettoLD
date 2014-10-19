@@ -98,7 +98,7 @@ class Connection(QtGui.QMainWindow):
             print("Scompatto l'archivio...")
             (stdin, stdout, stderr) = ssh_connection.exec_command("tar -xzvf Pyro4.zip")
             time.sleep(3)
-            # Con "echo $$" ritorno il pid del processo
+            # Con "echo $$" ricavo il pid del processo
             # Con "exec python3 text_analyzer.py" eseguo l'analizzatore testuale, con i parametri -id e -ns_ip
             print("Esecuzione " + self.text_analyzer_name + str(identifier) + ":")
             (stdin, stdout, stderr) = ssh_connection.exec_command("echo $$; exec python3 text_analyzer.py -id {} -ns {}".format(identifier, ns_ip), timeout=3, get_pty=True)
