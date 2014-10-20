@@ -191,7 +191,6 @@ def main():
     args = parser.parse_args()
 
     # Controllo che gli argomenti siano settati correttamente
-
     if args.id is not None:
         identifier = str(args.id)
         #print("identifier: " + identifier)
@@ -210,10 +209,10 @@ def main():
 
         if name_server_ip != "":
             ns = Pyro4.naming.locateNS(name_server_ip)
-            print("nsip - locateNS(name_server_ip): " + str(ns))
+            #print("nsip - locateNS(name_server_ip): " + str(ns))
         else:
             ns = Pyro4.naming.locateNS()
-            print("nsip: locateNS() " + str(ns))
+            #print("nsip: locateNS() " + str(ns))
 
         PYRO_OBJ_NAME = text_analyzer_name + str(identifier)
         print("Nome PyRO Object: " + PYRO_OBJ_NAME)
@@ -222,26 +221,20 @@ def main():
 
         try:
             daemon = Pyro4.Daemon(a.get_ip_address())
-            print("Daemon: " + str(daemon))
+            #print("Daemon: " + str(daemon))
 
         except:
             daemon = Pyro4.Daemon("127.0.0.1")
-            print("Daemon: " + str(daemon))
+            #print("Daemon: " + str(daemon))
 
         # Associazione e registrazione sul server dell'uri del Pyro Object (eliminato) al TextAnalyzer
         uri_text_analyzer = daemon.register(a)
         ns.register(PYRO_OBJ_NAME, uri_text_analyzer, safe=True)
-
         print("URI " + PYRO_OBJ_NAME + ": " + str(uri_text_analyzer))
 
-        d = Pyro4.core.DaemonObject(daemon)
-        obj_list = d.registered()
-
-        print(str(obj_list))
-
-        #print("Salvataggio dell'uri...")
-        #print(a.save_pyro_obj_uri(uri_text_analyzer))
-        #print("Uri salvato.")
+        #d = Pyro4.core.DaemonObject(daemon)
+        #obj_list = d.registered()
+        #print(str(obj_list))
 
         daemon.requestLoop()
 

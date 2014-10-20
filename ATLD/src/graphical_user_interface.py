@@ -238,9 +238,15 @@ class TextAnalysisWindow(Connection):
         t = []
 
         for count in range(0, int(self.host_number)):
-            t.append(threading.Thread(target=self.start, args=[self.identifiers[count], self.addresses[count], self.passwords[count]]))
+            t.append(threading.Thread(target=self.start_connection,
+                                      args=[self.identifiers[count], self.addresses[count], self.passwords[count]]))
             t[count].start()
             time.sleep(1)
+
+    def start_connection(self, identifier, address, password):
+
+        self.open_server_connection(identifier, address, password)
+        self.find_remote_object(identifier, address, password)
 
     def start_analysis(self):
         pass

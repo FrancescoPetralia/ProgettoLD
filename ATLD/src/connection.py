@@ -18,12 +18,7 @@ class Connection(QtGui.QMainWindow):
 
         self.text_analyzer_name = "Text_Analyzer_"
         self.text_analyzer = None
-        self.object_pid = None
-
-    def start(self, identifier, address, password):
-
-        self.open_server_connection(identifier, address, password)
-        self.find_remote_object(identifier, address, password)
+        self.object_pid = []
 
     # Questo metodo ritorna l'indirizzo ip del server
     def get_ip_address(self):
@@ -44,21 +39,22 @@ class Connection(QtGui.QMainWindow):
 
         try:
             ns = Pyro4.naming.locateNS()
-            print("Return del locateNS(): " + str(ns))
+            #print("Return del locateNS(): " + str(ns))
+            print("\n")
             print("Cerco sul server l'oggetto " + self.text_analyzer_name + str(identifier) + "...")
-            print(ns.list())
+            #print(ns.list())
             uri_text_analyzer = ns.lookup(self.text_analyzer_name + str(identifier))
-            print(self.text_analyzer_name + " trovato. Il suo uri è: " + uri_text_analyzer)
+            print(self.text_analyzer_name + str(identifier) + " trovato.\n Il suo uri è: " + str(uri_text_analyzer))
             self.text_analyzer = Pyro4.Proxy(uri_text_analyzer)
             print("\n")
 
         except Pyro4.errors.NamingError as e:
             print("Oggetto non trovato, errore: " + str(e))
-            print("\n")
             #print("".join(Pyro4.util.getPyroTraceback()))
             #print("\n")
             self.ssh_connection_close_and_cleanup(identifier, address, password)
 
+    # Apertura della connessione ssh e sftp
     def open_server_connection(self, identifier, address, password):
 
         print("\n")
@@ -96,24 +92,24 @@ class Connection(QtGui.QMainWindow):
             print("Trasferisco Pyro4...")
             sftp_connection.put("Pyro4.zip", "./Pyro4.zip")
             print("Scompatto l'archivio...")
-            (stdin, stdout, stderr) = ssh_connection.exec_command("tar -xzvf Pyro4.zip")
+            stdin, stdout, stderr = ssh_connection.exec_command("tar -xzvf Pyro4.zip")
             time.sleep(3)
             # Con "echo $$" ricavo il pid del processo
             # Con "exec python3 text_analyzer.py" eseguo l'analizzatore testuale, con i parametri -id e -ns_ip
-            print("Esecuzione " + self.text_analyzer_name + str(identifier) + ":")
-            (stdin, stdout, stderr) = ssh_connection.exec_command("echo $$; exec python3 text_analyzer.py -id {} -ns {}".format(identifier, ns_ip), timeout=3, get_pty=True)
-            print(stderr.readline())
+            print("Esecuzione " + self.text_analyzer_name + str(identifier) + "...")
+            python_3_path = "/Library/Frameworks/Python.framework/Versions/3.4/bin/python3"
+            command = "echo $$; " + python_3_path + " text_analyzer.py -id {} -ns {}"
+            stdin, stdout, stderr = ssh_connection.exec_command(command.format(identifier, ns_ip), timeout=3, get_pty=True)
+            #print(command.format(identifier, ns_ip))
+            print(str(stderr.readline()))
             # Salvo il PID dell'oggetto
-            self.object_pid = int(stdout.readline())
-            print("PID del " + self.text_analyzer_name + str(identifier) + ": " + str(self.object_pid))
+            self.object_pid.append(int(stdout.readline()))
+            print("PID del " + self.text_analyzer_name + str(identifier) + ": " + str(self.object_pid[identifier]))
             # Chiudo le connessioni
             ssh_connection.close()
             sftp_connection.close()
 
-            if stderr.readline() == "":
-                print(self.text_analyzer_name + str(identifier) + " connesso.")
-            else:
-                print(self.text_analyzer_name + str(identifier) + " non connesso.")
+            print(self.text_analyzer_name + str(identifier) + " connesso.")
 
         except (paramiko.AuthenticationException, socket.error) as e:
             ssh_connection.close()
@@ -134,21 +130,20 @@ class Connection(QtGui.QMainWindow):
             else:
                 ssh_connection.connect(str(address), password=str(password), timeout=5, allow_agent=False)
 
-            print("Sto terminando il processo " + str(self.object_pid) + "...")
-            ssh_connection.exec_command("/bin/kill -KILL {}".format(self.object_pid))
+            print("Sto terminando il processo " + str(self.object_pid[identifier]) + "...")
+            ssh_connection.exec_command("/bin/kill -KILL {}".format(self.object_pid[identifier]))
             print("Terminato.")
             ssh_connection.exec_command("rm -r Pyro4")
             ssh_connection.exec_command("rm -r Pyro4.zip")
             ssh_connection.exec_command("rm text_analyzer.py")
             time.sleep(5)
-            print("\n")
+
             ssh_connection.close()
 
         except(paramiko.AuthenticationException, socket.error) as e:
             ssh_connection.close()
             print("Connessione fallita")
             print("Ritentare l'autenticazione; errore: " + str(e))
-            print("\n")
 
 
 
