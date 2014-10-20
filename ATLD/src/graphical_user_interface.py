@@ -88,19 +88,19 @@ class HostsConnectionWindow(QtGui.QMainWindow):
         super(HostsConnectionWindow, self).__init__()
 
         self.host_number = 0
-        self.offset_label = 60
-        self.offset_textbox = 60
-        self.xpositionlabel_a = 50
-        self.xpositiontextbox_a = 180
-        self.xpositionlabel_p = 500
-        self.xpositiontextbox_p = 630
+        self.offset_label = 55
+        self.offset_textbox = 55
+        self.xpositionlabel_a = 40
+        self.xpositiontextbox_a = 170
+        self.xpositionlabel_p = 430
+        self.xpositiontextbox_p = 560
         self.labelheight = 30
         self.labelwidth = 150
         self.textboxheight = 30
         self.textboxwidth = 175
 
-        self.resize(900, 620)
-        self.move(225, 60)
+        self.resize(790, 560)
+        self.move(250, 85)
         self.setWindowTitle("Connessione hosts")
 
         self.labellist_addresses = []
@@ -111,12 +111,12 @@ class HostsConnectionWindow(QtGui.QMainWindow):
 
         self.button_proceed = QtGui.QPushButton("Procedi", self)
         self.button_proceed.resize(100, 45)
-        self.button_proceed.move(735, 550)
+        self.button_proceed.move(639, 500)
         QtCore.QObject.connect(self.button_proceed, QtCore.SIGNAL('clicked()'), self.on_click_button_connect)
 
-        self.labelhost = QtGui.QLabel("", self)
-        self.labelhost.resize(300, 30)
-        self.labelhost.move(50, 550)
+        self.labelhosts = QtGui.QLabel("", self)
+        self.labelhosts.resize(300, 30)
+        self.labelhosts.move(40, 515)
 
         self.taw = None
 
@@ -146,7 +146,7 @@ class HostsConnectionWindow(QtGui.QMainWindow):
             self.textboxlist_password[count].resize(self.textboxwidth, self.textboxheight)
             self.textboxlist_password[count].move(self.xpositiontextbox_p, (self.offset_textbox * (count + 1)))
 
-        self.labelhost.setText("Numero di host su cui parallelizzare l'analisi: " + str(self.host_number) + ".")
+        self.labelhosts.setText("Numero di host su cui parallelizzare l'analisi: " + str(self.host_number) + ".")
 
     def open_text_analysis_window(self, identifiers, addresses, passwords, hosts):
 
