@@ -47,9 +47,6 @@ class SetHostsWindow(QtGui.QMainWindow):
         self.textbox.textChanged.emit(self.textbox.text())
 
         self.hcw = None
-        # Faccio partire il server
-        #s = Server()
-        #s.start_ns_loop()
 
     def open_main_window(self):
 
@@ -109,6 +106,11 @@ class HostsConnectionWindow(QtGui.QMainWindow):
         self.labellist_password = []
         self.textboxlist_password = []
 
+        self.button_go_back = QtGui.QPushButton("Indietro", self)
+        self.button_go_back.resize(100, 45)
+        self.button_go_back.move(552, 500)
+        QtCore.QObject.connect(self.button_go_back, QtCore.SIGNAL('clicked()'), self.go_back)
+
         self.button_proceed = QtGui.QPushButton("Procedi", self)
         self.button_proceed.resize(100, 45)
         self.button_proceed.move(639, 500)
@@ -119,6 +121,13 @@ class HostsConnectionWindow(QtGui.QMainWindow):
         self.labelhosts.move(40, 515)
 
         self.taw = None
+        self.shw = None
+
+    def go_back(self):
+        self.hide()
+        self.shw = SetHostsWindow()
+        self.shw.show()
+        # Richiamare il metodo che termina il Name Server
 
     def set_hosts_number(self, n_addresses):
 
@@ -129,6 +138,8 @@ class HostsConnectionWindow(QtGui.QMainWindow):
             self.textboxlist_addresses.append(QtGui.QLineEdit(self))
             self.labellist_password.append(QtGui.QLabel("Password host:", self))
             self.textboxlist_password.append(QtGui.QLineEdit(self))
+
+            self.textboxlist_password[(len(self.textboxlist_password)) - 1].returnPressed.connect(self.on_click_button_connect)
 
         for count in range(0, int(self.host_number)):
 
@@ -215,9 +226,25 @@ class TextAnalysisWindow(Connection):
         self.start_analysis_button.move(748, 595)
         QtCore.QObject.connect(self.start_analysis_button, QtCore.SIGNAL('clicked()'), self.start_analysis)
 
+        self.button_go_back = QtGui.QPushButton("Indietro", self)
+        self.button_go_back.resize(100, 45)
+        self.button_go_back.move(14, 650)
+        QtCore.QObject.connect(self.button_go_back, QtCore.SIGNAL('clicked()'), self.go_back)
+
         self.identifiers = identifiers
         self.addresses = addresses
         self.passwords = passwords
+
+        self.hcw = None
+
+        self.proxies = []
+
+    def go_back(self):
+        self.hide()
+        self.hcw = HostsConnectionWindow()
+        self.hcw.set_hosts_number(self.host_number)
+        self.hcw.show()
+        # Richiamare il metodo per terminare i pid dei remote objects e l'unregister dal Name Server
 
     def load_file(self):
 
@@ -246,7 +273,9 @@ class TextAnalysisWindow(Connection):
     def start_connection(self, identifier, address, password):
 
         self.open_server_connection(identifier, address, password)
-        self.find_remote_object(identifier, address, password)
+        self.proxies.append(self.find_remote_object(identifier, address, password))
+
+        #print(self.proxies)
 
     def start_analysis(self):
         pass

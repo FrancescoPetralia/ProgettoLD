@@ -17,7 +17,7 @@ class Connection(QtGui.QMainWindow):
         super(Connection, self).__init__()
 
         self.text_analyzer_name = "Text_Analyzer_"
-        self.text_analyzer = None
+        self.text_analyzer = []
         self.object_pid = []
 
     # Questo metodo ritorna l'indirizzo ip del server
@@ -35,8 +35,6 @@ class Connection(QtGui.QMainWindow):
 
         time.sleep(5)
 
-        #if self.authentication_ok is True:
-
         try:
             ns = Pyro4.naming.locateNS()
             #print("Return del locateNS(): " + str(ns))
@@ -44,9 +42,11 @@ class Connection(QtGui.QMainWindow):
             print("Cerco sul server l'oggetto " + self.text_analyzer_name + str(identifier) + "...")
             #print(ns.list())
             uri_text_analyzer = ns.lookup(self.text_analyzer_name + str(identifier))
-            print(self.text_analyzer_name + str(identifier) + " trovato.\n Il suo uri è: " + str(uri_text_analyzer))
-            self.text_analyzer = Pyro4.Proxy(uri_text_analyzer)
+            print(self.text_analyzer_name + str(identifier) + " trovato.\nIl suo uri è: " + str(uri_text_analyzer))
+            self.text_analyzer.append(Pyro4.Proxy(uri_text_analyzer))
             print("\n")
+
+            return self.text_analyzer[identifier]
 
         except Pyro4.errors.NamingError as e:
             print("Oggetto non trovato, errore: " + str(e))
@@ -101,7 +101,12 @@ class Connection(QtGui.QMainWindow):
             command = "echo $$; " + python_3_path + " text_analyzer.py -id {} -ns {}"
             stdin, stdout, stderr = ssh_connection.exec_command(command.format(identifier, ns_ip), timeout=3, get_pty=True)
             #print(command.format(identifier, ns_ip))
-            print(str(stderr.readline()))
+
+            try:
+                print(stderr.readline())
+            except socket.error:
+                pass
+
             # Salvo il PID dell'oggetto
             self.object_pid.append(int(stdout.readline()))
             print("PID del " + self.text_analyzer_name + str(identifier) + ": " + str(self.object_pid[identifier]))
@@ -111,7 +116,7 @@ class Connection(QtGui.QMainWindow):
 
             print(self.text_analyzer_name + str(identifier) + " connesso.")
 
-        except (paramiko.AuthenticationException, socket.error) as e:
+        except paramiko.AuthenticationException as e:
             ssh_connection.close()
             print("La connessione è fallita, errore: " + str(e))
             print(self.text_analyzer_name + str(identifier) + " non connesso.")
@@ -136,6 +141,7 @@ class Connection(QtGui.QMainWindow):
             ssh_connection.exec_command("rm -r Pyro4")
             ssh_connection.exec_command("rm -r Pyro4.zip")
             ssh_connection.exec_command("rm text_analyzer.py")
+            ssh_connection.exec_command("rm *.txt")
             time.sleep(5)
 
             ssh_connection.close()

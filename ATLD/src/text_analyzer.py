@@ -23,7 +23,7 @@ class TextAnalyzer():
     e = ''
     flag = ''
 
-    def __init__(self):
+    def __init__(self, pyro_obj_name):
         #self.p1 = "prova.txt"
         self.p2 = "text_analisys_results.txt"
         #self.e = ExecutionTimeMeasurement()
@@ -32,20 +32,25 @@ class TextAnalyzer():
         self.all_tokenized_word = self.words_inside_file()
         self.all_tokenized_sentences = self.sentences_inside_file()
         self.my_uri = None
+        self. pyro_obj_name = pyro_obj_name
 
-    '''def read_file(self, p1):
-        #lettura del file
-        in_file = open(p1, "r")
-        self.my_file = in_file.read()
-        #self.my_file = self.my_file.decode("cp1252")
-        #self.my_file.encode("utf-8", "ignore")
-        in_file.close()
-        return self.my_file'''
+        self.info_exec()
+
+    def info_exec(self):
+        file = open(self.pyro_obj_name + ".txt", 'w')
+        file.write("Ciao sono il " + self.pyro_obj_name + "\n")
+
+    def read_file(self, p1):
+        file = open(p1, "r")
+        self.my_file = file.read()
+        file.close()
+        return self.my_file
 
     def get_number_of_chars_in_file(self):
         return len(self.my_file)
 
-    def get_occurrence_number_of_searched_char(self): #interattivo
+    #interattivo
+    def get_occurrence_number_of_searched_char(self):
          pass
 
     def words_inside_file(self):
@@ -70,7 +75,8 @@ class TextAnalyzer():
     def get_dim_of_shortest_word_in_the_file(self):
         return len(self.get_shortest_word_in_the_file())
 
-    def get_occurences_number_of_searched_word(self, w): #interattivo
+    #interattivo
+    def get_occurences_number_of_searched_word(self, w):
         cnt = 0
         for word in self.all_tokenized_word:
             if w in word:
@@ -181,7 +187,7 @@ class TextAnalyzer():
 
 def main():
 
-    global ns, PYRO_OBJ_NAME
+    global __NS__, __PYRO_OBJ_NAME__
     text_analyzer_name = "Text_Analyzer_"
 
     # Configurazione del parser per gli argomenti in input
@@ -208,19 +214,19 @@ def main():
     try:
 
         if name_server_ip != "":
-            ns = Pyro4.naming.locateNS(name_server_ip)
+            __NS__ = Pyro4.naming.locateNS(name_server_ip)
             #print("nsip - locateNS(name_server_ip): " + str(ns))
         else:
-            ns = Pyro4.naming.locateNS()
+            __NS__ = Pyro4.naming.locateNS()
             #print("nsip: locateNS() " + str(ns))
 
-        PYRO_OBJ_NAME = text_analyzer_name + str(identifier)
-        print("Nome PyRO Object: " + PYRO_OBJ_NAME)
+        __PYRO_OBJ_NAME__ = text_analyzer_name + str(identifier)
+        print("Nome PyRO Object: " + __PYRO_OBJ_NAME__)
 
-        a = TextAnalyzer()
+        analyzer = TextAnalyzer(__PYRO_OBJ_NAME__)
 
         try:
-            daemon = Pyro4.Daemon(a.get_ip_address())
+            daemon = Pyro4.Daemon(analyzer.get_ip_address())
             #print("Daemon: " + str(daemon))
 
         except:
@@ -228,9 +234,9 @@ def main():
             #print("Daemon: " + str(daemon))
 
         # Associazione e registrazione sul server dell'uri del Pyro Object (eliminato) al TextAnalyzer
-        uri_text_analyzer = daemon.register(a)
-        ns.register(PYRO_OBJ_NAME, uri_text_analyzer, safe=True)
-        print("URI " + PYRO_OBJ_NAME + ": " + str(uri_text_analyzer))
+        uri_text_analyzer = daemon.register(analyzer)
+        __NS__.register(__PYRO_OBJ_NAME__, uri_text_analyzer, safe=True)
+        print("URI " + __PYRO_OBJ_NAME__ + ": " + str(uri_text_analyzer))
 
         #d = Pyro4.core.DaemonObject(daemon)
         #obj_list = d.registered()
