@@ -46,8 +46,6 @@ class Connection(QtGui.QMainWindow):
             self.text_analyzer.append(Pyro4.Proxy(uri_text_analyzer))
             print("\n")
 
-            return self.text_analyzer[identifier]
-
         except Pyro4.errors.NamingError as e:
             print("Oggetto non trovato, errore: " + str(e))
             #print("".join(Pyro4.util.getPyroTraceback()))

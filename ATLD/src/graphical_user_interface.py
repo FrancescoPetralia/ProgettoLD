@@ -12,6 +12,7 @@ from PyQt4 import QtGui, QtCore
 from main_window import MainWindow
 from name_server import NameServer
 from connection import Connection
+from file_splitter import FileSplitter
 
 
 class SetHostsWindow(QtGui.QMainWindow):
@@ -134,9 +135,9 @@ class HostsConnectionWindow(QtGui.QMainWindow):
         self.host_number = n_addresses
 
         for count in range(0, int(self.host_number)):
-            self.labellist_addresses.append(QtGui.QLabel("Indirizzo host:", self))
+            self.labellist_addresses.append(QtGui.QLabel("Indirizzo host " + str(count) + ":", self))
             self.textboxlist_addresses.append(QtGui.QLineEdit(self))
-            self.labellist_password.append(QtGui.QLabel("Password host:", self))
+            self.labellist_password.append(QtGui.QLabel("Password host " + str(count) + ":", self))
             self.textboxlist_password.append(QtGui.QLineEdit(self))
 
             self.textboxlist_password[(len(self.textboxlist_password)) - 1].returnPressed.connect(self.on_click_button_connect)
@@ -189,7 +190,7 @@ class TextAnalysisWindow(Connection):
 
         super(TextAnalysisWindow, self).__init__()
 
-        self.host_number = hosts
+        self.hosts_number = hosts
 
         self.resize(1020, 710)
         self.move(125, 30)
@@ -220,11 +221,13 @@ class TextAnalysisWindow(Connection):
         self.hosts_connection_button.resize(247, 65)
         self.hosts_connection_button.move(514, 595)
         QtCore.QObject.connect(self.hosts_connection_button, QtCore.SIGNAL('clicked()'), self.remote_object_connection)
+        self.hosts_connection_button.setEnabled(False)
 
         self.start_analysis_button = QtGui.QPushButton("Avvia Analisi", self)
         self.start_analysis_button.resize(248, 65)
         self.start_analysis_button.move(748, 595)
         QtCore.QObject.connect(self.start_analysis_button, QtCore.SIGNAL('clicked()'), self.start_analysis)
+        self.start_analysis_button.setEnabled(False)
 
         self.button_go_back = QtGui.QPushButton("Indietro", self)
         self.button_go_back.resize(100, 45)
@@ -236,13 +239,12 @@ class TextAnalysisWindow(Connection):
         self.passwords = passwords
 
         self.hcw = None
-
-        self.proxies = []
+        self.results = None
 
     def go_back(self):
         self.hide()
         self.hcw = HostsConnectionWindow()
-        self.hcw.set_hosts_number(self.host_number)
+        self.hcw.set_hosts_number(self.hosts_number)
         self.hcw.show()
         # Richiamare il metodo per terminare i pid dei remote objects e l'unregister dal Name Server
 
@@ -252,6 +254,10 @@ class TextAnalysisWindow(Connection):
         file_path = self.loaded_file_textbox.text()
         self.loaded_file_textarea.setText(self.read_file(file_path))
 
+        if self.split_file():
+            self.hosts_connection_button.setEnabled(True)
+            self.start_analysis_button.setEnabled(True)
+
     def read_file(self, p1):
 
         #Lettura del file
@@ -260,11 +266,18 @@ class TextAnalysisWindow(Connection):
         in_file.close()
         return file
 
+    def split_file(self):
+
+        fs = FileSplitter(self.hosts_number, self.loaded_file_textbox.text())
+
+        if fs.split_file_between_hosts():
+            return True
+
     def remote_object_connection(self):
 
         t = []
 
-        for count in range(0, int(self.host_number)):
+        for count in range(0, int(self.hosts_number)):
             t.append(threading.Thread(target=self.start_connection,
                                       args=[self.identifiers[count], self.addresses[count], self.passwords[count]]))
             t[count].start()
@@ -273,9 +286,9 @@ class TextAnalysisWindow(Connection):
     def start_connection(self, identifier, address, password):
 
         self.open_server_connection(identifier, address, password)
-        self.proxies.append(self.find_remote_object(identifier, address, password))
-
-        #print(self.proxies)
+        self.find_remote_object(identifier, address, password)
 
     def start_analysis(self):
-        pass
+
+        for count in range (0, int(self.hosts_number)):
+            self.results = self.results + self.text_analyzer[count]

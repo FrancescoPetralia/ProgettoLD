@@ -14,47 +14,40 @@ import socket
 
 class TextAnalyzer():
 
-    path_of_file_to_read = ''
-    path_of_file_to_write = ''
-    my_file = ''
-    all_tokenized_word = ''
-    all_tokenized_sentences = ''
-    results = ''
-    e = ''
-    flag = ''
-
     def __init__(self, pyro_obj_name):
-        #self.p1 = "prova.txt"
-        self.p2 = "text_analisys_results.txt"
+
+        self.results = None
         #self.e = ExecutionTimeMeasurement()
-        #self.path_of_file_to_read = self.p1
-        #self.my_file = self.read_file(self.path_of_file_to_read)
-        self.all_tokenized_word = self.words_inside_file()
-        self.all_tokenized_sentences = self.sentences_inside_file()
+        self.all_tokenized_word = None #self.words_inside_file()
+        self.all_tokenized_sentences = None #self.sentences_inside_file()
         self.my_uri = None
         self. pyro_obj_name = pyro_obj_name
+        self.file_to_read = self.pyro_obj_name
+        self.file_text = None
 
-        self.info_exec()
+        #self.info_exec()
+        #self.read_file()
 
     def info_exec(self):
-        file = open(self.pyro_obj_name + ".txt", 'w')
-        file.write("Ciao sono il " + self.pyro_obj_name + "\n")
-
-    def read_file(self, p1):
-        file = open(p1, "r")
-        self.my_file = file.read()
+        file = open("../files/" + self.pyro_obj_name + ".txt", 'w')
+        file.write(self.pyro_obj_name + "istanziato sul server correttamente." + "\n")
         file.close()
-        return self.my_file
+
+    def read_file(self):
+        f = open(self.file_to_read, "r")
+        self.file_text = f.read()
+        f.close()
+        return self.file_text
 
     def get_number_of_chars_in_file(self):
-        return len(self.my_file)
+        return len(self.read_file())
 
     #interattivo
     def get_occurrence_number_of_searched_char(self):
-         pass
+        pass
 
     def words_inside_file(self):
-        words = nltk.word_tokenize(self.my_file)
+        words = nltk.word_tokenize(self.read_file())
         return words
 
     def get_all_tokenized_words(self):
@@ -89,7 +82,7 @@ class TextAnalyzer():
         return l.items()[:len(self.all_tokenized_word)]
 
     def sentences_inside_file(self):
-        sentences = nltk.sent_tokenize(self.my_file)
+        sentences = nltk.sent_tokenize(self.read_file())
         return sentences
 
     def get_all_tokenized_sentences(self):
@@ -111,7 +104,7 @@ class TextAnalyzer():
         return len(self.get_shortest_sentence_in_the_file())
 
     def get_number_of_lines(self):
-        return self.my_file.count('\n')
+        return self.read_file().count('\n')
 
     def search_word_in_sentences(self, word): #interattivo
         cnt = 0
@@ -124,7 +117,7 @@ class TextAnalyzer():
     def get_number_of_consonants(self):
         consonants = "bcdfghjklmnpqrstvexz"
         tot = 0
-        for c in self.my_file:
+        for c in self.read_file():
             if c in consonants:
                 tot += 1
 
@@ -133,15 +126,13 @@ class TextAnalyzer():
     def get_number_of_vowels(self):
         vowels = "aeiou"
         tot = 0
-        for c in self.my_file:
+        for c in self.read_file():
             if c in vowels:
                 tot += 1
 
         return tot
     
-    def get_results(self, flag):
-
-        self.flag = flag
+    def get_results(self):
 
         #self.e.start_measurement()
         self.results = \
@@ -160,19 +151,10 @@ class TextAnalyzer():
         #self.e.finish_measurement()
         #print("Tempo di esecuzione dell'analisi: " + str(self.e.get_measurement_interval()) + " secondi.")
 
-        if self.flag == 'w':
-            for elements in self.results:
-                f = self.p2
-                f.write(elements)
-                f.write("\n")
+        for elements in self.results:
+            print(elements)
 
-            return True
-
-        elif self.flag == 'n':
-            for elements in self.results:
-                print(elements)
-
-            return True
+        return True
 
     # Questo metodo ritorna l'indirizzo ip del Name Server
     def get_ip_address(self):
