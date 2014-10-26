@@ -14,30 +14,29 @@ import socket
 
 class TextAnalyzer():
 
-    def __init__(self, pyro_obj_name):
+    def __init__(self, identifier):
 
         self.results = None
         #self.e = ExecutionTimeMeasurement()
-        self.all_tokenized_word = None #self.words_inside_file()
-        self.all_tokenized_sentences = None #self.sentences_inside_file()
+        self.all_tokenized_words = None
+        self.all_tokenized_sentences = None
         self.my_uri = None
-        self. pyro_obj_name = pyro_obj_name
-        self.file_to_read = self.pyro_obj_name
-        self.file_text = None
+        self.file_to_read = "splitted_file_" + str(identifier) + ".txt"
 
-        #self.info_exec()
-        #self.read_file()
-
-    def info_exec(self):
-        file = open("../files/" + self.pyro_obj_name + ".txt", 'w')
-        file.write(self.pyro_obj_name + "istanziato sul server correttamente." + "\n")
-        file.close()
+        self.tokenize_words()
+        self.tokenize_sentences()
 
     def read_file(self):
         f = open(self.file_to_read, "r")
-        self.file_text = f.read()
+        file_text = f.read()
         f.close()
-        return self.file_text
+        return file_text
+
+    def tokenize_words(self):
+        self.all_tokenized_words = self.words_inside_file()
+
+    def tokenize_sentences(self):
+        self.all_tokenized_sentences = self.sentences_inside_file()
 
     def get_number_of_chars_in_file(self):
         return len(self.read_file())
@@ -51,19 +50,19 @@ class TextAnalyzer():
         return words
 
     def get_all_tokenized_words(self):
-        return self.all_tokenized_word
+        return self.all_tokenized_words
 
     def get_number_of_words_inside_the_file(self):
-        return len(self.all_tokenized_word)
+        return len(self.all_tokenized_words)
 
     def get_longest_word_in_the_file(self):
-        return max(self.all_tokenized_word, key=len)
+        return max(self.all_tokenized_words, key=len)
 
     def get_dim_of_longest_word_in_the_file(self):
         return len(self.get_longest_word_in_the_file())
 
     def get_shortest_word_in_the_file(self):
-        return min(self.all_tokenized_word, key=len)
+        return min(self.all_tokenized_words, key=len)
 
     def get_dim_of_shortest_word_in_the_file(self):
         return len(self.get_shortest_word_in_the_file())
@@ -71,15 +70,15 @@ class TextAnalyzer():
     #interattivo
     def get_occurences_number_of_searched_word(self, w):
         cnt = 0
-        for word in self.all_tokenized_word:
+        for word in self.all_tokenized_words:
             if w in word:
                 cnt += 1
 
         return cnt
 
     def all_words_occurrences_chart(self):
-        l = nltk.FreqDist(self.all_tokenized_word)
-        return l.items()[:len(self.all_tokenized_word)]
+        l = nltk.FreqDist(self.all_tokenized_words)
+        return l.items()[:len(self.all_tokenized_words)]
 
     def sentences_inside_file(self):
         sentences = nltk.sent_tokenize(self.read_file())
@@ -204,14 +203,14 @@ def main():
 
         __PYRO_OBJ_NAME__ = text_analyzer_name + str(identifier)
         print("Nome PyRO Object: " + __PYRO_OBJ_NAME__)
-
-        analyzer = TextAnalyzer(__PYRO_OBJ_NAME__)
+        print(identifier, __PYRO_OBJ_NAME__)
+        analyzer = TextAnalyzer(identifier)
 
         try:
             daemon = Pyro4.Daemon(analyzer.get_ip_address())
             #print("Daemon: " + str(daemon))
 
-        except:
+        except Exception as e:
             daemon = Pyro4.Daemon("127.0.0.1")
             #print("Daemon: " + str(daemon))
 

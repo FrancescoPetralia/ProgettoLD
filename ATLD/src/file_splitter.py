@@ -22,6 +22,8 @@ class FileSplitter():
         for elements in range(0, len(self.read_file(self.file_to_split))):
             self.total_file_lines = (self.total_file_lines + 1)
 
+        print("\nRighe totali: " + str(self.total_file_lines))
+
         # Calcolo del quoziente e del resto per distribuire il carico di lavoro in modo che sia bilanciato.
         q, r = (divmod(self.total_file_lines, int(self.hosts_number)))
 
@@ -50,12 +52,14 @@ class FileSplitter():
                 n = elements
         tot = n
         tot = (tot + 1)
-        print(tot)
+        #print("\nRighe totali: " + tot)
 
         # Controllo che lo split del file sia avvenuto correttamente
         if tot == self.total_file_lines:
+            print("\nSplit del file avvenuto correttamente.")
             return True
         else:
+            print("\nErrore nello split del file.")
             return False
 
     def read_file(self, file):

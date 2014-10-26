@@ -85,6 +85,8 @@ class Connection(QtGui.QMainWindow):
             #(stdin, stdout, stderr) = ssh_connection.exec_command("echo $PATH")
             #print(stdout.readline())
             print("Connessione sftp aperta.")
+            print("Trasferisco il file splitted_file_" + str(identifier) + ".txt")
+            sftp_connection.put("../txt/splitted_file_" + str(identifier) + ".txt", "./splitted_file_" + str(identifier) + ".txt")
             print("Trasferisco il " + self.text_analyzer_name + str(identifier) + "...")
             sftp_connection.put("text_analyzer.py", "./text_analyzer.py")
             print("Trasferisco Pyro4...")
