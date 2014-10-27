@@ -1,5 +1,4 @@
 __author__ = 'francesco'
-from numpy import arange
 
 
 class FileSplitter():
@@ -22,7 +21,7 @@ class FileSplitter():
         for elements in range(0, len(self.read_file(self.file_to_split))):
             self.total_file_lines = (self.total_file_lines + 1)
 
-        print("\nRighe totali: " + str(self.total_file_lines))
+        print("\nRighe totali da analizzare: " + str(self.total_file_lines))
 
         # Calcolo del quoziente e del resto per distribuire il carico di lavoro in modo che sia bilanciato.
         q, r = (divmod(self.total_file_lines, int(self.hosts_number)))
@@ -32,10 +31,10 @@ class FileSplitter():
         for count in range(0, self.hosts_number):
             if count == 0:
                 self.lines_per_host.append((q + r))
-                print("Righe host_" + str(count) + ": " + str(self.lines_per_host[count]))
+                print("Righe assegnate all'host_" + str(count) + ": " + str(self.lines_per_host[count]))
             else:
                 self.lines_per_host.append(q)
-                print("Righe host_" + str(count) + ": " + str(self.lines_per_host[count]))
+                print("Righe assegnate all'host_" + str(count) + ": " + str(self.lines_per_host[count]))
 
         print("\n")
 
@@ -45,9 +44,10 @@ class FileSplitter():
             print("\n")
             self.lower_index = (n + 1)
             self.upper_index = self.lower_index + (self.lines_per_host[count])
+            print("Host " + str(count) + ":")
             for elements in range(self.lower_index, self.upper_index):
                 self.splitted_text_assigned_to_hosts[count].append(self.file_content[elements])
-                print("elements: " + str(elements))
+                print("riga " + str(elements))
                 self.write_file(self.splitted_file_name + str(count), self.splitted_text_assigned_to_hosts[count])
                 n = elements
         tot = n

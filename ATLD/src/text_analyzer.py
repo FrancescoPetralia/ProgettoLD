@@ -9,7 +9,8 @@ import nltk
 import argparse
 import Pyro4
 import socket
-#import execution_time_measurement
+import signal
+import sys
 
 
 class TextAnalyzer():
@@ -17,7 +18,6 @@ class TextAnalyzer():
     def __init__(self, identifier):
 
         self.results = None
-        #self.e = ExecutionTimeMeasurement()
         self.all_tokenized_words = None
         self.all_tokenized_sentences = None
         self.my_uri = None
@@ -133,7 +133,6 @@ class TextAnalyzer():
     
     def get_results(self):
 
-        #self.e.start_measurement()
         self.results = \
         [#str(self.get_all_tokenized_words()),
         #str(self.get_all_tokenized_sentences()),
@@ -147,8 +146,6 @@ class TextAnalyzer():
         "Numero di righe nel file: " + str(self.get_number_of_lines()) + ".",
         "Numero di consonanti presenti nel file: " + str(self.get_number_of_consonants()) + ".",
         "Numero di vocali presenti nel file: " + str(self.get_number_of_vowels()) + "."]
-        #self.e.finish_measurement()
-        #print("Tempo di esecuzione dell'analisi: " + str(self.e.get_measurement_interval()) + " secondi.")
 
         for elements in self.results:
             print(elements)
@@ -164,6 +161,12 @@ class TextAnalyzer():
         s.close()
         print(ip)
         return ip
+
+
+def stop_connection_and_unregister_from_ns(signal, frame):
+        print("Chiusura della connessione in corso...")
+        __NS__.remove(__PYRO_OBJ_NAME__)
+        sys.exit(0)
 
 
 def main():
@@ -204,15 +207,16 @@ def main():
         __PYRO_OBJ_NAME__ = text_analyzer_name + str(identifier)
         print("Nome PyRO Object: " + __PYRO_OBJ_NAME__)
         print(identifier, __PYRO_OBJ_NAME__)
+        
         analyzer = TextAnalyzer(identifier)
 
         try:
             daemon = Pyro4.Daemon(analyzer.get_ip_address())
-            #print("Daemon: " + str(daemon))
+            print("Daemon: " + str(daemon))
 
         except Exception as e:
             daemon = Pyro4.Daemon("127.0.0.1")
-            #print("Daemon: " + str(daemon))
+            print("Daemon: " + str(daemon))
 
         # Associazione e registrazione sul server dell'uri del Pyro Object (eliminato) al TextAnalyzer
         uri_text_analyzer = daemon.register(analyzer)
@@ -222,6 +226,9 @@ def main():
         #d = Pyro4.core.DaemonObject(daemon)
         #obj_list = d.registered()
         #print(str(obj_list))
+
+        signal.signal(signal.SIGINT, stop_connection_and_unregister_from_ns)
+        signal.signal(signal.SIGTERM, stop_connection_and_unregister_from_ns)
 
         daemon.requestLoop()
 

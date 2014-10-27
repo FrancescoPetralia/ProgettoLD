@@ -8,11 +8,13 @@ import socket
 import getpass
 import Pyro4
 import time
+import os
 from PyQt4 import QtGui, QtCore
 from main_window import MainWindow
 from name_server import NameServer
 from connection import Connection
 from file_splitter import FileSplitter
+from execution_time_measurement import ExecutionTimeMeasurement
 
 
 class SetHostsWindow(QtGui.QMainWindow):
@@ -256,7 +258,6 @@ class TextAnalysisWindow(Connection):
 
         if self.split_file():
             self.hosts_connection_button.setEnabled(True)
-            self.start_analysis_button.setEnabled(True)
 
     def read_file(self, p1):
 
@@ -283,6 +284,8 @@ class TextAnalysisWindow(Connection):
             t[count].start()
             time.sleep(1)
 
+        self.start_analysis_button.setEnabled(True)
+
     def start_connection(self, identifier, address, password):
 
         self.open_server_connection(identifier, address, password)
@@ -290,5 +293,36 @@ class TextAnalysisWindow(Connection):
 
     def start_analysis(self):
 
-        for count in range (0, int(self.hosts_number)):
-            self.results = self.results + self.text_analyzer[count]
+        try:
+            e = ExecutionTimeMeasurement()
+            e.start_measurement()
+            results = self.text_analyzer[0].get_results()
+            e.finish_measurement()
+            print("Tempo impiegato per eseguire l'analisi testuale: " + str(e.get_measurement_interval()) + " secondi.")
+            self.close_pyro_connection()
+            self.delete_local_files()
+        except Exception as e:
+            print("Errore nell'eseguire l'analisi: \n" + str(e))
+            self.close_pyro_connection()
+            self.delete_local_files()
+
+    def close_pyro_connection(self):
+        print("\nSto chiudendo la connessione con PyRO remote objects...")
+
+        t = []
+
+        for count in range(0, int(self.hosts_number)):
+            t.append(threading.Thread(target=self.ssh_connection_close_and_cleanup,
+                                      args=[self.identifiers[count], self.addresses[count], self.passwords[count]]))
+            t[count].start()
+
+        print("\nConnessione con i PyRO remote objects terminata.")
+
+    def delete_local_files(self):
+        print("\nSto eliminando i file locali...")
+
+        for count in range(0, int(self.hosts_number)):
+            os.remove("../txt/splitted_file_" + str(count) + ".txt")
+            print("splitted_file_" + str(count) + ".txt rimosso.")
+
+        print("\nFile locali eliminati con successo.")

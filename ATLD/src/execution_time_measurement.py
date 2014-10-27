@@ -1,6 +1,6 @@
 __author__ = 'Francesco'
 
-import time, timeit
+import time
 
 
 class ExecutionTimeMeasurement:

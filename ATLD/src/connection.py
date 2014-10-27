@@ -97,6 +97,7 @@ class Connection(QtGui.QMainWindow):
             # Con "echo $$" ricavo il pid del processo
             # Con "exec python3 text_analyzer.py" eseguo l'analizzatore testuale, con i parametri -id e -ns_ip
             print("Esecuzione " + self.text_analyzer_name + str(identifier) + "...")
+            print("\n")
             python_3_path = "/Library/Frameworks/Python.framework/Versions/3.4/bin/python3"
             command = "echo $$; " + python_3_path + " text_analyzer.py -id {} -ns {}"
             stdin, stdout, stderr = ssh_connection.exec_command(command.format(identifier, ns_ip), timeout=3, get_pty=True)
@@ -109,7 +110,7 @@ class Connection(QtGui.QMainWindow):
 
             # Salvo il PID dell'oggetto
             self.object_pid.append(int(stdout.readline()))
-            print("PID del " + self.text_analyzer_name + str(identifier) + ": " + str(self.object_pid[identifier]))
+            print("\nPID del " + self.text_analyzer_name + str(identifier) + ": " + str(self.object_pid[identifier]))
             # Chiudo le connessioni
             ssh_connection.close()
             sftp_connection.close()
@@ -135,13 +136,13 @@ class Connection(QtGui.QMainWindow):
             else:
                 ssh_connection.connect(str(address), password=str(password), timeout=5, allow_agent=False)
 
-            print("Sto terminando il processo " + str(self.object_pid[identifier]) + "...")
+            print("\nSto terminando il processo " + str(self.object_pid[identifier]) + "...")
             ssh_connection.exec_command("/bin/kill -KILL {}".format(self.object_pid[identifier]))
-            print("Terminato.")
+            print("\nTerminato.")
             ssh_connection.exec_command("rm -r Pyro4")
             ssh_connection.exec_command("rm -r Pyro4.zip")
             ssh_connection.exec_command("rm text_analyzer.py")
-            ssh_connection.exec_command("rm *.txt")
+            ssh_connection.exec_command("rm splitted_file_*")
             time.sleep(5)
 
             ssh_connection.close()
