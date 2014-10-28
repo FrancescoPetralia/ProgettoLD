@@ -1,8 +1,0 @@
-Riga numero: 8
-Riga numero: 9
-Riga numero: 10
-Riga numero: 11
-Riga numero: 12
-Riga numero: 13
-Riga numero: 14
-Riga numero: 15

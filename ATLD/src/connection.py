@@ -1,6 +1,6 @@
 __author__ = 'francesco'
 
-#import os
+import os
 #os.environ["PYRO_LOGFILE"] = "pyro.log"
 #os.environ["PYRO_LOGLEVEL"] = "DEBUG"
 import Pyro4
@@ -22,12 +22,14 @@ class Connection(QtGui.QMainWindow):
 
     # Questo metodo ritorna l'indirizzo ip del server
     def get_ip_address(self):
-
+        # SOCK_DGRAM imposta un trasporto UDP, mentre SOCK_STREAM un trasporto TCP
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        s.connect(("8.8.8.8", 80))
+        s.connect(("www.google.com", 80))
         ip = str(s.getsockname()[0])
+        #s.bind(ip, 0)
         s.close()
         print(ip)
+
         return ip
 
     # Metodo che cerca l'oggetto sul server
@@ -118,7 +120,7 @@ class Connection(QtGui.QMainWindow):
             print(self.text_analyzer_name + str(identifier) + " connesso.")
 
         except paramiko.AuthenticationException as e:
-            ssh_connection.close()
+
             print("La connessione è fallita, errore: " + str(e))
             print(self.text_analyzer_name + str(identifier) + " non connesso.")
 

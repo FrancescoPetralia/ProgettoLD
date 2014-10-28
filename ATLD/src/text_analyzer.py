@@ -2,7 +2,7 @@
 
 __author__ = 'Francesco'
 
-#import os
+import os
 #os.environ["PYRO_LOGFILE"] = "pyro.log"
 #os.environ["PYRO_LOGLEVEL"] = "DEBUG"
 import nltk
@@ -130,8 +130,11 @@ class TextAnalyzer():
                 tot += 1
 
         return tot
+
+    def get_interactive_results(self):
+        pass
     
-    def get_results(self):
+    def get_static_results(self):
 
         self.results = \
         [#str(self.get_all_tokenized_words()),
@@ -152,14 +155,15 @@ class TextAnalyzer():
 
         return True
 
-    # Questo metodo ritorna l'indirizzo ip del Name Server
+    # Questo metodo ritorna l'indirizzo ip assegnatomi dalla rete
     def get_ip_address(self):
-
+        # SOCK_DGRAM imposta un trasporto UDP, mentre SOCK_STREAM un trasporto TCP
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        s.connect(("8.8.8.8", 80))
+        s.connect(("www.google.com", 80))
         ip = str(s.getsockname()[0])
+        #s.bind(ip, 0)
         s.close()
-        print(ip)
+
         return ip
 
 
@@ -212,6 +216,7 @@ def main():
 
         try:
             daemon = Pyro4.Daemon(analyzer.get_ip_address())
+            print(analyzer.get_ip_address())
             print("Daemon: " + str(daemon))
 
         except Exception as e:
@@ -220,7 +225,7 @@ def main():
 
         # Associazione e registrazione sul server dell'uri del Pyro Object (eliminato) al TextAnalyzer
         uri_text_analyzer = daemon.register(analyzer)
-        __NS__.register(__PYRO_OBJ_NAME__, uri_text_analyzer, safe=True)
+        __NS__.register(__PYRO_OBJ_NAME__, uri_text_analyzer)
         print("URI " + __PYRO_OBJ_NAME__ + ": " + str(uri_text_analyzer))
 
         #d = Pyro4.core.DaemonObject(daemon)

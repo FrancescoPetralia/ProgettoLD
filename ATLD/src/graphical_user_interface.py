@@ -1,6 +1,6 @@
 __author__ = 'francesco'
 
-#import os
+import os
 #os.environ["PYRO_LOGFILE"] = "pyro.log"
 #os.environ["PYRO_LOGLEVEL"] = "DEBUG"
 import threading
@@ -8,7 +8,6 @@ import socket
 import getpass
 import Pyro4
 import time
-import os
 from PyQt4 import QtGui, QtCore
 from main_window import MainWindow
 from name_server import NameServer
@@ -182,7 +181,6 @@ class HostsConnectionWindow(QtGui.QMainWindow):
 
         self.open_text_analysis_window(ids, addrs, pwds, self.host_number)
 
-
 #=======================================================================================================================
 
 
@@ -205,6 +203,7 @@ class TextAnalysisWindow(Connection):
         self.loaded_file_textbox = QtGui.QLineEdit(self)
         self.loaded_file_textbox.resize(450, 30)
         self.loaded_file_textbox.move(20, 50)
+        self.loaded_file_textbox.setReadOnly(True)
 
         self.load_file_button = QtGui.QPushButton("Carica file", self)
         self.load_file_button.resize(100, 45)
@@ -218,6 +217,31 @@ class TextAnalysisWindow(Connection):
         self.loaded_file_textarea = QtGui.QTextEdit(self)
         self.loaded_file_textarea.resize(470, 550)
         self.loaded_file_textarea.move(520, 50)
+        self.loaded_file_textarea.setReadOnly(True)
+
+        self.search_character_label = QtGui.QLabel("Inserire il carattere da cercare nel testo:", self)
+        self.search_character_label.resize(450, 20)
+        self.search_character_label.move(20, 170)
+
+        self.search_caracter_textbox = QtGui.QLineEdit(self)
+        self.search_caracter_textbox.resize(350, 30)
+        self.search_caracter_textbox.move(20, 200)
+
+        self.search_word_label = QtGui.QLabel("Inserire la parola da cercare nel testo:", self)
+        self.search_word_label.resize(450, 20)
+        self.search_word_label.move(20, 320)
+
+        self.search_word_textbox = QtGui.QLineEdit(self)
+        self.search_word_textbox.resize(400, 30)
+        self.search_word_textbox.move(20, 350)
+
+        self.search_phrase_label = QtGui.QLabel("Inserire la frase da cercare nel testo:", self)
+        self.search_phrase_label.resize(450, 20)
+        self.search_phrase_label.move(20, 470)
+
+        self.search_phrase_textbox = QtGui.QLineEdit(self)
+        self.search_phrase_textbox.resize(450, 30)
+        self.search_phrase_textbox.move(20, 500)
 
         self.hosts_connection_button = QtGui.QPushButton("Connetti Hosts", self)
         self.hosts_connection_button.resize(247, 65)
@@ -233,8 +257,12 @@ class TextAnalysisWindow(Connection):
 
         self.button_go_back = QtGui.QPushButton("Indietro", self)
         self.button_go_back.resize(100, 45)
-        self.button_go_back.move(14, 650)
+        self.button_go_back.move(14, 655)
         QtCore.QObject.connect(self.button_go_back, QtCore.SIGNAL('clicked()'), self.go_back)
+
+        self.analysis_time_label = QtGui.QLabel(self)
+        self.analysis_time_label.resize(480, 20)
+        self.analysis_time_label.move(520, 665)
 
         self.identifiers = identifiers
         self.addresses = addresses
@@ -242,6 +270,9 @@ class TextAnalysisWindow(Connection):
 
         self.hcw = None
         self.results = None
+
+        # Mi serve per controllare gli stati della finestra
+        self.window_status = 0
 
     def go_back(self):
         self.hide()
@@ -272,6 +303,7 @@ class TextAnalysisWindow(Connection):
         fs = FileSplitter(self.hosts_number, self.loaded_file_textbox.text())
 
         if fs.split_file_between_hosts():
+            self.window_status = 1
             return True
 
     def remote_object_connection(self):
@@ -284,6 +316,8 @@ class TextAnalysisWindow(Connection):
             t[count].start()
             time.sleep(1)
 
+        self.window_status = 2
+        time.sleep(5)
         self.start_analysis_button.setEnabled(True)
 
     def start_connection(self, identifier, address, password):
@@ -296,15 +330,13 @@ class TextAnalysisWindow(Connection):
         try:
             e = ExecutionTimeMeasurement()
             e.start_measurement()
-            results = self.text_analyzer[0].get_results()
+            #results = self.text_analyzer[0].get_static_results()
             e.finish_measurement()
+            self.analysis_time_label.setText("Tempo impiegato per eseguire l'analisi testuale: " + str(e.get_measurement_interval()) + " secondi.")
             print("Tempo impiegato per eseguire l'analisi testuale: " + str(e.get_measurement_interval()) + " secondi.")
-            self.close_pyro_connection()
-            self.delete_local_files()
+
         except Exception as e:
             print("Errore nell'eseguire l'analisi: \n" + str(e))
-            self.close_pyro_connection()
-            self.delete_local_files()
 
     def close_pyro_connection(self):
         print("\nSto chiudendo la connessione con PyRO remote objects...")
@@ -326,3 +358,16 @@ class TextAnalysisWindow(Connection):
             print("splitted_file_" + str(count) + ".txt rimosso.")
 
         print("\nFile locali eliminati con successo.")
+
+    # Override di closeEvent della classe QtGui per intercettare la chiusura della finestra
+    def closeEvent(self, event):
+
+        QtGui.QMainWindow.closeEvent(self, event)
+
+        if self.window_status == 2:
+            self.close_pyro_connection()
+            self.delete_local_files()
+        elif self.window_status == 1:
+            self.delete_local_files()
+        elif self.window_status == 0:
+            pass

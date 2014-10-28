@@ -2,7 +2,7 @@ __author__ = 'francesco'
 
 import sys
 from PyQt4 import QtGui, QtCore
-from graphical_user_interface import SetHostsWindow, HostsConnectionWindow
+from graphical_user_interface import SetHostsWindow
 
 
 class Main(QtGui.QMainWindow):

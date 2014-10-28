@@ -1,8 +1,0 @@
-Riga numero: 0
-Riga numero: 1
-Riga numero: 2
-Riga numero: 3
-Riga numero: 4
-Riga numero: 5
-Riga numero: 6
-Riga numero: 7
