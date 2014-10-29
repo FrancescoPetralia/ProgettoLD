@@ -136,7 +136,7 @@ class TextAnalyzer():
     
     def get_static_results(self):
 
-        self.results = \
+        '''self.results = \
         [#str(self.get_all_tokenized_words()),
         #str(self.get_all_tokenized_sentences()),
         "Numero totale di caratteri: " +  str(self.get_number_of_chars_in_file()) + ".",
@@ -148,12 +148,26 @@ class TextAnalyzer():
         "La parola piu' corta e': '" + self.get_shortest_word_in_the_file() + "', ed e' lunga " + str(self.get_dim_of_shortest_word_in_the_file()) + " caratteri.",
         "Numero di righe nel file: " + str(self.get_number_of_lines()) + ".",
         "Numero di consonanti presenti nel file: " + str(self.get_number_of_consonants()) + ".",
-        "Numero di vocali presenti nel file: " + str(self.get_number_of_vowels()) + "."]
+        "Numero di vocali presenti nel file: " + str(self.get_number_of_vowels()) + "."]'''
 
-        for elements in self.results:
-            print(elements)
+        self.results = \
+            [self.get_number_of_chars_in_file(),
+             self.get_number_of_words_inside_the_file(),
+             self.get_number_of_sentences_inside_the_file(),
+             self.get_longest_sentence_in_the_file(),
+             self.get_dim_of_longest_sentence_in_the_file(),
+             self.get_shortest_sentence_in_the_file(),
+             self.get_dim_of_shortest_sentence_in_the_file(),
+             self.get_longest_word_in_the_file(),
+             self.get_dim_of_longest_word_in_the_file(),
+             self.get_shortest_word_in_the_file(),
+             self.get_dim_of_shortest_word_in_the_file(),
+             self.get_number_of_lines(),
+             self.get_number_of_consonants(),
+             self.get_number_of_vowels()
+             ]
 
-        return True
+        return self.results, True
 
     # Questo metodo ritorna l'indirizzo ip assegnatomi dalla rete
     def get_ip_address(self):

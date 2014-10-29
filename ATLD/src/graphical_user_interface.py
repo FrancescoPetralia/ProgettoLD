@@ -330,7 +330,18 @@ class TextAnalysisWindow(Connection):
         try:
             e = ExecutionTimeMeasurement()
             e.start_measurement()
-            #results = self.text_analyzer[0].get_static_results()
+
+            cnt = 0
+            for count in range(0, int(self.hosts_number)):
+                results, b = self.text_analyzer[count].get_static_results()
+                #print(results)
+                #print(b)
+                if b:
+                    cnt = (cnt + 1)
+
+            if cnt == int(self.hosts_number):
+                print("Analisi testuale eseguita con successo.")
+
             e.finish_measurement()
             self.analysis_time_label.setText("Tempo impiegato per eseguire l'analisi testuale: " + str(e.get_measurement_interval()) + " secondi.")
             print("Tempo impiegato per eseguire l'analisi testuale: " + str(e.get_measurement_interval()) + " secondi.")
@@ -359,7 +370,7 @@ class TextAnalysisWindow(Connection):
 
         print("\nFile locali eliminati con successo.")
 
-    # Override di closeEvent della classe QtGui per intercettare la chiusura della finestra
+    # Override di closeEvent della classe QtGui.QtMainWindow per intercettare la chiusura della finestra
     def closeEvent(self, event):
 
         QtGui.QMainWindow.closeEvent(self, event)
@@ -368,6 +379,6 @@ class TextAnalysisWindow(Connection):
             self.close_pyro_connection()
             self.delete_local_files()
         elif self.window_status == 1:
-            self.delete_local_files()
+                self.delete_local_files()
         elif self.window_status == 0:
-            pass
+                pass

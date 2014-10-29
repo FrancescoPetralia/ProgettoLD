@@ -102,7 +102,7 @@ class Connection(QtGui.QMainWindow):
             print("\n")
             python_3_path = "/Library/Frameworks/Python.framework/Versions/3.4/bin/python3"
             command = "echo $$; " + python_3_path + " text_analyzer.py -id {} -ns {}"
-            stdin, stdout, stderr = ssh_connection.exec_command(command.format(identifier, ns_ip), timeout=3, get_pty=True)
+            stdin, stdout, stderr = ssh_connection.exec_command(command.format(identifier, ns_ip), timeout=3)
             #print(command.format(identifier, ns_ip))
 
             try:
