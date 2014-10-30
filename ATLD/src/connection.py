@@ -19,6 +19,8 @@ class Connection(QtGui.QMainWindow):
         self.text_analyzer_name = "Text_Analyzer_"
         self.text_analyzer = []
         self.object_pid = []
+        self.connection_flag = None
+        self.ssh_err = ""
 
     # Questo metodo ritorna l'indirizzo ip del server
     def get_ip_address(self):
@@ -89,10 +91,13 @@ class Connection(QtGui.QMainWindow):
             print("Connessione sftp aperta.")
             print("Trasferisco il file splitted_file_" + str(identifier) + ".txt")
             sftp_connection.put("../txt/splitted_file_" + str(identifier) + ".txt", "./splitted_file_" + str(identifier) + ".txt")
+            time.sleep(2)
             print("Trasferisco il " + self.text_analyzer_name + str(identifier) + "...")
             sftp_connection.put("text_analyzer.py", "./text_analyzer.py")
+            time.sleep(1)
             print("Trasferisco Pyro4...")
             sftp_connection.put("Pyro4.zip", "./Pyro4.zip")
+            time.sleep(1)
             print("Scompatto l'archivio...")
             stdin, stdout, stderr = ssh_connection.exec_command("tar -xzvf Pyro4.zip")
             time.sleep(3)
@@ -106,23 +111,34 @@ class Connection(QtGui.QMainWindow):
             #print(command.format(identifier, ns_ip))
 
             try:
-                print(stderr.readline())
-            except socket.error:
+
+                self.ssh_err = stderr.readline()
+
+            except socket.error as e:
+
+                if self.ssh_err:
+                    self.connection_flag = False
+                    print(self.ssh_err)
+                else:
+                    self.connection_flag = True
+
                 pass
 
             # Salvo il PID dell'oggetto
-            self.object_pid.append(int(stdout.readline()))
+            self.object_pid.append((int(stdout.readline()) + 1))
             print("\nPID del " + self.text_analyzer_name + str(identifier) + ": " + str(self.object_pid[identifier]))
             # Chiudo le connessioni
             ssh_connection.close()
             sftp_connection.close()
 
-            print(self.text_analyzer_name + str(identifier) + " connesso.")
-
+            if self.connection_flag:
+                print(self.text_analyzer_name + str(identifier) + " connesso via ssh.")
+            else:
+                print(self.text_analyzer_name + str(identifier) + " non connesso via ssh.")
         except paramiko.AuthenticationException as e:
 
             print("La connessione è fallita, errore: " + str(e))
-            print(self.text_analyzer_name + str(identifier) + " non connesso.")
+            print(self.text_analyzer_name + str(identifier) + " non connesso via ssh.")
 
     # Metodo che provvede alla chiusura della connessione ssh. Questo metodo provvede inoltre all'eliminazione del
     # Text_Analyzer_N, dove N = (1, 2, 3, ...), killandone anche il processo.
@@ -139,7 +155,7 @@ class Connection(QtGui.QMainWindow):
                 ssh_connection.connect(str(address), password=str(password), timeout=5, allow_agent=False)
 
             print("\nSto terminando il processo " + str(self.object_pid[identifier]) + "...")
-            ssh_connection.exec_command("/bin/kill -KILL {}".format(self.object_pid[identifier]))
+            ssh_connection.exec_command("kill -s 15 {}".format(self.object_pid[identifier]))
             print("\nTerminato.")
             ssh_connection.exec_command("rm -r Pyro4")
             ssh_connection.exec_command("rm -r Pyro4.zip")

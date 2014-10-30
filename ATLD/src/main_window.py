@@ -38,7 +38,7 @@ class MainWindow(Connection):
         self.buttonconnect.resize(100, 45)
         self.buttonconnect.move(735, 550)
         # Al click del bottone, faccio partire la connessione al Name Server
-        QtCore.QObject.connect(self.buttonconnect, QtCore.SIGNAL('clicked()'), self.on_click_button_connect)
+        QtCore.QObject.connect(self.buttonconnect, QtCore.SIGNAL('clicked()'), self.on_click_button_proceed)
 
         self.labelhost = QtGui.QLabel("", self)
         self.labelhost.resize(300, 30)
@@ -72,7 +72,7 @@ class MainWindow(Connection):
 
         self.labelhost.setText("Numero di host su cui parallelizzare l'analisi: " + str(self.na))
 
-    def on_click_button_connect(self):
+    def on_click_button_proceed(self):
 
         #self.open_server_connection()
         self.find_remote_object(0, self.textboxlist_addresses[0].text(), self.textboxlist_password[0].text())'''

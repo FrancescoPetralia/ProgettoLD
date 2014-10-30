@@ -8,8 +8,8 @@ import socket
 import getpass
 import Pyro4
 import time
+import paramiko
 from PyQt4 import QtGui, QtCore
-from main_window import MainWindow
 from name_server import NameServer
 from connection import Connection
 from file_splitter import FileSplitter
@@ -116,7 +116,7 @@ class HostsConnectionWindow(QtGui.QMainWindow):
         self.button_proceed = QtGui.QPushButton("Procedi", self)
         self.button_proceed.resize(100, 45)
         self.button_proceed.move(639, 500)
-        QtCore.QObject.connect(self.button_proceed, QtCore.SIGNAL('clicked()'), self.on_click_button_connect)
+        QtCore.QObject.connect(self.button_proceed, QtCore.SIGNAL('clicked()'), self.on_click_button_proceed)
 
         self.labelhosts = QtGui.QLabel("", self)
         self.labelhosts.resize(300, 30)
@@ -136,12 +136,12 @@ class HostsConnectionWindow(QtGui.QMainWindow):
         self.host_number = n_addresses
 
         for count in range(0, int(self.host_number)):
-            self.labellist_addresses.append(QtGui.QLabel("Indirizzo host " + str(count) + ":", self))
+            self.labellist_addresses.append(QtGui.QLabel("Indirizzo Host_" + str(count) + ":", self))
             self.textboxlist_addresses.append(QtGui.QLineEdit(self))
-            self.labellist_password.append(QtGui.QLabel("Password host " + str(count) + ":", self))
+            self.labellist_password.append(QtGui.QLabel("Password Host_" + str(count) + ":", self))
             self.textboxlist_password.append(QtGui.QLineEdit(self))
 
-            self.textboxlist_password[(len(self.textboxlist_password)) - 1].returnPressed.connect(self.on_click_button_connect)
+            self.textboxlist_password[(len(self.textboxlist_password)) - 1].returnPressed.connect(self.on_click_button_proceed)
 
         for count in range(0, int(self.host_number)):
 
@@ -161,13 +161,46 @@ class HostsConnectionWindow(QtGui.QMainWindow):
 
         self.labelhosts.setText("Numero di host su cui parallelizzare l'analisi: " + str(self.host_number) + ".")
 
+    def password_validation(self, addrs, pwds):
+
+        print("\n")
+
+        ssh_connection = paramiko.SSHClient()
+        ssh_connection.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+
+        cnt = 0
+        for count in range(0, int(self.host_number)):
+
+            try:
+                if str(addrs[count]).__contains__('@'):
+                    (username, hostname) = str(addrs[count]).split('@')
+                    ssh_connection.connect(hostname, username=username, password=pwds[count], timeout=5, allow_agent=False)
+
+                else:
+                    ssh_connection.connect(str(addrs[count]), password=str(pwds[count]), timeout=5, allow_agent=False)
+
+                ssh_connection.close()
+
+                cnt = (cnt + 1)
+                print("Host " + str(count) + ": credenziali corrette.")
+
+            except (paramiko.AuthenticationException, OSError, socket.gaierror):
+                print("Host_" + str(count) + ": credenziali errate.")
+
+        print("\n")
+
+        if cnt == int(self.host_number):
+            return True
+        else:
+            return False
+
     def open_text_analysis_window(self, identifiers, addresses, passwords, hosts):
 
         self.taw = TextAnalysisWindow(identifiers, addresses, passwords, hosts)
         self.taw.show()
         self.hide()
 
-    def on_click_button_connect(self):
+    def on_click_button_proceed(self):
 
         ids = []
         addrs = []
@@ -179,7 +212,10 @@ class HostsConnectionWindow(QtGui.QMainWindow):
             addrs.append(self.textboxlist_addresses[count].text())
             pwds.append(self.textboxlist_password[count].text())
 
-        self.open_text_analysis_window(ids, addrs, pwds, self.host_number)
+        if self.password_validation(addrs, pwds):
+            self.open_text_analysis_window(ids, addrs, pwds, self.host_number)
+        else:
+            pass
 
 #=======================================================================================================================
 
@@ -269,7 +305,8 @@ class TextAnalysisWindow(Connection):
         self.passwords = passwords
 
         self.hcw = None
-        self.results = None
+        self.results = []
+        self.boolean = []
 
         # Mi serve per controllare gli stati della finestra
         self.window_status = 0
@@ -279,7 +316,16 @@ class TextAnalysisWindow(Connection):
         self.hcw = HostsConnectionWindow()
         self.hcw.set_hosts_number(self.hosts_number)
         self.hcw.show()
-        # Richiamare il metodo per terminare i pid dei remote objects e l'unregister dal Name Server
+
+        if self.window_status == 2:
+            if self.close_pyro_connection():
+                self.delete_local_files()
+            else:
+                self.delete_local_files()
+        elif self.window_status == 1:
+                self.delete_local_files()
+        elif self.window_status == 0:
+                pass
 
     def load_file(self):
 
@@ -317,7 +363,7 @@ class TextAnalysisWindow(Connection):
             time.sleep(1)
 
         self.window_status = 2
-        time.sleep(5)
+        time.sleep(10)
         self.start_analysis_button.setEnabled(True)
 
     def start_connection(self, identifier, address, password):
@@ -333,16 +379,17 @@ class TextAnalysisWindow(Connection):
 
             cnt = 0
             for count in range(0, int(self.hosts_number)):
-                results, b = self.text_analyzer[count].get_static_results()
-                #print(results)
-                #print(b)
-                if b:
+                r, b = self.text_analyzer[count].get_static_results()
+                self.results.append(r)
+                self.boolean.append(b)
+
+                if self.boolean[count]:
                     cnt = (cnt + 1)
 
+            e.finish_measurement()
             if cnt == int(self.hosts_number):
                 print("Analisi testuale eseguita con successo.")
 
-            e.finish_measurement()
             self.analysis_time_label.setText("Tempo impiegato per eseguire l'analisi testuale: " + str(e.get_measurement_interval()) + " secondi.")
             print("Tempo impiegato per eseguire l'analisi testuale: " + str(e.get_measurement_interval()) + " secondi.")
 
@@ -358,8 +405,11 @@ class TextAnalysisWindow(Connection):
             t.append(threading.Thread(target=self.ssh_connection_close_and_cleanup,
                                       args=[self.identifiers[count], self.addresses[count], self.passwords[count]]))
             t[count].start()
+            time.sleep(1)
 
         print("\nConnessione con i PyRO remote objects terminata.")
+
+        return True
 
     def delete_local_files(self):
         print("\nSto eliminando i file locali...")
@@ -376,8 +426,10 @@ class TextAnalysisWindow(Connection):
         QtGui.QMainWindow.closeEvent(self, event)
 
         if self.window_status == 2:
-            self.close_pyro_connection()
-            self.delete_local_files()
+            if self.close_pyro_connection():
+                self.delete_local_files()
+            else:
+                self.delete_local_files()
         elif self.window_status == 1:
                 self.delete_local_files()
         elif self.window_status == 0:

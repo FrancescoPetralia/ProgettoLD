@@ -44,15 +44,14 @@ class FileSplitter():
             print("\n")
             self.lower_index = (n + 1)
             self.upper_index = self.lower_index + (self.lines_per_host[count])
-            print("Host " + str(count) + ":")
+            #print("Host " + str(count) + ":")
             for elements in range(self.lower_index, self.upper_index):
                 self.splitted_text_assigned_to_hosts[count].append(self.file_content[elements])
-                print("riga " + str(elements))
+                #print("riga " + str(elements))
                 self.write_file(self.splitted_file_name + str(count), self.splitted_text_assigned_to_hosts[count])
                 n = elements
         tot = n
         tot = (tot + 1)
-        #print("\nRighe totali: " + tot)
 
         # Controllo che lo split del file sia avvenuto correttamente
         if tot == self.total_file_lines:

@@ -105,7 +105,8 @@ class TextAnalyzer():
     def get_number_of_lines(self):
         return self.read_file().count('\n')
 
-    def search_word_in_sentences(self, word): #interattivo
+    #interattivo
+    def search_word_in_sentences(self, word):
         cnt = 0
         for sentence in self.all_tokenized_sentences:
             if word in sentence:
@@ -135,20 +136,6 @@ class TextAnalyzer():
         pass
     
     def get_static_results(self):
-
-        '''self.results = \
-        [#str(self.get_all_tokenized_words()),
-        #str(self.get_all_tokenized_sentences()),
-        "Numero totale di caratteri: " +  str(self.get_number_of_chars_in_file()) + ".",
-        "Numero totale di parole nel file: " + str(self.get_number_of_words_inside_the_file()) + ".",
-        "Numero totale di frasi nel file: " + str(self.get_number_of_sentences_inside_the_file()) + ".",
-        "La frase piu' lunga e': '" + self.get_longest_sentence_in_the_file() + "',\n' ed e' lunga " + str(self.get_dim_of_longest_sentence_in_the_file()) + " caratteri.",
-        "La frase piu' corta e': '" + self.get_shortest_sentence_in_the_file() + "', ed e' lunga " + str(self.get_dim_of_shortest_sentence_in_the_file()) + " caratteri.",
-        "La parola piu' lunga e': '" + self.get_longest_word_in_the_file() + "', ed e' lunga " + str(self.get_dim_of_longest_word_in_the_file()) + " caratteri.",
-        "La parola piu' corta e': '" + self.get_shortest_word_in_the_file() + "', ed e' lunga " + str(self.get_dim_of_shortest_word_in_the_file()) + " caratteri.",
-        "Numero di righe nel file: " + str(self.get_number_of_lines()) + ".",
-        "Numero di consonanti presenti nel file: " + str(self.get_number_of_consonants()) + ".",
-        "Numero di vocali presenti nel file: " + str(self.get_number_of_vowels()) + "."]'''
 
         self.results = \
             [self.get_number_of_chars_in_file(),
