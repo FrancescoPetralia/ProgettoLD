@@ -17,10 +17,10 @@ class TextAnalyzer():
 
     def __init__(self, identifier):
 
-        self.results = None
+        self.results = {}
         self.all_tokenized_words = None
         self.all_tokenized_sentences = None
-        self.my_uri = None
+        self.file_content = None
         self.file_to_read = "splitted_file_" + str(identifier) + ".txt"
 
         self.tokenize_words()
@@ -28,9 +28,9 @@ class TextAnalyzer():
 
     def read_file(self):
         f = open(self.file_to_read, "r")
-        file_text = f.read()
+        self.file_content = f.read()
         f.close()
-        return file_text
+        return self.file_content
 
     def tokenize_words(self):
         self.all_tokenized_words = self.words_inside_file()
@@ -38,7 +38,7 @@ class TextAnalyzer():
     def tokenize_sentences(self):
         self.all_tokenized_sentences = self.sentences_inside_file()
 
-    def get_number_of_chars_in_file(self):
+    def get_number_of_chars(self):
         return len(self.read_file())
 
     #interattivo
@@ -58,13 +58,13 @@ class TextAnalyzer():
     def get_longest_word_in_the_file(self):
         return max(self.all_tokenized_words, key=len)
 
-    def get_dim_of_longest_word_in_the_file(self):
+    def get_len_of_longest_word_in_the_file(self):
         return len(self.get_longest_word_in_the_file())
 
     def get_shortest_word_in_the_file(self):
         return min(self.all_tokenized_words, key=len)
 
-    def get_dim_of_shortest_word_in_the_file(self):
+    def get_len_of_shortest_word_in_the_file(self):
         return len(self.get_shortest_word_in_the_file())
 
     #interattivo
@@ -93,13 +93,13 @@ class TextAnalyzer():
     def get_longest_sentence_in_the_file(self):
         return max(self.all_tokenized_sentences, key=len)
 
-    def get_dim_of_longest_sentence_in_the_file(self):
+    def get_len_of_longest_sentence_in_the_file(self):
         return len(self.get_longest_sentence_in_the_file())
 
     def get_shortest_sentence_in_the_file(self):
         return min(self.all_tokenized_sentences, key=len)
 
-    def get_dim_of_shortest_sentence_in_the_file(self):
+    def get_len_of_shortest_sentence_in_the_file(self):
         return len(self.get_shortest_sentence_in_the_file())
 
     def get_number_of_lines(self):
@@ -132,27 +132,60 @@ class TextAnalyzer():
 
         return tot
 
+    def get_accented_characters_occurrence(self):
+        accented_chars = "אטילעש"
+        tot = 0
+        for ac in self.read_file():
+            if ac in accented_chars:
+                tot += 1
+        return tot/2
+
+    def get_numbers_occurrence(self):
+        numbers = "0123456789"
+        tot = 0
+        for n in self.read_file():
+            if n in numbers:
+                tot += 1
+        return tot
+
+    def get_spaces_occurrence(self):
+        tot = 0
+        for s in self.read_file():
+            if s == " ":
+                tot += 1
+        return tot
+
+    def get_punctuation_occurrence(self):
+        punctuation = "!?',.;:-_@#*+-=/£$%&()[]{}<> "
+        tot = 0
+        for p in self.read_file():
+            if p in punctuation:
+                tot += 1
+        return tot
+
     def get_interactive_results(self):
         pass
     
     def get_static_results(self):
 
-        self.results = \
-            [self.get_number_of_chars_in_file(),
-             self.get_number_of_words_inside_the_file(),
-             self.get_number_of_sentences_inside_the_file(),
-             self.get_longest_sentence_in_the_file(),
-             self.get_dim_of_longest_sentence_in_the_file(),
-             self.get_shortest_sentence_in_the_file(),
-             self.get_dim_of_shortest_sentence_in_the_file(),
-             self.get_longest_word_in_the_file(),
-             self.get_dim_of_longest_word_in_the_file(),
-             self.get_shortest_word_in_the_file(),
-             self.get_dim_of_shortest_word_in_the_file(),
-             self.get_number_of_lines(),
-             self.get_number_of_consonants(),
-             self.get_number_of_vowels()
-             ]
+        self.results = dict(n_chars=self.get_number_of_chars(),
+                            n_lines=self.get_number_of_lines(),
+                            n_consonants=self.get_number_of_consonants(),
+                            n_vowels=self.get_number_of_vowels(),
+                            n_accented_chars=self.get_accented_characters_occurrence(),
+                            n_numbers=self.get_numbers_occurrence(),
+                            n_spaces=self.get_spaces_occurrence(),
+                            n_punctuation=self.get_punctuation_occurrence(),
+                            n_words=self.get_number_of_words_inside_the_file(),
+                            longest_word=self.get_longest_word_in_the_file(),
+                            longest_word_len=self.get_len_of_longest_word_in_the_file(),
+                            shortest_word=self.get_shortest_word_in_the_file(),
+                            shortest_word_len=self.get_len_of_shortest_word_in_the_file(),
+                            n_sentences=self.get_number_of_sentences_inside_the_file(),
+                            longest_sentence=self.get_longest_sentence_in_the_file(),
+                            longest_sentence_len=self.get_len_of_longest_sentence_in_the_file(),
+                            shortest_sentence=self.get_shortest_sentence_in_the_file(),
+                            shortest_sentence_len=self.get_len_of_shortest_sentence_in_the_file())
 
         return self.results, True
 

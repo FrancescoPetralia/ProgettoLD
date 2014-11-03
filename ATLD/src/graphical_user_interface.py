@@ -14,6 +14,7 @@ from name_server import NameServer
 from connection import Connection
 from file_splitter import FileSplitter
 from execution_time_measurement import ExecutionTimeMeasurement
+from results_collector import ResultsCollector
 
 
 class SetHostsWindow(QtGui.QMainWindow):
@@ -111,12 +112,12 @@ class HostsConnectionWindow(QtGui.QMainWindow):
         self.button_go_back = QtGui.QPushButton("Indietro", self)
         self.button_go_back.resize(100, 45)
         self.button_go_back.move(552, 500)
-        QtCore.QObject.connect(self.button_go_back, QtCore.SIGNAL('clicked()'), self.go_back)
+        self.button_go_back.clicked.connect(self.go_back)
 
         self.button_proceed = QtGui.QPushButton("Procedi", self)
         self.button_proceed.resize(100, 45)
         self.button_proceed.move(639, 500)
-        QtCore.QObject.connect(self.button_proceed, QtCore.SIGNAL('clicked()'), self.on_click_button_proceed)
+        self.button_proceed.clicked.connect(self.on_click_button_proceed)
 
         self.labelhosts = QtGui.QLabel("", self)
         self.labelhosts.resize(300, 30)
@@ -232,6 +233,12 @@ class TextAnalysisWindow(Connection):
         self.move(125, 30)
         self.setWindowTitle("Analizzatore Testuale")
 
+        self.menu = QtGui.QMenuBar(self)
+        self.menu_file = QtGui.QMenu("File")
+        self.menu_file_action = self.menu_file.addAction("Carica File")
+        self.menu.addMenu(self.menu_file)
+        self.menu_file_action.triggered.connect(self.load_file)
+
         self.loaded_file_label = QtGui.QLabel("Percorso del file da analizzare:", self)
         self.loaded_file_label.resize(450, 20)
         self.loaded_file_label.move(20, 20)
@@ -240,11 +247,6 @@ class TextAnalysisWindow(Connection):
         self.loaded_file_textbox.resize(450, 30)
         self.loaded_file_textbox.move(20, 50)
         self.loaded_file_textbox.setReadOnly(True)
-
-        self.load_file_button = QtGui.QPushButton("Carica file", self)
-        self.load_file_button.resize(100, 45)
-        self.load_file_button.move(14, 90)
-        QtCore.QObject.connect(self.load_file_button, QtCore.SIGNAL('clicked()'), self.load_file)
 
         self.loaded_file_label = QtGui.QLabel("Contenuto del file da analizzare:", self)
         self.loaded_file_label.resize(450, 20)
@@ -255,46 +257,47 @@ class TextAnalysisWindow(Connection):
         self.loaded_file_textarea.move(520, 50)
         self.loaded_file_textarea.setReadOnly(True)
 
-        self.search_character_label = QtGui.QLabel("Inserire il carattere da cercare nel testo:", self)
-        self.search_character_label.resize(450, 20)
-        self.search_character_label.move(20, 170)
+        self.search_label = QtGui.QLabel("Ricerca nel testo:", self)
+        self.search_label.resize(450, 20)
+        self.search_label.move(20, 100)
 
-        self.search_caracter_textbox = QtGui.QLineEdit(self)
-        self.search_caracter_textbox.resize(350, 30)
-        self.search_caracter_textbox.move(20, 200)
+        self.search_textbox = QtGui.QLineEdit(self)
+        self.search_textbox.resize(350, 30)
+        self.search_textbox.move(20, 130)
+        self.search_textbox.returnPressed.connect(self.search)
 
-        self.search_word_label = QtGui.QLabel("Inserire la parola da cercare nel testo:", self)
-        self.search_word_label.resize(450, 20)
-        self.search_word_label.move(20, 320)
+        self.results_label = QtGui.QLabel("Risultati dell'analisi:", self)
+        self.results_label.resize(200, 30)
+        self.results_label.move(200, 180)
 
-        self.search_word_textbox = QtGui.QLineEdit(self)
-        self.search_word_textbox.resize(400, 30)
-        self.search_word_textbox.move(20, 350)
+        self.left_separator = QtGui.QFrame(self)
+        self.left_separator.setFrameShape(QtGui.QFrame.HLine)
+        self.left_separator.setFrameShadow(QtGui.QFrame.Sunken)
+        self.left_separator.resize(170, 2)
+        self.left_separator.move(20, 190)
 
-        self.search_phrase_label = QtGui.QLabel("Inserire la frase da cercare nel testo:", self)
-        self.search_phrase_label.resize(450, 20)
-        self.search_phrase_label.move(20, 470)
-
-        self.search_phrase_textbox = QtGui.QLineEdit(self)
-        self.search_phrase_textbox.resize(450, 30)
-        self.search_phrase_textbox.move(20, 500)
+        self.right_separator = QtGui.QFrame(self)
+        self.right_separator.setFrameShape(QtGui.QFrame.HLine)
+        self.right_separator.setFrameShadow(QtGui.QFrame.Sunken)
+        self.right_separator.resize(180, 2)
+        self.right_separator.move(322, 190)
 
         self.hosts_connection_button = QtGui.QPushButton("Connetti Hosts", self)
         self.hosts_connection_button.resize(247, 65)
         self.hosts_connection_button.move(514, 595)
-        QtCore.QObject.connect(self.hosts_connection_button, QtCore.SIGNAL('clicked()'), self.remote_object_connection)
+        self.hosts_connection_button.clicked.connect(self.remote_object_connection)
         self.hosts_connection_button.setEnabled(False)
 
         self.start_analysis_button = QtGui.QPushButton("Avvia Analisi", self)
         self.start_analysis_button.resize(248, 65)
         self.start_analysis_button.move(748, 595)
-        QtCore.QObject.connect(self.start_analysis_button, QtCore.SIGNAL('clicked()'), self.start_analysis)
+        self.start_analysis_button.clicked.connect(self.start_analysis)
         self.start_analysis_button.setEnabled(False)
 
         self.button_go_back = QtGui.QPushButton("Indietro", self)
         self.button_go_back.resize(100, 45)
         self.button_go_back.move(14, 655)
-        QtCore.QObject.connect(self.button_go_back, QtCore.SIGNAL('clicked()'), self.go_back)
+        self.button_go_back.clicked.connect(self.go_back)
 
         self.analysis_time_label = QtGui.QLabel(self)
         self.analysis_time_label.resize(480, 20)
@@ -305,8 +308,6 @@ class TextAnalysisWindow(Connection):
         self.passwords = passwords
 
         self.hcw = None
-        self.results = []
-        self.boolean = []
 
         # Mi serve per controllare gli stati della finestra
         self.window_status = 0
@@ -359,11 +360,12 @@ class TextAnalysisWindow(Connection):
         for count in range(0, int(self.hosts_number)):
             t.append(threading.Thread(target=self.start_connection,
                                       args=[self.identifiers[count], self.addresses[count], self.passwords[count]]))
+            time.sleep(1)
             t[count].start()
             time.sleep(1)
 
         self.window_status = 2
-        time.sleep(10)
+        #time.sleep(10)
         self.start_analysis_button.setEnabled(True)
 
     def start_connection(self, identifier, address, password):
@@ -371,30 +373,25 @@ class TextAnalysisWindow(Connection):
         self.open_server_connection(identifier, address, password)
         self.find_remote_object(identifier, address, password)
 
+    def search(self):
+        pass
+
     def start_analysis(self):
 
-        try:
+        #try:
             e = ExecutionTimeMeasurement()
             e.start_measurement()
 
-            cnt = 0
-            for count in range(0, int(self.hosts_number)):
-                r, b = self.text_analyzer[count].get_static_results()
-                self.results.append(r)
-                self.boolean.append(b)
-
-                if self.boolean[count]:
-                    cnt = (cnt + 1)
+            rc = ResultsCollector(self.text_analyzer, self.hosts_number)
+            rc.collect_all_results()
 
             e.finish_measurement()
-            if cnt == int(self.hosts_number):
-                print("Analisi testuale eseguita con successo.")
 
             self.analysis_time_label.setText("Tempo impiegato per eseguire l'analisi testuale: " + str(e.get_measurement_interval()) + " secondi.")
             print("Tempo impiegato per eseguire l'analisi testuale: " + str(e.get_measurement_interval()) + " secondi.")
 
-        except Exception as e:
-            print("Errore nell'eseguire l'analisi: \n" + str(e))
+        #except Exception as e:
+            #print("Errore nell'eseguire l'analisi: \n" + str(e))
 
     def close_pyro_connection(self):
         print("\nSto chiudendo la connessione con PyRO remote objects...")
