@@ -44,7 +44,7 @@ class FileSplitter():
             print("\n")
             self.lower_index = (n + 1)
             self.upper_index = self.lower_index + (self.lines_per_host[count])
-            print(self.lower_index, self.upper_index)
+            print("[" + str(self.lower_index) + ", " + str(self.upper_index) + "]")
             #print("Host " + str(count) + ":")
             for elements in range(self.lower_index, self.upper_index):
                 self.splitted_text_assigned_to_hosts[count].append(self.file_content[elements])

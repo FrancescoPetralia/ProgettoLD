@@ -142,7 +142,7 @@ class HostsConnectionWindow(QtGui.QMainWindow):
             self.labellist_password.append(QtGui.QLabel("Password Host_" + str(count) + ":", self))
             self.textboxlist_password.append(QtGui.QLineEdit(self))
 
-            self.textboxlist_password[(len(self.textboxlist_password)) - 1].returnPressed.connect(self.on_click_button_proceed)
+        self.textboxlist_password[int(self.host_number) - 1].returnPressed.connect(self.on_click_button_proceed)
 
         for count in range(0, int(self.host_number)):
 
@@ -282,6 +282,10 @@ class TextAnalysisWindow(Connection):
         self.right_separator.resize(180, 2)
         self.right_separator.move(322, 190)
 
+        self.final_result_labels = []
+        self.x_position = 20
+        self.offset = 30
+
         self.hosts_connection_button = QtGui.QPushButton("Connetti Hosts", self)
         self.hosts_connection_button.resize(247, 65)
         self.hosts_connection_button.move(514, 595)
@@ -365,7 +369,7 @@ class TextAnalysisWindow(Connection):
             time.sleep(1)
 
         self.window_status = 2
-        #time.sleep(10)
+        time.sleep(10)
         self.start_analysis_button.setEnabled(True)
 
     def start_connection(self, identifier, address, password):
@@ -376,9 +380,20 @@ class TextAnalysisWindow(Connection):
     def search(self):
         pass
 
+    def set_final_result_labels(self, labels_number, results):
+
+        for count in range(0, labels_number):
+            self.final_result_labels.append(QtGui.QLabel(self))
+
+        for count in range(0, labels_number):
+            self.final_result_labels[count].resize(300, 30)
+            self.final_result_labels[count].move(self.x_position, (190 + (self.offset * (count + 1))))
+            self.final_result_labels[count].setText(results[count])
+            self.final_result_labels[count].show()
+
     def start_analysis(self):
 
-        #try:
+        try:
             e = ExecutionTimeMeasurement()
             e.start_measurement()
 
@@ -387,11 +402,16 @@ class TextAnalysisWindow(Connection):
 
             e.finish_measurement()
 
+            results = rc.get_final_result()
+            labels_number = len(results)
+
+            self.set_final_result_labels(labels_number, results)
+
             self.analysis_time_label.setText("Tempo impiegato per eseguire l'analisi testuale: " + str(e.get_measurement_interval()) + " secondi.")
             print("Tempo impiegato per eseguire l'analisi testuale: " + str(e.get_measurement_interval()) + " secondi.")
 
-        #except Exception as e:
-            #print("Errore nell'eseguire l'analisi: \n" + str(e))
+        except Exception as e:
+            print("Errore nell'eseguire l'analisi: \n" + str(e))
 
     def close_pyro_connection(self):
         print("\nSto chiudendo la connessione con PyRO remote objects...")
