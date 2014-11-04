@@ -41,10 +41,6 @@ class TextAnalyzer():
     def get_number_of_chars(self):
         return len(self.read_file())
 
-    #interattivo
-    def get_occurrence_number_of_searched_char(self):
-        pass
-
     def words_inside_file(self):
         words = nltk.word_tokenize(self.read_file())
         return words
@@ -66,15 +62,6 @@ class TextAnalyzer():
 
     def get_len_of_shortest_word_in_the_file(self):
         return len(self.get_shortest_word_in_the_file())
-
-    #interattivo
-    def get_occurences_number_of_searched_word(self, w):
-        cnt = 0
-        for word in self.all_tokenized_words:
-            if w in word:
-                cnt += 1
-
-        return cnt
 
     def all_words_occurrences_chart(self):
         l = nltk.FreqDist(self.all_tokenized_words)
@@ -104,15 +91,6 @@ class TextAnalyzer():
 
     def get_number_of_lines(self):
         return self.read_file().count('\n')
-
-    #interattivo
-    def search_word_in_sentences(self, word):
-        cnt = 0
-        for sentence in self.all_tokenized_sentences:
-            if word in sentence:
-                cnt += 1
-
-        return sentence, cnt
 
     def get_number_of_consonants(self):
         consonants = "bcdfghjklmnpqrstvexz"
@@ -163,6 +141,28 @@ class TextAnalyzer():
                 tot += 1
         return tot
 
+    # Interattivo
+    def get_occurrence_number_of_searched_char(self):
+        pass
+
+    # Interattivo
+    def get_occurences_number_of_searched_word(self, w):
+        cnt = 0
+        for word in self.all_tokenized_words:
+            if w in word:
+                cnt += 1
+
+        return cnt
+
+    # Interattivo
+    def search_word_in_sentences(self, word):
+        cnt = 0
+        for sentence in self.all_tokenized_sentences:
+            if word in sentence:
+                cnt += 1
+
+        return sentence, cnt
+
     def get_interactive_results(self):
         pass
     
@@ -178,14 +178,14 @@ class TextAnalyzer():
                             n_punctuation=self.get_punctuation_occurrence(),
                             n_words=self.get_number_of_words_inside_the_file(),
                             longest_word=self.get_longest_word_in_the_file(),
-                            longest_word_len=self.get_len_of_longest_word_in_the_file(),
+                            #longest_word_len=self.get_len_of_longest_word_in_the_file(),
                             shortest_word=self.get_shortest_word_in_the_file(),
-                            shortest_word_len=self.get_len_of_shortest_word_in_the_file(),
+                            #shortest_word_len=self.get_len_of_shortest_word_in_the_file(),
                             n_sentences=self.get_number_of_sentences_inside_the_file(),
                             longest_sentence=self.get_longest_sentence_in_the_file(),
-                            longest_sentence_len=self.get_len_of_longest_sentence_in_the_file(),
-                            shortest_sentence=self.get_shortest_sentence_in_the_file(),
-                            shortest_sentence_len=self.get_len_of_shortest_sentence_in_the_file())
+                            #longest_sentence_len=self.get_len_of_longest_sentence_in_the_file(),
+                            shortest_sentence=self.get_shortest_sentence_in_the_file())
+                            #shortest_sentence_len=self.get_len_of_shortest_sentence_in_the_file())
 
         return self.results, True
 

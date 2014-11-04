@@ -28,7 +28,7 @@ class SetHostsWindow(QtGui.QMainWindow):
 
         self.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
 
-        self.resize(400, 100)
+        self.setFixedSize(400, 100)
         self.setWindowTitle("Impostazione numero hosts")
         self.move(400, 250)
 
@@ -99,7 +99,7 @@ class HostsConnectionWindow(QtGui.QMainWindow):
         self.textboxheight = 30
         self.textboxwidth = 175
 
-        self.resize(790, 560)
+        self.setFixedSize(790, 560)
         self.move(250, 85)
         self.setWindowTitle("Connessione hosts")
 
@@ -111,12 +111,12 @@ class HostsConnectionWindow(QtGui.QMainWindow):
 
         self.button_go_back = QtGui.QPushButton("Indietro", self)
         self.button_go_back.resize(100, 45)
-        self.button_go_back.move(552, 500)
+        self.button_go_back.move(552, 505)
         self.button_go_back.clicked.connect(self.go_back)
 
         self.button_proceed = QtGui.QPushButton("Procedi", self)
         self.button_proceed.resize(100, 45)
-        self.button_proceed.move(639, 500)
+        self.button_proceed.move(639, 505)
         self.button_proceed.clicked.connect(self.on_click_button_proceed)
 
         self.labelhosts = QtGui.QLabel("", self)
@@ -229,15 +229,18 @@ class TextAnalysisWindow(Connection):
 
         self.hosts_number = hosts
 
-        self.resize(1020, 710)
+        self.setFixedSize(1020, 710)
         self.move(125, 30)
         self.setWindowTitle("Analizzatore Testuale")
 
         self.menu = QtGui.QMenuBar(self)
+        self.menu_analizzatore = QtGui.QMenu("Analizzatore")
+        self.menu_analizzatore_help_action = self.menu_analizzatore.addAction("Help")
+        self.menu.addMenu(self.menu_analizzatore)
         self.menu_file = QtGui.QMenu("File")
-        self.menu_file_action = self.menu_file.addAction("Carica File")
+        self.menu_file_load_file_action = self.menu_file.addAction("Carica File")
         self.menu.addMenu(self.menu_file)
-        self.menu_file_action.triggered.connect(self.load_file)
+        self.menu_file_load_file_action.triggered.connect(self.load_file)
 
         self.loaded_file_label = QtGui.QLabel("Percorso del file da analizzare:", self)
         self.loaded_file_label.resize(450, 20)
@@ -266,9 +269,16 @@ class TextAnalysisWindow(Connection):
         self.search_textbox.move(20, 130)
         self.search_textbox.returnPressed.connect(self.search)
 
-        self.results_label = QtGui.QLabel("Risultati dell'analisi:", self)
+        self.results_label = QtGui.QLabel("Risultato dell'analisi:", self)
+        #self.palette = QtGui.QPalette()
+        #self.palette.setColor(QtGui.QPalette.Foreground, QtCore.Qt.red)
+        #self.results_label.setPalette(self.palette)
         self.results_label.resize(200, 30)
         self.results_label.move(200, 180)
+        self.final_result_textarea = QtGui.QTextEdit(self)
+        self.final_result_textarea.resize(483, 380)
+        self.final_result_textarea.move(20, 220)
+        self.final_result_textarea.setReadOnly(True)
 
         self.left_separator = QtGui.QFrame(self)
         self.left_separator.setFrameShape(QtGui.QFrame.HLine)
@@ -281,10 +291,6 @@ class TextAnalysisWindow(Connection):
         self.right_separator.setFrameShadow(QtGui.QFrame.Sunken)
         self.right_separator.resize(180, 2)
         self.right_separator.move(322, 190)
-
-        self.final_result_labels = []
-        self.x_position = 20
-        self.offset = 30
 
         self.hosts_connection_button = QtGui.QPushButton("Connetti Hosts", self)
         self.hosts_connection_button.resize(247, 65)
@@ -300,7 +306,7 @@ class TextAnalysisWindow(Connection):
 
         self.button_go_back = QtGui.QPushButton("Indietro", self)
         self.button_go_back.resize(100, 45)
-        self.button_go_back.move(14, 655)
+        self.button_go_back.move(4, 665)
         self.button_go_back.clicked.connect(self.go_back)
 
         self.analysis_time_label = QtGui.QLabel(self)
@@ -367,9 +373,12 @@ class TextAnalysisWindow(Connection):
             time.sleep(1)
             t[count].start()
             time.sleep(1)
+            self.setWindowTitle("Analizzatore Testuale - " + str(count + 1) + " host collegati.")
 
         self.window_status = 2
-        time.sleep(10)
+        time.sleep(12)
+        self.hosts_connection_button.setEnabled(False)
+        self.menu_file_load_file_action.setEnabled(False)
         self.start_analysis_button.setEnabled(True)
 
     def start_connection(self, identifier, address, password):
@@ -379,17 +388,6 @@ class TextAnalysisWindow(Connection):
 
     def search(self):
         pass
-
-    def set_final_result_labels(self, labels_number, results):
-
-        for count in range(0, labels_number):
-            self.final_result_labels.append(QtGui.QLabel(self))
-
-        for count in range(0, labels_number):
-            self.final_result_labels[count].resize(300, 30)
-            self.final_result_labels[count].move(self.x_position, (190 + (self.offset * (count + 1))))
-            self.final_result_labels[count].setText(results[count])
-            self.final_result_labels[count].show()
 
     def start_analysis(self):
 
@@ -403,15 +401,17 @@ class TextAnalysisWindow(Connection):
             e.finish_measurement()
 
             results = rc.get_final_result()
-            labels_number = len(results)
 
-            self.set_final_result_labels(labels_number, results)
+            results_number = len(results)
+
+            for count in range(0, results_number):
+                self.final_result_textarea.append(results[count] + "\n")
 
             self.analysis_time_label.setText("Tempo impiegato per eseguire l'analisi testuale: " + str(e.get_measurement_interval()) + " secondi.")
             print("Tempo impiegato per eseguire l'analisi testuale: " + str(e.get_measurement_interval()) + " secondi.")
 
         except Exception as e:
-            print("Errore nell'eseguire l'analisi: \n" + str(e))
+            print("\nErrore nell'eseguire l'analisi: " + str(e))
 
     def close_pyro_connection(self):
         print("\nSto chiudendo la connessione con PyRO remote objects...")

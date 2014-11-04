@@ -89,18 +89,18 @@ class Connection(QtGui.QMainWindow):
             #(stdin, stdout, stderr) = ssh_connection.exec_command("echo $PATH")
             #print(stdout.readline())
             print("Connessione sftp aperta.")
-            print("Trasferisco il file splitted_file_" + str(identifier) + ".txt")
-            sftp_connection.put("../txt/splitted_file_" + str(identifier) + ".txt", "./splitted_file_" + str(identifier) + ".txt")
-            #time.sleep(1)
+
             print("Trasferisco il " + self.text_analyzer_name + str(identifier) + "...")
             sftp_connection.put("text_analyzer.py", "./text_analyzer.py")
-            #time.sleep(1)
+
             print("Trasferisco Pyro4...")
             sftp_connection.put("Pyro4.zip", "./Pyro4.zip")
-            #time.sleep(1)
+
+            print("Trasferisco il file splitted_file_" + str(identifier) + ".txt")
+            sftp_connection.put("../txt/splitted_file_" + str(identifier) + ".txt", "./splitted_file_" + str(identifier) + ".txt")
+
             print("Scompatto l'archivio...")
             stdin, stdout, stderr = ssh_connection.exec_command("tar -xzvf Pyro4.zip")
-            #time.sleep(2)
             # Con "echo $$" ricavo il pid del processo
             # Con "exec python3 text_analyzer.py" eseguo l'analizzatore testuale, con i parametri -id e -ns_ip
             print("Esecuzione " + self.text_analyzer_name + str(identifier) + "...")
