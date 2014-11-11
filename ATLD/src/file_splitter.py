@@ -70,7 +70,7 @@ class FileSplitter():
         return self.file_content
 
     def write_file(self, file_name, interval):
-        f = open("../txt/" + file_name + ".txt", 'w')
+        f = open("../temp/" + file_name + ".txt", 'w')
         for elements in interval:
             f.write(elements + "\n")
         f.close()

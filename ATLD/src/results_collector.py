@@ -1,5 +1,6 @@
 __author__ = 'francesco'
 
+import pickle
 
 class ResultsCollector():
 
@@ -9,18 +10,19 @@ class ResultsCollector():
         self.results = []
         self.ret_values = []
         self.final_result = []
+        self.deserialized_dict = []
 
     def collect_all_results(self):
 
-        cnt = 0
+        ncnt = 0
         for count in range(0, self.hosts_number):
-            # Aggiungere try except!
-            results, ret_val = self.text_analyzer[count].get_static_results()
+
+            results, ret_val = self.text_analyzer[count].get_results()
             self.results.append(results)
             self.ret_values.append(ret_val)
 
             if self.ret_values[count]:
-                cnt = (cnt + 1)
+                ncnt = (ncnt + 1)
 
         # Sommo i risultati parziali di tutti i text_analyzer per formare il rilsultato finale.
         # In particolare, ogni text_analyzer ritorna un oggetto dizionario ed un booleano. Il secondo parametro
@@ -32,6 +34,7 @@ class ResultsCollector():
         shortest_sentences, longest_sentences = [], []
         shortest_word, shortest_word_len, longest_word, longest_word_len = "", 0, "", 0
         shortest_sentence, shortest_sentence_len, longest_sentence, longest_sentence_len = "", 0, "", 0
+        chars_occurrences, words_occurrences = [], []
 
         for count in range(0, self.hosts_number):
             chars += self.results[count]['n_chars']
@@ -48,6 +51,8 @@ class ResultsCollector():
             longest_words.append(self.results[count]['longest_word'])
             shortest_sentences.append(self.results[count]['shortest_sentence'])
             longest_sentences.append(self.results[count]['longest_sentence'])
+            chars_occurrences.append(self.results[count]['all_characters_occurrences'])
+            words_occurrences.append(self.results[count]['all_words_occurrences'])
 
         shortest_word = min(shortest_words, key=len)
         shortest_word_len = len(shortest_word)
@@ -57,6 +62,9 @@ class ResultsCollector():
         shortest_sentence_len = len(shortest_sentence)
         longest_sentence = max(longest_sentences, key=len)
         longest_sentence_len = len(longest_sentence)
+
+        all_chars_occurrences = self.all_characters_occurrences_gather(chars_occurrences)
+        all_words_occurrences = self.all_words_occurrences_gather(words_occurrences)
 
         if shortest_word_len == 1:
             w_carattere = " carattere."
@@ -87,11 +95,59 @@ class ResultsCollector():
                              "La frase più lunga è: '" + longest_sentence + "', ed è lunga " + str(longest_sentence_len)
                              + " caratteri."]
 
-        #for elements in self.final_result:
-        #    print(elements + "\n")
+        self.final_result.append("\nLista dei 30 caratteri più utilizzati (carattere, occorrenza):")
+        for key, val in all_chars_occurrences.items():
+            self.final_result.append(str((key, val)))
+        self.final_result.append("\nLista delle 30 parole più utilizzate (parola, occorrenza):")
+        for key, val in all_words_occurrences.items():
+            self.final_result.append(str((key, val)))
 
-        if cnt == int(self.hosts_number):
-            print("Analisi testuale eseguita con successo.\n")
+        if ncnt == int(self.hosts_number):
+            print("Analisi testuale eseguita con successo.")
+
+    def all_characters_occurrences_gather(self, chars_occurrences):
+
+        keys, values, temp = [], [], dict()
+
+        for count in range(0, self.hosts_number):
+            for i in chars_occurrences[count]:
+                keys.append(i[0])
+                values.append(i[1])
+
+        for count in range(0, len(keys)):
+            i, s = -1, 0
+            for elements in keys:
+                i += 1
+                if keys[count] == elements:
+                    s += values[i]
+                else:
+                    pass
+
+            temp.update(({keys[count]: s}))
+
+        return temp
+
+    def all_words_occurrences_gather(self, words_occurrences):
+
+        keys, values, temp = [], [], dict()
+
+        for count in range(0, self.hosts_number):
+            for i in words_occurrences[count]:
+                keys.append(i[0])
+                values.append(i[1])
+
+        for count in range(0, len(keys)):
+            i, s = -1, 0
+            for elements in keys:
+                i += 1
+                if keys[count] == elements:
+                    s += values[i]
+                else:
+                    pass
+
+            temp.update(({keys[count]: s}))
+
+        return temp
 
     def get_final_result(self):
         return self.final_result

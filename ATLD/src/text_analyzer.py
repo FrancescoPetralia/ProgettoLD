@@ -25,6 +25,7 @@ class TextAnalyzer():
 
         self.tokenize_words()
         self.tokenize_sentences()
+        print(self.get_results())
 
     def read_file(self):
         f = open(self.file_to_read, "r")
@@ -54,18 +55,8 @@ class TextAnalyzer():
     def get_longest_word_in_the_file(self):
         return max(self.all_tokenized_words, key=len)
 
-    def get_len_of_longest_word_in_the_file(self):
-        return len(self.get_longest_word_in_the_file())
-
     def get_shortest_word_in_the_file(self):
         return min(self.all_tokenized_words, key=len)
-
-    def get_len_of_shortest_word_in_the_file(self):
-        return len(self.get_shortest_word_in_the_file())
-
-    def all_words_occurrences_chart(self):
-        l = nltk.FreqDist(self.all_tokenized_words)
-        return l.items()[:len(self.all_tokenized_words)]
 
     def sentences_inside_file(self):
         sentences = nltk.sent_tokenize(self.read_file())
@@ -80,14 +71,9 @@ class TextAnalyzer():
     def get_longest_sentence_in_the_file(self):
         return max(self.all_tokenized_sentences, key=len)
 
-    def get_len_of_longest_sentence_in_the_file(self):
-        return len(self.get_longest_sentence_in_the_file())
-
     def get_shortest_sentence_in_the_file(self):
         return min(self.all_tokenized_sentences, key=len)
 
-    def get_len_of_shortest_sentence_in_the_file(self):
-        return len(self.get_shortest_sentence_in_the_file())
 
     def get_number_of_lines(self):
         return self.read_file().count('\n')
@@ -141,32 +127,17 @@ class TextAnalyzer():
                 tot += 1
         return tot
 
-    # Interattivo
-    def get_occurrence_number_of_searched_char(self):
-        pass
+    def get_all_words_occurrence(self):
+        all_chars_occurrences = nltk.FreqDist(self.all_tokenized_words)
+        w = all_chars_occurrences.most_common(30)
+        return w
 
-    # Interattivo
-    def get_occurences_number_of_searched_word(self, w):
-        cnt = 0
-        for word in self.all_tokenized_words:
-            if w in word:
-                cnt += 1
-
-        return cnt
-
-    # Interattivo
-    def search_word_in_sentences(self, word):
-        cnt = 0
-        for sentence in self.all_tokenized_sentences:
-            if word in sentence:
-                cnt += 1
-
-        return sentence, cnt
-
-    def get_interactive_results(self):
-        pass
+    def get_all_chars_occurrence(self):
+        all_words_occurrences = nltk.FreqDist(self.read_file())
+        c = all_words_occurrences.most_common(30)
+        return c
     
-    def get_static_results(self):
+    def get_results(self):
 
         self.results = dict(n_chars=self.get_number_of_chars(),
                             n_lines=self.get_number_of_lines(),
@@ -178,14 +149,12 @@ class TextAnalyzer():
                             n_punctuation=self.get_punctuation_occurrence(),
                             n_words=self.get_number_of_words_inside_the_file(),
                             longest_word=self.get_longest_word_in_the_file(),
-                            #longest_word_len=self.get_len_of_longest_word_in_the_file(),
                             shortest_word=self.get_shortest_word_in_the_file(),
-                            #shortest_word_len=self.get_len_of_shortest_word_in_the_file(),
                             n_sentences=self.get_number_of_sentences_inside_the_file(),
                             longest_sentence=self.get_longest_sentence_in_the_file(),
-                            #longest_sentence_len=self.get_len_of_longest_sentence_in_the_file(),
-                            shortest_sentence=self.get_shortest_sentence_in_the_file())
-                            #shortest_sentence_len=self.get_len_of_shortest_sentence_in_the_file())
+                            shortest_sentence=self.get_shortest_sentence_in_the_file(),
+                            all_characters_occurrences=self.get_all_chars_occurrence(),
+                            all_words_occurrences=self.get_all_words_occurrence())
 
         return self.results, True
 

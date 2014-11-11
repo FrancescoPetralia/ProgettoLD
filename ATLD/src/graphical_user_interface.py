@@ -318,6 +318,7 @@ class TextAnalysisWindow(Connection):
         self.passwords = passwords
 
         self.hcw = None
+        self.rc = None
 
         # Mi serve per controllare gli stati della finestra
         self.window_status = 0
@@ -340,12 +341,18 @@ class TextAnalysisWindow(Connection):
 
     def load_file(self):
 
-        self.loaded_file_textbox.setText(QtGui.QFileDialog.getOpenFileName())
-        file_path = self.loaded_file_textbox.text()
-        self.loaded_file_textarea.setText(self.read_file(file_path))
+        try:
+            self.loaded_file_textbox.setText(QtGui.QFileDialog.getOpenFileName())
+            file_path = self.loaded_file_textbox.text()
+            self.loaded_file_textarea.setText(self.read_file(file_path))
+            print("\nFile caricato correttamente.")
 
-        if self.split_file():
-            self.hosts_connection_button.setEnabled(True)
+            if self.split_file():
+                self.hosts_connection_button.setEnabled(True)
+
+        except Exception:
+
+            print("\nErrore nel caricamento del file: ")
 
     def read_file(self, p1):
 
@@ -381,26 +388,30 @@ class TextAnalysisWindow(Connection):
         self.menu_file_load_file_action.setEnabled(False)
         self.start_analysis_button.setEnabled(True)
 
+        self.rc = ResultsCollector(self.text_analyzer, self.hosts_number)
+
     def start_connection(self, identifier, address, password):
 
         self.open_server_connection(identifier, address, password)
         self.find_remote_object(identifier, address, password)
 
     def search(self):
-        pass
+
+        what_to_search = self.search_textbox.text()
 
     def start_analysis(self):
 
-        try:
+            self.final_result_textarea.clear()
+
+        #try:
             e = ExecutionTimeMeasurement()
             e.start_measurement()
 
-            rc = ResultsCollector(self.text_analyzer, self.hosts_number)
-            rc.collect_all_results()
+            self.rc.collect_all_results()
 
             e.finish_measurement()
 
-            results = rc.get_final_result()
+            results = self.rc.get_final_result()
 
             results_number = len(results)
 
@@ -408,10 +419,10 @@ class TextAnalysisWindow(Connection):
                 self.final_result_textarea.append(results[count] + "\n")
 
             self.analysis_time_label.setText("Tempo impiegato per eseguire l'analisi testuale: " + str(e.get_measurement_interval()) + " secondi.")
-            print("Tempo impiegato per eseguire l'analisi testuale: " + str(e.get_measurement_interval()) + " secondi.")
+            print("Tempo impiegato per eseguire l'analisi testuale: " + str(e.get_measurement_interval()) + " secondi.\n")
 
-        except Exception as e:
-            print("\nErrore nell'eseguire l'analisi: " + str(e))
+        #except Exception as ex:
+            #print("\nErrore nell'eseguire l'analisi: " + str(ex))
 
     def close_pyro_connection(self):
         print("\nSto chiudendo la connessione con PyRO remote objects...")
@@ -432,14 +443,13 @@ class TextAnalysisWindow(Connection):
         print("\nSto eliminando i file locali...")
 
         for count in range(0, int(self.hosts_number)):
-            os.remove("../txt/splitted_file_" + str(count) + ".txt")
+            os.remove("../temp/splitted_file_" + str(count) + ".txt")
             print("splitted_file_" + str(count) + ".txt rimosso.")
 
         print("\nFile locali eliminati con successo.")
 
     # Override di closeEvent della classe QtGui.QtMainWindow per intercettare la chiusura della finestra
     def closeEvent(self, event):
-
         QtGui.QMainWindow.closeEvent(self, event)
 
         if self.window_status == 2:
