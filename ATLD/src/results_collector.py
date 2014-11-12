@@ -11,6 +11,8 @@ class ResultsCollector():
         self.ret_values = []
         self.final_result = []
         self.deserialized_dict = []
+        self.chars_occs = None
+        self.words_occs = None
 
     def collect_all_results(self):
 
@@ -95,19 +97,19 @@ class ResultsCollector():
                              "La frase più lunga è: '" + longest_sentence + "', ed è lunga " + str(longest_sentence_len)
                              + " caratteri."]
 
-        self.final_result.append("\nLista dei 30 caratteri più utilizzati (carattere, occorrenza):")
+        self.final_result.append("\nElenco dei 30 caratteri più utilizzati (carattere, occorrenza):")
         for key, val in all_chars_occurrences.items():
-            self.final_result.append(str((key, val)))
-        self.final_result.append("\nLista delle 30 parole più utilizzate (parola, occorrenza):")
+            self.final_result.append(str(("" + key + "", str(val) + " volte")))
+        self.final_result.append("\nElenco delle 30 parole più utilizzate (parola, occorrenza):")
         for key, val in all_words_occurrences.items():
-            self.final_result.append(str((key, val)))
+            self.final_result.append(str(("" + key + "", str(val) + " volte")))
 
         if ncnt == int(self.hosts_number):
             print("Analisi testuale eseguita con successo.")
 
     def all_characters_occurrences_gather(self, chars_occurrences):
 
-        keys, values, temp = [], [], dict()
+        keys, values, self.chars_occs = [], [], dict()
 
         for count in range(0, self.hosts_number):
             for i in chars_occurrences[count]:
@@ -123,13 +125,16 @@ class ResultsCollector():
                 else:
                     pass
 
-            temp.update(({keys[count]: s}))
+            self.chars_occs.update(({keys[count]: s}))
 
-        return temp
+        return self.chars_occs
+
+    def get_all_characters_occurrences(self):
+        return self.chars_occs
 
     def all_words_occurrences_gather(self, words_occurrences):
 
-        keys, values, temp = [], [], dict()
+        keys, values, self.words_occs = [], [], dict()
 
         for count in range(0, self.hosts_number):
             for i in words_occurrences[count]:
@@ -145,9 +150,12 @@ class ResultsCollector():
                 else:
                     pass
 
-            temp.update(({keys[count]: s}))
+            self.words_occs.update(({keys[count]: s}))
 
-        return temp
+        return self.words_occs
+
+    def get_all_words_occurrences(self):
+        return self.words_occs
 
     def get_final_result(self):
         return self.final_result

@@ -2,8 +2,8 @@
 
 __author__ = 'Francesco'
 
-import os
-#os.environ["PYRO_LOGFILE"] = "pyro.log"
+#import os
+#os.environ["PYRO_LOGFILE"] = "../log/pyro.log"
 #os.environ["PYRO_LOGLEVEL"] = "DEBUG"
 import nltk
 import argparse
@@ -129,12 +129,12 @@ class TextAnalyzer():
 
     def get_all_words_occurrence(self):
         all_chars_occurrences = nltk.FreqDist(self.all_tokenized_words)
-        w = all_chars_occurrences.most_common(30)
+        w = all_chars_occurrences.most_common(len(self.all_tokenized_words))
         return w
 
     def get_all_chars_occurrence(self):
         all_words_occurrences = nltk.FreqDist(self.read_file())
-        c = all_words_occurrences.most_common(30)
+        c = all_words_occurrences.most_common(len(self.read_file()))
         return c
     
     def get_results(self):

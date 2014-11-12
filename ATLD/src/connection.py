@@ -1,7 +1,7 @@
 __author__ = 'francesco'
 
-import os
-#os.environ["PYRO_LOGFILE"] = "pyro.log"
+#import os
+#os.environ["PYRO_LOGFILE"] = "../log/pyro.log"
 #os.environ["PYRO_LOGLEVEL"] = "DEBUG"
 import Pyro4
 import paramiko

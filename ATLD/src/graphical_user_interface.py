@@ -1,7 +1,7 @@
 __author__ = 'francesco'
 
 import os
-#os.environ["PYRO_LOGFILE"] = "pyro.log"
+#os.environ["PYRO_LOGFILE"] = "../log/pyro.log"
 #os.environ["PYRO_LOGLEVEL"] = "DEBUG"
 import threading
 import socket
@@ -9,6 +9,8 @@ import getpass
 import Pyro4
 import time
 import paramiko
+import numpy as np
+import matplotlib.pyplot as plt
 from PyQt4 import QtGui, QtCore
 from name_server import NameServer
 from connection import Connection
@@ -40,6 +42,7 @@ class SetHostsWindow(QtGui.QMainWindow):
         self.textbox.resize(125, 30)
         self.textbox.move(140, 50)
         self.textbox.returnPressed.connect(self.open_main_window)
+        self.textbox.setToolTip("Inserire il numero di host (min = 1, max = 8)")
 
         #Settaggio dell'espressione regolare che prevede solo numeri (0-9), da 1 fino a massimo 8
         self.regular_expression = QtCore.QRegExp('^[1-8]{1}$')
@@ -113,11 +116,13 @@ class HostsConnectionWindow(QtGui.QMainWindow):
         self.button_go_back.resize(100, 45)
         self.button_go_back.move(552, 505)
         self.button_go_back.clicked.connect(self.go_back)
+        self.button_go_back.setToolTip("Torna alla finestra precedente e reimposta il numero di host")
 
         self.button_proceed = QtGui.QPushButton("Procedi", self)
         self.button_proceed.resize(100, 45)
         self.button_proceed.move(639, 505)
         self.button_proceed.clicked.connect(self.on_click_button_proceed)
+        self.button_proceed.setToolTip("Prosegui ed apri la finestra di analisi del testo")
 
         self.labelhosts = QtGui.QLabel("", self)
         self.labelhosts.resize(300, 30)
@@ -275,10 +280,6 @@ class TextAnalysisWindow(Connection):
         #self.results_label.setPalette(self.palette)
         self.results_label.resize(200, 30)
         self.results_label.move(200, 180)
-        self.final_result_textarea = QtGui.QTextEdit(self)
-        self.final_result_textarea.resize(483, 380)
-        self.final_result_textarea.move(20, 220)
-        self.final_result_textarea.setReadOnly(True)
 
         self.left_separator = QtGui.QFrame(self)
         self.left_separator.setFrameShape(QtGui.QFrame.HLine)
@@ -292,22 +293,56 @@ class TextAnalysisWindow(Connection):
         self.right_separator.resize(180, 2)
         self.right_separator.move(322, 190)
 
+        self.final_result_textarea = QtGui.QTextEdit(self)
+        self.final_result_textarea.resize(483, 380)
+        self.final_result_textarea.move(20, 220)
+        self.final_result_textarea.setReadOnly(True)
+
+        self.save_final_result_button = QtGui.QPushButton("Salva Risultati", self)
+        self.save_final_result_button.resize(253, 65)
+        self.save_final_result_button.move(14, 595)
+        self.save_final_result_button.clicked.connect(self.save_results)
+        self.save_final_result_button.setEnabled(False)
+        self.save_final_result_button.setToolTip("Salva i risultati dell'analisi dentro '../res/text_analysis_result.txt'")
+
+        self.generate_graph_button = QtGui.QPushButton("Genera Grafico", self)
+        self.generate_graph_button.clicked.connect(self.generate_graph)
+        self.generate_graph_button.resize(254, 65)
+        self.generate_graph_button.move(255, 595)
+        self.generate_graph_button.setEnabled(False)
+        self.generate_graph_button.setToolTip("Genera il grafico delle parole o dei caratteri in base alla checkbox selezionata")
+
+        self.characters_checkbox = QtGui.QCheckBox("Caratteri", self)
+        self.characters_checkbox.move(295, 665)
+        self.characters_checkbox.stateChanged.connect(self.set_graph_state)
+        self.characters_checkbox.setEnabled(False)
+        self.characters_checkbox.setToolTip("Se selezionata, verrà generato il grafico caratteri/occorrenze")
+
+        self.words_checkbox = QtGui.QCheckBox("Parole", self)
+        self.words_checkbox.move(395, 665)
+        self.words_checkbox.stateChanged.connect(self.set_graph_state)
+        self.words_checkbox.setEnabled(False)
+        self.words_checkbox.setToolTip("Se selezionata, verrà generato il grafico parole/occorrenze")
+
         self.hosts_connection_button = QtGui.QPushButton("Connetti Hosts", self)
         self.hosts_connection_button.resize(247, 65)
         self.hosts_connection_button.move(514, 595)
         self.hosts_connection_button.clicked.connect(self.remote_object_connection)
         self.hosts_connection_button.setEnabled(False)
+        self.hosts_connection_button.setToolTip("Connetti gli host locali o remoti")
 
         self.start_analysis_button = QtGui.QPushButton("Avvia Analisi", self)
         self.start_analysis_button.resize(248, 65)
         self.start_analysis_button.move(748, 595)
         self.start_analysis_button.clicked.connect(self.start_analysis)
         self.start_analysis_button.setEnabled(False)
+        self.start_analysis_button.setToolTip("Avvia l'analisi del testo")
 
         self.button_go_back = QtGui.QPushButton("Indietro", self)
         self.button_go_back.resize(100, 45)
         self.button_go_back.move(4, 665)
         self.button_go_back.clicked.connect(self.go_back)
+        self.button_go_back.setToolTip("Torna indietro per riconfigurare gli host locali o remoti")
 
         self.analysis_time_label = QtGui.QLabel(self)
         self.analysis_time_label.resize(480, 20)
@@ -319,6 +354,11 @@ class TextAnalysisWindow(Connection):
 
         self.hcw = None
         self.rc = None
+
+        self.results = None
+        self.results_number = None
+
+        self.d = None
 
         # Mi serve per controllare gli stati della finestra
         self.window_status = 0
@@ -344,6 +384,7 @@ class TextAnalysisWindow(Connection):
         try:
             self.loaded_file_textbox.setText(QtGui.QFileDialog.getOpenFileName())
             file_path = self.loaded_file_textbox.text()
+            self.loaded_file_textbox.setToolTip("Percorso del file da analizzare: " + file_path)
             self.loaded_file_textarea.setText(self.read_file(file_path))
             print("\nFile caricato correttamente.")
 
@@ -401,9 +442,9 @@ class TextAnalysisWindow(Connection):
 
     def start_analysis(self):
 
-            self.final_result_textarea.clear()
+        self.final_result_textarea.clear()
 
-        #try:
+        try:
             e = ExecutionTimeMeasurement()
             e.start_measurement()
 
@@ -411,18 +452,60 @@ class TextAnalysisWindow(Connection):
 
             e.finish_measurement()
 
-            results = self.rc.get_final_result()
+            self.results = self.rc.get_final_result()
 
-            results_number = len(results)
+            self.results_number = len(self.results)
 
-            for count in range(0, results_number):
-                self.final_result_textarea.append(results[count] + "\n")
+            for count in range(0, self.results_number):
+                self.final_result_textarea.append(self.results[count] + "\n")
 
             self.analysis_time_label.setText("Tempo impiegato per eseguire l'analisi testuale: " + str(e.get_measurement_interval()) + " secondi.")
             print("Tempo impiegato per eseguire l'analisi testuale: " + str(e.get_measurement_interval()) + " secondi.\n")
+            self.save_final_result_button.setEnabled(True)
+            self.characters_checkbox.setEnabled(True)
+            self.words_checkbox.setEnabled(True)
 
-        #except Exception as ex:
-            #print("\nErrore nell'eseguire l'analisi: " + str(ex))
+        except Exception as ex:
+            print("\nErrore nell'eseguire l'analisi: " + str(ex))
+
+    def save_results(self):
+        try:
+            f = open("../res/text_analysis_result.txt", 'w')
+            for count in range(0, self.results_number):
+                f.write(self.results[count] + "\n")
+            f.close()
+            print("Analisi salvata in: ../res/text_analysis_result.txt")
+        except Exception as e:
+            print("Errore nel salvataggio: " + str(e))
+
+    def set_graph_state(self):
+
+        if self.characters_checkbox.isChecked():
+            self.d = self.rc.get_all_characters_occurrences()
+            self.generate_graph_button.setEnabled(True)
+        elif self.words_checkbox.isChecked():
+            self.d = self.rc.get_all_words_occurrences()
+            self.generate_graph_button.setEnabled(True)
+
+    def generate_graph(self):
+
+        keys, values = [], []
+
+        for key, val in self.d.items():
+            keys.append(key)
+            values.append(val)
+
+        pos = np.arange(len(keys))
+        width = 1.0     # gives histogram aspect to the bar diagram
+
+        ax = plt.axes()
+        ax.set_xticks(pos + (width / 2))
+        ax.set_xticklabels(keys)
+
+        plt.bar(pos, values, width, color='r')
+        plt.show()
+
+        print("\nGrafico generato.")
 
     def close_pyro_connection(self):
         print("\nSto chiudendo la connessione con PyRO remote objects...")
