@@ -133,6 +133,7 @@ class HostsConnectionWindow(QtGui.QMainWindow):
         self.shw = None
 
     def go_back(self):
+
         self.hide()
         self.shw = SetHostsWindow()
         self.shw.show()
@@ -307,24 +308,12 @@ class TextAnalysisWindow(Connection):
         self.save_final_result_button.setToolTip("Salva i risultati dell'analisi dentro '../res/text_analysis_result.txt'")
 
         self.generate_graph_button = QtGui.QPushButton("Genera Grafici", self)
-        self.generate_graph_button.clicked.connect(self.generate_graph)
+        self.generate_graph_button.clicked.connect(self.set_graph_state)
         self.generate_graph_button.resize(254, 65)
         self.generate_graph_button.move(255, 595)
         self.generate_graph_button.setEnabled(False)
-        self.generate_graph_button.setToolTip("Genera i grafici (istogramma, grafico a torta) delle parole o dei "
-                                              "caratteri, in base alla checkbox selezionata, nella cartella ../res/")
-
-        self.characters_checkbox = QtGui.QCheckBox("Caratteri", self)
-        self.characters_checkbox.move(295, 665)
-        self.characters_checkbox.stateChanged.connect(self.set_graph_state)
-        self.characters_checkbox.setEnabled(False)
-        self.characters_checkbox.setToolTip("Se selezionata, verranno generati i grafici caratteri/occorrenze")
-
-        self.words_checkbox = QtGui.QCheckBox("Parole", self)
-        self.words_checkbox.move(395, 665)
-        self.words_checkbox.stateChanged.connect(self.set_graph_state)
-        self.words_checkbox.setEnabled(False)
-        self.words_checkbox.setToolTip("Se selezionata, verranno generati i grafici parole/occorrenze")
+        self.generate_graph_button.setToolTip("Genera l'istogramma ed il grafico a torta delle  20 parole e dei "
+                                              "20 caratteri più utilizzati, dentro cartella ../res/")
 
         self.hosts_connection_button = QtGui.QPushButton("Connetti Hosts", self)
         self.hosts_connection_button.resize(247, 65)
@@ -360,13 +349,11 @@ class TextAnalysisWindow(Connection):
         self.results = None
         self.results_number = None
 
-        self.d = None
-        self.graph_type = None
-
         # Mi serve per controllare gli stati della finestra
         self.window_status = 0
 
     def go_back(self):
+
         self.hide()
         self.hcw = HostsConnectionWindow()
         self.hcw.set_hosts_number(self.hosts_number)
@@ -467,68 +454,61 @@ class TextAnalysisWindow(Connection):
             print("Tempo impiegato per eseguire l'analisi testuale: " + str(e.get_measurement_interval())
                   + " secondi.\n")
             self.save_final_result_button.setEnabled(True)
-            self.characters_checkbox.setEnabled(True)
-            self.words_checkbox.setEnabled(True)
+            self.generate_graph_button.setEnabled(True)
 
         except Exception as ex:
             print("\nErrore nell'eseguire l'analisi: " + str(ex))
             # aggiungere controllo errore 'list index out of range'
 
     def save_results(self):
+
         self.rc.save()
 
     def set_graph_state(self):
 
-        if self.characters_checkbox.isChecked():
-            self.d = self.rc.get_twenty_most_common_chars()
-            self.graph_type = "c"
-            self.generate_graph_button.setEnabled(True)
-        elif self.words_checkbox.isChecked():
-            self.d = self.rc.get_twenty_most_common_words()
-            self.graph_type = "w"
-            self.generate_graph_button.setEnabled(True)
+        self.generate_graph(self.rc.get_twenty_most_common_chars(), 'c')
+        self.generate_graph(self.rc.get_twenty_most_common_words(), 'w')
 
-    def generate_graph(self):
+    def generate_graph(self, l, flag):
+
+        my_list, flag = l, flag
 
         now = datetime.datetime.now()
-        d_m_y = "_" + str(now.day) + "-" + str(now.month) + "-" + str(now.year) + ","
-        h_m_s = str(now.hour) + "." + str(now.minute) + "." + str(now.second)
+
+        d_m_y = "_" + str(now.day) + str(now.month) + str(now.year) + "_"
+        h_m_s = str(now.hour) + str(now.minute) + str(now.second)
 
         keys, values = [], []
 
         bar_chart = pygal.Bar()
         pie_chart = pygal.Pie()
 
-        for key, val in self.d:
+        for key, val in my_list:
             keys.append(key)
             values.append(val)
             bar_chart.add(key, val)
             pie_chart.add(key, val)
 
-        paths = []
-        if self.graph_type == 'c':
+        if flag == 'c':
+
             bar_chart.title = 'Istogramma dei 20 caratteri più utilizzati'
             pie_chart.title = 'Grafico a torta dei 20 caratteri più utilizzati'
             bar_chart.render_to_file('../res/chars_bar_chart' + d_m_y + h_m_s + '.svg')
             pie_chart.render_to_file('../res/chars_pie_chart' + d_m_y + h_m_s + '.svg')
             print('\nIstogramma dei caratteri  generato in: ../res/chars_bar_chart' + d_m_y + h_m_s + '.svg')
             print('Grafico a torta dei caratteri generato in: ../res/chars_bar_chart' + d_m_y + h_m_s + '.svg')
-            paths.append('../res/chars_bar_chart' + d_m_y + h_m_s + '.svg')
-            paths.append('../res/chars_bar_chart' + d_m_y + h_m_s + '.svg')
-        elif self.graph_type == 'w':
+
+        elif flag == 'w':
+
             bar_chart.title = 'Istogramma delle 20 parole più utilizzate'
             pie_chart.title = 'Grafico a torta delle 20 parole più utilizzate'
             bar_chart.render_to_file('../res/words_bar_chart' + d_m_y + h_m_s + '.svg')
             pie_chart.render_to_file('../res/words_pie_chart' + d_m_y + h_m_s + '.svg')
-            print('\nIstogramma delle parole generato in: ../res/chars_bar_chart' + d_m_y + h_m_s + '.svg')
-            print('Grafico a torta delle parole generato in: ../res/chars_bar_chart' + d_m_y + h_m_s + '.svg')
-            paths.append('../res/chars_bar_chart' + d_m_y + h_m_s + '.svg')
-            paths.append('../res/chars_bar_chart' + d_m_y + h_m_s + '.svg')
-
-        #for count in range(0, len(paths)):
-        #    webbrowser.open_new_tab(paths[count])
+            print('\nIstogramma delle parole generato in: ../res/words_bar_chart' + d_m_y + h_m_s + '.svg')
+            print('Grafico a torta delle parole generato in: ../res/words_bar_chart' + d_m_y + h_m_s + '.svg')
 
     def close_pyro_connection(self):
+
         print('\nSto chiudendo la connessione con PyRO remote objects...')
 
         t = []
@@ -544,6 +524,7 @@ class TextAnalysisWindow(Connection):
         return True
 
     def delete_local_files(self):
+
         print("\nSto eliminando i file locali...")
 
         for count in range(0, int(self.hosts_number)):
@@ -554,6 +535,7 @@ class TextAnalysisWindow(Connection):
 
     # Override di closeEvent della classe QtGui.QtMainWindow per intercettare la chiusura della finestra
     def closeEvent(self, event):
+
         QtGui.QMainWindow.closeEvent(self, event)
 
         if self.window_status == 2:

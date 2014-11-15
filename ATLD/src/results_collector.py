@@ -7,6 +7,7 @@ from collections import Counter
 class ResultsCollector():
 
     def __init__(self, object, hosts_number):
+
         self.text_analyzer = object
         self.hosts_number = int(hosts_number)
         self.results = []
@@ -137,6 +138,7 @@ class ResultsCollector():
         return Counter(self.chars_occs).most_common()
 
     def get_twenty_most_common_chars(self):
+
         return Counter(self.chars_occs).most_common(20)
 
     def all_words_occurrences_gather(self, words_occurrences):
@@ -162,16 +164,19 @@ class ResultsCollector():
         return Counter(self.words_occs).most_common()
 
     def get_twenty_most_common_words(self):
+
         return Counter(self.words_occs).most_common(20)
 
     def get_final_result(self):
+
         return self.final_result
 
     def save(self):
 
         now = datetime.datetime.now()
-        d_m_y = "_" + str(now.day) + "-" + str(now.month) + "-" + str(now.year) + ","
-        h_m_s = str(now.hour) + "." + str(now.minute) + "." + str(now.second)
+
+        d_m_y = "_" + str(now.day) + str(now.month) + str(now.year) + "_"
+        h_m_s = str(now.hour) + str(now.minute) + str(now.second)
 
         final_res = []
         most_common = []
