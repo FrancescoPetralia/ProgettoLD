@@ -1,6 +1,8 @@
 __author__ = 'francesco'
 
-import pickle
+import datetime
+from collections import Counter
+
 
 class ResultsCollector():
 
@@ -13,6 +15,8 @@ class ResultsCollector():
         self.deserialized_dict = []
         self.chars_occs = None
         self.words_occs = None
+        self.all_chars_occurrences = None
+        self.all_words_occurrences = None
 
     def collect_all_results(self):
 
@@ -65,8 +69,11 @@ class ResultsCollector():
         longest_sentence = max(longest_sentences, key=len)
         longest_sentence_len = len(longest_sentence)
 
-        all_chars_occurrences = self.all_characters_occurrences_gather(chars_occurrences)
-        all_words_occurrences = self.all_words_occurrences_gather(words_occurrences)
+        self.all_chars_occurrences = self.all_characters_occurrences_gather(chars_occurrences)
+        self.all_words_occurrences = self.all_words_occurrences_gather(words_occurrences)
+
+        twenty_most_common_chars = self.get_twenty_most_common_chars()
+        twenty_most_common_words = self.get_twenty_most_common_words()
 
         if shortest_word_len == 1:
             w_carattere = " carattere."
@@ -97,11 +104,11 @@ class ResultsCollector():
                              "La frase più lunga è: '" + longest_sentence + "', ed è lunga " + str(longest_sentence_len)
                              + " caratteri."]
 
-        self.final_result.append("\nElenco dei 30 caratteri più utilizzati (carattere, occorrenza):")
-        for key, val in all_chars_occurrences.items():
+        self.final_result.append("\nElenco dei 20 caratteri più utilizzati (carattere, occorrenza):")
+        for key, val in twenty_most_common_chars:
             self.final_result.append(str(("" + key + "", str(val) + " volte")))
-        self.final_result.append("\nElenco delle 30 parole più utilizzate (parola, occorrenza):")
-        for key, val in all_words_occurrences.items():
+        self.final_result.append("\nElenco delle 20 parole più utilizzate (parola, occorrenza):")
+        for key, val in twenty_most_common_words:
             self.final_result.append(str(("" + key + "", str(val) + " volte")))
 
         if ncnt == int(self.hosts_number):
@@ -127,10 +134,10 @@ class ResultsCollector():
 
             self.chars_occs.update(({keys[count]: s}))
 
-        return self.chars_occs
+        return Counter(self.chars_occs).most_common()
 
-    def get_all_characters_occurrences(self):
-        return self.chars_occs
+    def get_twenty_most_common_chars(self):
+        return Counter(self.chars_occs).most_common(20)
 
     def all_words_occurrences_gather(self, words_occurrences):
 
@@ -152,10 +159,41 @@ class ResultsCollector():
 
             self.words_occs.update(({keys[count]: s}))
 
-        return self.words_occs
+        return Counter(self.words_occs).most_common()
 
-    def get_all_words_occurrences(self):
-        return self.words_occs
+    def get_twenty_most_common_words(self):
+        return Counter(self.words_occs).most_common(20)
 
     def get_final_result(self):
         return self.final_result
+
+    def save(self):
+
+        now = datetime.datetime.now()
+        d_m_y = "_" + str(now.day) + "-" + str(now.month) + "-" + str(now.year) + ","
+        h_m_s = str(now.hour) + "." + str(now.minute) + "." + str(now.second)
+
+        final_res = []
+        most_common = []
+
+        for count in range(0, 13):
+            final_res.append(self.final_result[count] + "\n")
+
+        most_common.append("\nElenco delle occorrenze dei caratteri (carattere, occorrenza):")
+        for key, val in self.all_chars_occurrences:
+            most_common.append(str(("" + key + "", str(val) + " volte")))
+        most_common.append("\nElenco delle delle occorrenze delle parole (parola, occorrenza):")
+        for key, val in self.all_words_occurrences:
+            most_common.append(str(("" + key + "", str(val) + " volte")))
+
+        for elements in most_common:
+            final_res.append(elements)
+
+        try:
+            f = open("../res/text_analysis_result" + d_m_y + h_m_s + ".txt", 'w')
+            for count in range(0, len(final_res)):
+                f.write(str(final_res[count]) + "\n")
+            f.close()
+            print("\nAnalisi salvata in: ../res/text_analysis_result" + d_m_y + h_m_s + ".txt")
+        except Exception as e:
+            print("\nErrore nel salvataggio: " + str(e))

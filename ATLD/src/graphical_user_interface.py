@@ -9,8 +9,9 @@ import getpass
 import Pyro4
 import time
 import paramiko
-import numpy as np
-import matplotlib.pyplot as plt
+import datetime
+import webbrowser
+import pygal
 from PyQt4 import QtGui, QtCore
 from name_server import NameServer
 from connection import Connection
@@ -305,24 +306,25 @@ class TextAnalysisWindow(Connection):
         self.save_final_result_button.setEnabled(False)
         self.save_final_result_button.setToolTip("Salva i risultati dell'analisi dentro '../res/text_analysis_result.txt'")
 
-        self.generate_graph_button = QtGui.QPushButton("Genera Grafico", self)
+        self.generate_graph_button = QtGui.QPushButton("Genera Grafici", self)
         self.generate_graph_button.clicked.connect(self.generate_graph)
         self.generate_graph_button.resize(254, 65)
         self.generate_graph_button.move(255, 595)
         self.generate_graph_button.setEnabled(False)
-        self.generate_graph_button.setToolTip("Genera il grafico delle parole o dei caratteri in base alla checkbox selezionata")
+        self.generate_graph_button.setToolTip("Genera i grafici (istogramma, grafico a torta) delle parole o dei "
+                                              "caratteri, in base alla checkbox selezionata, nella cartella ../res/")
 
         self.characters_checkbox = QtGui.QCheckBox("Caratteri", self)
         self.characters_checkbox.move(295, 665)
         self.characters_checkbox.stateChanged.connect(self.set_graph_state)
         self.characters_checkbox.setEnabled(False)
-        self.characters_checkbox.setToolTip("Se selezionata, verrà generato il grafico caratteri/occorrenze")
+        self.characters_checkbox.setToolTip("Se selezionata, verranno generati i grafici caratteri/occorrenze")
 
         self.words_checkbox = QtGui.QCheckBox("Parole", self)
         self.words_checkbox.move(395, 665)
         self.words_checkbox.stateChanged.connect(self.set_graph_state)
         self.words_checkbox.setEnabled(False)
-        self.words_checkbox.setToolTip("Se selezionata, verrà generato il grafico parole/occorrenze")
+        self.words_checkbox.setToolTip("Se selezionata, verranno generati i grafici parole/occorrenze")
 
         self.hosts_connection_button = QtGui.QPushButton("Connetti Hosts", self)
         self.hosts_connection_button.resize(247, 65)
@@ -359,6 +361,7 @@ class TextAnalysisWindow(Connection):
         self.results_number = None
 
         self.d = None
+        self.graph_type = None
 
         # Mi serve per controllare gli stati della finestra
         self.window_status = 0
@@ -454,61 +457,79 @@ class TextAnalysisWindow(Connection):
 
             self.results = self.rc.get_final_result()
 
-            self.results_number = len(self.results)
+            self.results_number = (len(self.results) - 2)
 
             for count in range(0, self.results_number):
                 self.final_result_textarea.append(self.results[count] + "\n")
 
-            self.analysis_time_label.setText("Tempo impiegato per eseguire l'analisi testuale: " + str(e.get_measurement_interval()) + " secondi.")
-            print("Tempo impiegato per eseguire l'analisi testuale: " + str(e.get_measurement_interval()) + " secondi.\n")
+            self.analysis_time_label.setText("Tempo impiegato per eseguire l'analisi testuale: "
+                                             + str(e.get_measurement_interval()) + " secondi.")
+            print("Tempo impiegato per eseguire l'analisi testuale: " + str(e.get_measurement_interval())
+                  + " secondi.\n")
             self.save_final_result_button.setEnabled(True)
             self.characters_checkbox.setEnabled(True)
             self.words_checkbox.setEnabled(True)
 
         except Exception as ex:
             print("\nErrore nell'eseguire l'analisi: " + str(ex))
+            # aggiungere controllo errore 'list index out of range'
 
     def save_results(self):
-        try:
-            f = open("../res/text_analysis_result.txt", 'w')
-            for count in range(0, self.results_number):
-                f.write(self.results[count] + "\n")
-            f.close()
-            print("Analisi salvata in: ../res/text_analysis_result.txt")
-        except Exception as e:
-            print("Errore nel salvataggio: " + str(e))
+        self.rc.save()
 
     def set_graph_state(self):
 
         if self.characters_checkbox.isChecked():
-            self.d = self.rc.get_all_characters_occurrences()
+            self.d = self.rc.get_twenty_most_common_chars()
+            self.graph_type = "c"
             self.generate_graph_button.setEnabled(True)
         elif self.words_checkbox.isChecked():
-            self.d = self.rc.get_all_words_occurrences()
+            self.d = self.rc.get_twenty_most_common_words()
+            self.graph_type = "w"
             self.generate_graph_button.setEnabled(True)
 
     def generate_graph(self):
 
+        now = datetime.datetime.now()
+        d_m_y = "_" + str(now.day) + "-" + str(now.month) + "-" + str(now.year) + ","
+        h_m_s = str(now.hour) + "." + str(now.minute) + "." + str(now.second)
+
         keys, values = [], []
 
-        for key, val in self.d.items():
+        bar_chart = pygal.Bar()
+        pie_chart = pygal.Pie()
+
+        for key, val in self.d:
             keys.append(key)
             values.append(val)
+            bar_chart.add(key, val)
+            pie_chart.add(key, val)
 
-        pos = np.arange(len(keys))
-        width = 1.0     # gives histogram aspect to the bar diagram
+        paths = []
+        if self.graph_type == 'c':
+            bar_chart.title = 'Istogramma dei 20 caratteri più utilizzati'
+            pie_chart.title = 'Grafico a torta dei 20 caratteri più utilizzati'
+            bar_chart.render_to_file('../res/chars_bar_chart' + d_m_y + h_m_s + '.svg')
+            pie_chart.render_to_file('../res/chars_pie_chart' + d_m_y + h_m_s + '.svg')
+            print('\nIstogramma dei caratteri  generato in: ../res/chars_bar_chart' + d_m_y + h_m_s + '.svg')
+            print('Grafico a torta dei caratteri generato in: ../res/chars_bar_chart' + d_m_y + h_m_s + '.svg')
+            paths.append('../res/chars_bar_chart' + d_m_y + h_m_s + '.svg')
+            paths.append('../res/chars_bar_chart' + d_m_y + h_m_s + '.svg')
+        elif self.graph_type == 'w':
+            bar_chart.title = 'Istogramma delle 20 parole più utilizzate'
+            pie_chart.title = 'Grafico a torta delle 20 parole più utilizzate'
+            bar_chart.render_to_file('../res/words_bar_chart' + d_m_y + h_m_s + '.svg')
+            pie_chart.render_to_file('../res/words_pie_chart' + d_m_y + h_m_s + '.svg')
+            print('\nIstogramma delle parole generato in: ../res/chars_bar_chart' + d_m_y + h_m_s + '.svg')
+            print('Grafico a torta delle parole generato in: ../res/chars_bar_chart' + d_m_y + h_m_s + '.svg')
+            paths.append('../res/chars_bar_chart' + d_m_y + h_m_s + '.svg')
+            paths.append('../res/chars_bar_chart' + d_m_y + h_m_s + '.svg')
 
-        ax = plt.axes()
-        ax.set_xticks(pos + (width / 2))
-        ax.set_xticklabels(keys)
-
-        plt.bar(pos, values, width, color='r')
-        plt.show()
-
-        print("\nGrafico generato.")
+        #for count in range(0, len(paths)):
+        #    webbrowser.open_new_tab(paths[count])
 
     def close_pyro_connection(self):
-        print("\nSto chiudendo la connessione con PyRO remote objects...")
+        print('\nSto chiudendo la connessione con PyRO remote objects...')
 
         t = []
 
