@@ -106,11 +106,18 @@ class ResultsCollector():
                              + " caratteri."]
 
         self.final_result.append("\nElenco dei 20 caratteri più utilizzati (carattere, occorrenza):")
+        count = 0
         for key, val in twenty_most_common_chars:
-            self.final_result.append(str(("" + key + "", str(val) + " volte")))
+
+            count += 1
+            self.final_result.append(str(count) + " - " + str(("" + key + "", str(val) + " volte")))
+
         self.final_result.append("\nElenco delle 20 parole più utilizzate (parola, occorrenza):")
+        count = 0
         for key, val in twenty_most_common_words:
-            self.final_result.append(str(("" + key + "", str(val) + " volte")))
+
+            count += 1
+            self.final_result.append(str(count) + " - " + str(("" + key + "", str(val) + " volte")))
 
         if ncnt == int(self.hosts_number):
             print("Analisi testuale eseguita con successo.")
@@ -187,7 +194,7 @@ class ResultsCollector():
         most_common.append("\nElenco delle occorrenze dei caratteri (carattere, occorrenza):")
         for key, val in self.all_chars_occurrences:
             most_common.append(str(("" + key + "", str(val) + " volte")))
-        most_common.append("\nElenco delle delle occorrenze delle parole (parola, occorrenza):")
+        most_common.append("\nElenco delle occorrenze delle parole (parola, occorrenza):")
         for key, val in self.all_words_occurrences:
             most_common.append(str(("" + key + "", str(val) + " volte")))
 

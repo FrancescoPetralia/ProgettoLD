@@ -3,6 +3,7 @@ __author__ = 'francesco'
 import os
 #os.environ["PYRO_LOGFILE"] = "../log/pyro.log"
 #os.environ["PYRO_LOGLEVEL"] = "DEBUG"
+import sys
 import threading
 import socket
 import getpass
@@ -193,7 +194,11 @@ class HostsConnectionWindow(QtGui.QMainWindow):
                 print("Host " + str(count) + ": credenziali corrette.")
 
             except (paramiko.AuthenticationException, OSError, socket.gaierror):
+                style = 'QLineEdit { border-style: solid; border-width: 1px; border-color: %s }' % '#f6989d'
+                self.textboxlist_addresses[count].setStyleSheet(style)
+                self.textboxlist_password[count].setStyleSheet(style)
                 print("Host_" + str(count) + ": credenziali errate.")
+                msg = QtGui.QMessageBox.about(self, "Credenziali Errate", "Host_" + str(count) + ": credenziali errate.")
 
         print("\n")
 
@@ -249,14 +254,12 @@ class TextAnalysisWindow(Connection):
         self.menu.addMenu(self.menu_file)
         self.menu_file_load_file_action.triggered.connect(self.load_file)
 
-        self.loaded_file_label = QtGui.QLabel("Percorso del file da analizzare:", self)
-        self.loaded_file_label.resize(450, 20)
-        self.loaded_file_label.move(20, 20)
+        self.file_path = ""
+        self.file_size_stat_info = None
 
-        self.loaded_file_textbox = QtGui.QLineEdit(self)
-        self.loaded_file_textbox.resize(450, 30)
-        self.loaded_file_textbox.move(20, 50)
-        self.loaded_file_textbox.setReadOnly(True)
+        self.file_size_label = QtGui.QLabel("Dimensione del file da analizzare: 0 bytes.", self)
+        self.file_size_label.resize(500, 20)
+        self.file_size_label.move(20, 20)
 
         self.loaded_file_label = QtGui.QLabel("Contenuto del file da analizzare:", self)
         self.loaded_file_label.resize(450, 20)
@@ -268,36 +271,37 @@ class TextAnalysisWindow(Connection):
         self.loaded_file_textarea.setReadOnly(True)
 
         self.search_label = QtGui.QLabel("Ricerca nel testo:", self)
-        self.search_label.resize(450, 20)
-        self.search_label.move(20, 100)
+        self.search_label.resize(300, 20)
+        self.search_label.move(20, 60)
+        self.search_label.setToolTip("Ricerca un carattere o una parole nel testo")
 
         self.search_textbox = QtGui.QLineEdit(self)
-        self.search_textbox.resize(350, 30)
-        self.search_textbox.move(20, 130)
-        self.search_textbox.returnPressed.connect(self.search)
+        self.search_textbox.resize(250, 30)
+        self.search_textbox.move(20, 90)
+        self.search_textbox.returnPressed.connect(self.search_and_highlight)
 
         self.results_label = QtGui.QLabel("Risultato dell'analisi:", self)
         #self.palette = QtGui.QPalette()
         #self.palette.setColor(QtGui.QPalette.Foreground, QtCore.Qt.red)
         #self.results_label.setPalette(self.palette)
         self.results_label.resize(200, 30)
-        self.results_label.move(200, 180)
+        self.results_label.move(200, 140)
 
         self.left_separator = QtGui.QFrame(self)
         self.left_separator.setFrameShape(QtGui.QFrame.HLine)
         self.left_separator.setFrameShadow(QtGui.QFrame.Sunken)
         self.left_separator.resize(170, 2)
-        self.left_separator.move(20, 190)
+        self.left_separator.move(20, 150)
 
         self.right_separator = QtGui.QFrame(self)
         self.right_separator.setFrameShape(QtGui.QFrame.HLine)
         self.right_separator.setFrameShadow(QtGui.QFrame.Sunken)
         self.right_separator.resize(180, 2)
-        self.right_separator.move(322, 190)
+        self.right_separator.move(322, 150)
 
         self.final_result_textarea = QtGui.QTextEdit(self)
-        self.final_result_textarea.resize(483, 380)
-        self.final_result_textarea.move(20, 220)
+        self.final_result_textarea.resize(483, 420)
+        self.final_result_textarea.move(20, 180)
         self.final_result_textarea.setReadOnly(True)
 
         self.save_final_result_button = QtGui.QPushButton("Salva Risultati", self)
@@ -372,18 +376,22 @@ class TextAnalysisWindow(Connection):
     def load_file(self):
 
         try:
-            self.loaded_file_textbox.setText(QtGui.QFileDialog.getOpenFileName())
-            file_path = self.loaded_file_textbox.text()
-            self.loaded_file_textbox.setToolTip("Percorso del file da analizzare: " + file_path)
-            self.loaded_file_textarea.setText(self.read_file(file_path))
+
+            self.file_path = str(QtGui.QFileDialog.getOpenFileName())
+            self.loaded_file_textarea.setText(self.read_file(self.file_path))
+            self.loaded_file_textarea.setToolTip("Percorso del file: " + self.file_path)
+            self.file_size_stat_info = os.stat(self.file_path)
+            self.file_size_label.setText("Dimensione del file da analizzare: " +
+                                         str(self.file_size_stat_info.st_size) + " bytes.")
             print("\nFile caricato correttamente.")
 
+            # Se lo split è avvenuto correttamente, abilita la connessione
             if self.split_file():
                 self.hosts_connection_button.setEnabled(True)
 
-        except Exception:
+        except Exception as e:
 
-            print("\nErrore nel caricamento del file: ")
+            print("\nErrore nel caricamento del file: " + str(e))
 
     def read_file(self, p1):
 
@@ -395,7 +403,7 @@ class TextAnalysisWindow(Connection):
 
     def split_file(self):
 
-        fs = FileSplitter(self.hosts_number, self.loaded_file_textbox.text())
+        fs = FileSplitter(self.hosts_number, self.file_path)
 
         if fs.split_file_between_hosts():
             self.window_status = 1
@@ -426,7 +434,7 @@ class TextAnalysisWindow(Connection):
         self.open_server_connection(identifier, address, password)
         self.find_remote_object(identifier, address, password)
 
-    def search(self):
+    def search_and_highlight(self):
 
         what_to_search = self.search_textbox.text()
 
@@ -457,8 +465,10 @@ class TextAnalysisWindow(Connection):
             self.generate_graph_button.setEnabled(True)
 
         except Exception as ex:
-            print("\nErrore nell'eseguire l'analisi: " + str(ex))
-            # aggiungere controllo errore 'list index out of range'
+            #print("\nErrore nell'eseguire l'analisi.")
+            if str(ex) == 'list index out of range':
+                print("\nLa connessione agli host remoti  è ancora in corso..."
+                      "\nPer favore aspetta ancora qualche secondo.")
 
     def save_results(self):
 
