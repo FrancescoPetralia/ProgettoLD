@@ -207,5 +207,7 @@ class ResultsCollector():
                 f.write(str(final_res[count]) + "\n")
             f.close()
             print("\nAnalisi salvata in: ../res/text_analysis_result" + d_m_y + h_m_s + ".txt")
+            return True, "\nAnalisi salvata in: ../res/text_analysis_result" + d_m_y + h_m_s + ".txt"
         except Exception as e:
             print("\nErrore nel salvataggio: " + str(e))
+            return False, "\nErrore nel salvataggio: " + str(e)

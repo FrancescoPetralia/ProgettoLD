@@ -198,7 +198,7 @@ class HostsConnectionWindow(QtGui.QMainWindow):
                 self.textboxlist_addresses[count].setStyleSheet(style)
                 self.textboxlist_password[count].setStyleSheet(style)
                 print("Host_" + str(count) + ": credenziali errate.")
-                msg = QtGui.QMessageBox.about(self, "Credenziali Errate", "Host_" + str(count) + ": credenziali errate.")
+                QtGui.QMessageBox.about(self, "Credenziali Errate", "Host_" + str(count) + ": credenziali errate.")
 
         print("\n")
 
@@ -226,7 +226,7 @@ class HostsConnectionWindow(QtGui.QMainWindow):
             pwds.append(self.textboxlist_password[count].text())
 
         if self.password_validation(addrs, pwds):
-            self.open_text_analysis_window(ids, addrs, pwds, self.host_number)
+            self.open_text_analysis_window(ids, addrs, pwds, int(self.host_number))
         else:
             pass
 
@@ -276,9 +276,13 @@ class TextAnalysisWindow(Connection):
         self.search_label.setToolTip("Ricerca un carattere o una parole nel testo")
 
         self.search_textbox = QtGui.QLineEdit(self)
-        self.search_textbox.resize(250, 30)
+        self.search_textbox.resize(200, 30)
         self.search_textbox.move(20, 90)
         self.search_textbox.returnPressed.connect(self.search_and_highlight)
+
+        self.searched_string_occurrences_label = QtGui.QLabel(self)
+        self.searched_string_occurrences_label.resize(300, 20)
+        self.searched_string_occurrences_label.move(250, 90)
 
         self.results_label = QtGui.QLabel("Risultato dell'analisi:", self)
         #self.palette = QtGui.QPalette()
@@ -347,6 +351,8 @@ class TextAnalysisWindow(Connection):
         self.addresses = addresses
         self.passwords = passwords
 
+        self.read_text = None
+
         self.hcw = None
         self.rc = None
 
@@ -378,7 +384,8 @@ class TextAnalysisWindow(Connection):
         try:
 
             self.file_path = str(QtGui.QFileDialog.getOpenFileName())
-            self.loaded_file_textarea.setText(self.read_file(self.file_path))
+            self.read_text = self.read_file(self.file_path)
+            self.loaded_file_textarea.setText(self.read_text)
             self.loaded_file_textarea.setToolTip("Percorso del file: " + self.file_path)
             self.file_size_stat_info = os.stat(self.file_path)
             self.file_size_label.setText("Dimensione del file da analizzare: " +
@@ -391,7 +398,10 @@ class TextAnalysisWindow(Connection):
 
         except Exception as e:
 
-            print("\nErrore nel caricamento del file: " + str(e))
+            print("\nNon è stato selezionato nessun file, oppure il seguente file/directory non esiste.")
+            QtGui.QMessageBox.about(self, "Errore durante la selezione del file", "Non è stato selezionato nessun file, "
+                                                                                  "oppure il seguente file/directory "
+                                                                                  "non esiste.")
 
     def read_file(self, p1):
 
@@ -401,7 +411,29 @@ class TextAnalysisWindow(Connection):
         in_file.close()
         return file
 
+    def check_before_split(self):
+
+        f = open(self.file_path, "r")
+        file_content = f.read().splitlines()
+        f.close()
+        total_file_lines = 0
+        for elements in range(0, len(file_content)):
+            total_file_lines += 1
+
+        if total_file_lines < self.hosts_number:
+
+            self.hosts_number = total_file_lines
+
+            print("Il file ha meno righe rispetto al numero di host a cui collegarsi,\n"
+                  "per cui il software imposterà automaticamente il numero di host, in modo da bilanciare il carico\n"
+                  "di lavoro.")
+            QtGui.QMessageBox.about(self, "Avviso", "Il file ha meno righe rispetto al numero di host a cui collegarsi, "
+                                                    "per cui il software imposterà automaticamente il numero di host, "
+                                                    "in modo da bilanciare il carico di lavoro.")
+
     def split_file(self):
+
+        self.check_before_split()
 
         fs = FileSplitter(self.hosts_number, self.file_path)
 
@@ -437,6 +469,35 @@ class TextAnalysisWindow(Connection):
     def search_and_highlight(self):
 
         what_to_search = self.search_textbox.text()
+        print("\nCerco '" + what_to_search + "' nel testo...")
+
+        self.loaded_file_textarea.setText(self.read_text)
+        cursor = self.loaded_file_textarea.textCursor()
+        text_format = QtGui.QTextCharFormat()
+        text_format.setBackground(QtGui.QBrush(QtGui.QColor("#91cbf0")))
+        pattern = what_to_search
+
+        if pattern == "":
+            return
+
+        regex = QtCore.QRegExp(pattern)
+        pos, cnt = 0, 0
+        index = regex.indexIn(self.loaded_file_textarea.toPlainText(), pos)
+        while index != -1:
+            cnt += 1
+            cursor.setPosition(index)
+            cursor.movePosition(QtGui.QTextCursor.EndOfWord, 1)
+            cursor.mergeCharFormat(text_format)
+            pos = index + regex.matchedLength()
+            index = regex.indexIn(self.loaded_file_textarea.toPlainText(), pos)
+
+        if cnt > 0:
+            print("'" + what_to_search + "' è presente nel testo " + str(cnt) + " volte.")
+            self.searched_string_occurrences_label.setText("'" + what_to_search + "' è presente nel testo "
+                                                           + str(cnt) + " volte.")
+        elif cnt == 0:
+            print("'" + what_to_search + "' non è presente nel testo.")
+            self.searched_string_occurrences_label.setText("'" + what_to_search + "' non è presente nel testo.")
 
     def start_analysis(self):
 
@@ -463,16 +524,27 @@ class TextAnalysisWindow(Connection):
                   + " secondi.\n")
             self.save_final_result_button.setEnabled(True)
             self.generate_graph_button.setEnabled(True)
+            QtGui.QMessageBox.about(self, "Analisi eseguita con successo", "Analisi eseguita con successo")
 
         except Exception as ex:
             #print("\nErrore nell'eseguire l'analisi.")
             if str(ex) == 'list index out of range':
                 print("\nLa connessione agli host remoti  è ancora in corso..."
                       "\nPer favore aspetta ancora qualche secondo.")
+                QtGui.QMessageBox.about(self, "Credenziali Errate",
+                                        "\nLa connessione agli host remoti  è ancora in corso..."
+                                        "\n\nPer favore aspetta ancora qualche secondo.")
 
     def save_results(self):
 
-        self.rc.save()
+        retval, message = self.rc.save()
+
+        if retval:
+
+            QtGui.QMessageBox.about(self, "Info salvataggio", message)
+        else:
+
+            QtGui.QMessageBox.about(self, "Errore nel salvataggio del file", message)
 
     def set_graph_state(self):
 
@@ -507,6 +579,11 @@ class TextAnalysisWindow(Connection):
             pie_chart.render_to_file('../res/chars_pie_chart' + d_m_y + h_m_s + '.svg')
             print('\nIstogramma dei caratteri  generato in: ../res/chars_bar_chart' + d_m_y + h_m_s + '.svg')
             print('Grafico a torta dei caratteri generato in: ../res/chars_bar_chart' + d_m_y + h_m_s + '.svg')
+            QtGui.QMessageBox.about(self, "Grafici generati con successo",
+                                    '\nIstogramma dei caratteri  generato in: ../res/chars_bar_chart'
+                                    + d_m_y + h_m_s + '.svg' +
+                                    '\nGrafico a torta dei caratteri generato in: ../res/chars_bar_chart'
+                                    + d_m_y + h_m_s + '.svg')
 
         elif flag == 'w':
 
