@@ -110,14 +110,14 @@ class ResultsCollector():
         for key, val in twenty_most_common_chars:
 
             count += 1
-            self.final_result.append(str(count) + " - " + str(("" + key + "", str(val) + " volte")))
+            self.final_result.append(" - " + str(("" + key + "", str(val) + " volte")))
 
         self.final_result.append("\nElenco delle 20 parole più utilizzate (parola, occorrenza):")
         count = 0
         for key, val in twenty_most_common_words:
 
             count += 1
-            self.final_result.append(str(count) + " - " + str(("" + key + "", str(val) + " volte")))
+            self.final_result.append(" - " + str(("" + key + "", str(val) + " volte")))
 
         if ncnt == int(self.hosts_number):
             print("Analisi testuale eseguita con successo.")

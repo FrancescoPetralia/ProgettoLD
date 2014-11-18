@@ -36,6 +36,14 @@ class SetHostsWindow(QtGui.QMainWindow):
         self.setWindowTitle("Impostazione numero hosts")
         self.move(400, 250)
 
+        self.menu = QtGui.QMenuBar(self)
+        self.menu_analizzatore = QtGui.QMenu("Analizzatore")
+        self.menu_analizzatore_help_action = self.menu_analizzatore.addAction("Help")
+        self.menu_analizzatore_help_action.triggered.connect(self.show_help)
+        self.menu_analizzatore_load_config_file_action = self.menu_analizzatore.addAction("Carica configurazione")
+        self.menu_analizzatore_load_config_file_action.triggered.connect(self.load_config_file)
+        self.menu.addMenu(self.menu_analizzatore)
+
         self.label = QtGui.QLabel("Numero di hosts?", self)
         self.label.resize(150, 40)
         self.label.move(150, 10)
@@ -82,6 +90,14 @@ class SetHostsWindow(QtGui.QMainWindow):
     def get_hosts_number(self):
 
         return self.textbox.text()
+
+    def show_help(self):
+        print("\n Help caricato.")
+
+    def load_config_file(self):
+        # Carico il file e leggo i valori.
+
+        print("\nConfigurazione caricata.")
 
 #=======================================================================================================================
 
@@ -194,7 +210,7 @@ class HostsConnectionWindow(QtGui.QMainWindow):
                 print("Host " + str(count) + ": credenziali corrette.")
 
             except (paramiko.AuthenticationException, OSError, socket.gaierror):
-                style = 'QLineEdit { border-style: solid; border-width: 1px; border-color: %s }' % '#f6989d'
+                style = 'QLineEdit { border-style: solid; border-width: 2px; border-color: %s }' % '#f6989d'
                 self.textboxlist_addresses[count].setStyleSheet(style)
                 self.textboxlist_password[count].setStyleSheet(style)
                 print("Host_" + str(count) + ": credenziali errate.")
@@ -282,7 +298,7 @@ class TextAnalysisWindow(Connection):
 
         self.searched_string_occurrences_label = QtGui.QLabel(self)
         self.searched_string_occurrences_label.resize(300, 20)
-        self.searched_string_occurrences_label.move(250, 90)
+        self.searched_string_occurrences_label.move(230, 97)
 
         self.results_label = QtGui.QLabel("Risultato dell'analisi:", self)
         #self.palette = QtGui.QPalette()
@@ -468,36 +484,46 @@ class TextAnalysisWindow(Connection):
 
     def search_and_highlight(self):
 
-        what_to_search = self.search_textbox.text()
-        print("\nCerco '" + what_to_search + "' nel testo...")
+        green_style = 'QLineEdit { border-style: solid; border-width: 2px; border-color: %s }' % '#c4df9b'
+        red_style = 'QLineEdit { border-style: solid; border-width: 2px; border-color: %s }' % '#f6989d'
 
-        self.loaded_file_textarea.setText(self.read_text)
-        cursor = self.loaded_file_textarea.textCursor()
-        text_format = QtGui.QTextCharFormat()
-        text_format.setBackground(QtGui.QBrush(QtGui.QColor("#91cbf0")))
-        pattern = what_to_search
+        try:
+            string_to_search = self.search_textbox.text()
+            print("\nCerco '" + string_to_search + "' nel testo...")
 
-        if pattern == "":
-            return
+            self.loaded_file_textarea.setText(self.read_text)
+            cursor = self.loaded_file_textarea.textCursor()
+            text_format = QtGui.QTextCharFormat()
+            text_format.setBackground(QtGui.QBrush(QtGui.QColor("#91cbf0")))
+            pattern = string_to_search
 
-        regex = QtCore.QRegExp(pattern)
-        pos, cnt = 0, 0
-        index = regex.indexIn(self.loaded_file_textarea.toPlainText(), pos)
-        while index != -1:
-            cnt += 1
-            cursor.setPosition(index)
-            cursor.movePosition(QtGui.QTextCursor.EndOfWord, 1)
-            cursor.mergeCharFormat(text_format)
-            pos = index + regex.matchedLength()
+            if pattern == "":
+                print("Non hai inserito niente nel campo di ricerca. ")
+                QtGui.QMessageBox.about(self, "Attenzione", "Non hai inserito niente nel campo di ricerca.")
+                self.search_textbox.setStyleSheet(red_style)
+                raise Exception("Non hai inserito niente nel campo di ricerca.")
+
+            regex = QtCore.QRegExp(pattern)
+            pos, cnt = 0, 0
             index = regex.indexIn(self.loaded_file_textarea.toPlainText(), pos)
+            while index != -1:
+                cnt += 1
+                cursor.setPosition(index)
+                cursor.movePosition(QtGui.QTextCursor.EndOfWord, 1)
+                cursor.mergeCharFormat(text_format)
+                pos = index + regex.matchedLength()
+                index = regex.indexIn(self.loaded_file_textarea.toPlainText(), pos)
 
-        if cnt > 0:
-            print("'" + what_to_search + "' è presente nel testo " + str(cnt) + " volte.")
-            self.searched_string_occurrences_label.setText("'" + what_to_search + "' è presente nel testo "
-                                                           + str(cnt) + " volte.")
-        elif cnt == 0:
-            print("'" + what_to_search + "' non è presente nel testo.")
-            self.searched_string_occurrences_label.setText("'" + what_to_search + "' non è presente nel testo.")
+            if cnt > 0:
+                print("'" + string_to_search + "' è presente nel testo " + str(cnt) + " volte.")
+                self.searched_string_occurrences_label.setText(str(cnt) + " occorrenze trovate.")
+                self.search_textbox.setStyleSheet(green_style)
+            elif cnt == 0:
+                print("'" + string_to_search + "' non è presente nel testo.")
+                self.searched_string_occurrences_label.setText(str(cnt) + " occorrenze trovate.")
+                self.search_textbox.setStyleSheet(red_style)
+        except:
+            pass
 
     def start_analysis(self):
 
