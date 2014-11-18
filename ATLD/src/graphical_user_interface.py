@@ -3,7 +3,6 @@ __author__ = 'francesco'
 import os
 #os.environ["PYRO_LOGFILE"] = "../log/pyro.log"
 #os.environ["PYRO_LOGLEVEL"] = "DEBUG"
-import sys
 import threading
 import socket
 import getpass
@@ -11,7 +10,6 @@ import Pyro4
 import time
 import paramiko
 import datetime
-import webbrowser
 import pygal
 from PyQt4 import QtGui, QtCore
 from name_server import NameServer
@@ -66,7 +64,7 @@ class SetHostsWindow(QtGui.QMainWindow):
 
     def open_main_window(self):
 
-        self.hcw = HostsConnectionWindow()
+        self.hcw = HostsConnectionWindow(0)
         self.hcw.set_hosts_number(self.get_hosts_number())
         self.hcw.show()
         self.hide()
@@ -95,16 +93,38 @@ class SetHostsWindow(QtGui.QMainWindow):
         print("\n Help caricato.")
 
     def load_config_file(self):
-        # Carico il file e leggo i valori.
 
-        print("\nConfigurazione caricata.")
+        hosts_number, address, file, addresses = "", "", "", []
+
+        file_path = str(QtGui.QFileDialog.getOpenFileName())
+
+        f = open(file_path, 'r')
+        file_content = f.read().splitlines()
+
+        hosts_number = file_content[3]
+        address = file_content[4]
+        file = file_content[5]
+
+        f.close()
+
+        for count in range(0, int(hosts_number)):
+            addresses.append(address)
+
+        print("\nConfigurazione caricata: " + hosts_number + ", " + str(addresses) + ", " + file)
+
+        self.hcw = HostsConnectionWindow(1)
+        self.hcw.set_addresses(addresses)
+        self.hcw.set_hosts_number(hosts_number)
+        self.hcw.set_file(file)
+        self.hcw.show()
+        self.hide()
 
 #=======================================================================================================================
 
 
 class HostsConnectionWindow(QtGui.QMainWindow):
 
-    def __init__(self):
+    def __init__(self, flag):
 
         super(HostsConnectionWindow, self).__init__()
 
@@ -149,12 +169,24 @@ class HostsConnectionWindow(QtGui.QMainWindow):
         self.taw = None
         self.shw = None
 
+        self.addresses = []
+        self.file_path = None
+        self.flag = flag
+
     def go_back(self):
 
         self.hide()
         self.shw = SetHostsWindow()
         self.shw.show()
         # Richiamare il metodo che termina il Name Server
+
+    def set_file(self, file):
+
+        self.file_path = file
+
+    def set_addresses(self, addr):
+
+        self.addresses = addr
 
     def set_hosts_number(self, n_addresses):
 
@@ -175,7 +207,13 @@ class HostsConnectionWindow(QtGui.QMainWindow):
 
             self.textboxlist_addresses[count].resize(self.textboxwidth, self.textboxheight)
             self.textboxlist_addresses[count].move(self.xpositiontextbox_a, (self.offset_textbox * (count + 1)))
-            self.textboxlist_addresses[count].setText(getpass.getuser() + "@" + socket.gethostname() + ".local")
+
+            if self.flag == 1:
+
+                self.textboxlist_addresses[count].setText(self.addresses[count])
+            elif self.flag == 0:
+
+                self.textboxlist_addresses[count].setText(getpass.getuser() + "@" + socket.gethostname() + ".local")
 
             self.labellist_password[count].resize(self.labelwidth, self.labelheight)
             self.labellist_password[count].move(self.xpositionlabel_p, (self.offset_label * (count + 1)))
@@ -225,9 +263,16 @@ class HostsConnectionWindow(QtGui.QMainWindow):
 
     def open_text_analysis_window(self, identifiers, addresses, passwords, hosts):
 
-        self.taw = TextAnalysisWindow(identifiers, addresses, passwords, hosts)
-        self.taw.show()
-        self.hide()
+        if self.flag == 0:
+
+            self.taw = TextAnalysisWindow(identifiers, addresses, passwords, hosts, None, 0)
+            self.taw.show()
+            self.hide()
+        elif self.flag == 1:
+
+            self.taw = TextAnalysisWindow(identifiers, addresses, passwords, hosts, self.file_path, 1)
+            self.taw.show()
+            self.hide()
 
     def on_click_button_proceed(self):
 
@@ -251,11 +296,13 @@ class HostsConnectionWindow(QtGui.QMainWindow):
 
 class TextAnalysisWindow(Connection):
 
-    def __init__(self, identifiers, addresses, passwords, hosts):
+    def __init__(self, identifiers, addresses, passwords, hosts, file, flag):
 
         super(TextAnalysisWindow, self).__init__()
 
         self.hosts_number = hosts
+        self.default_conf_file_path = file
+        self.flag = flag
 
         self.setFixedSize(1020, 710)
         self.move(125, 30)
@@ -378,10 +425,26 @@ class TextAnalysisWindow(Connection):
         # Mi serve per controllare gli stati della finestra
         self.window_status = 0
 
+        if self.flag == 1:
+
+            self.read_text = self.read_file(self.default_conf_file_path)
+            self.loaded_file_textarea.setText(self.read_text)
+            self.loaded_file_textarea.setToolTip("Percorso del file: " + self.default_conf_file_path)
+            self.file_size_stat_info = os.stat(self.default_conf_file_path)
+            self.file_size_label.setText("Dimensione del file da analizzare: " +
+                                         str(self.file_size_stat_info.st_size) + " bytes.")
+            print("\nFile caricato correttamente.")
+
+            # Se lo split è avvenuto correttamente, abilita la connessione
+            if self.split_file():
+                self.hosts_connection_button.setEnabled(True)
+        else:
+            pass
+
     def go_back(self):
 
         self.hide()
-        self.hcw = HostsConnectionWindow()
+        self.hcw = HostsConnectionWindow(0)
         self.hcw.set_hosts_number(self.hosts_number)
         self.hcw.show()
 
@@ -399,14 +462,18 @@ class TextAnalysisWindow(Connection):
 
         try:
 
-            self.file_path = str(QtGui.QFileDialog.getOpenFileName())
-            self.read_text = self.read_file(self.file_path)
-            self.loaded_file_textarea.setText(self.read_text)
-            self.loaded_file_textarea.setToolTip("Percorso del file: " + self.file_path)
-            self.file_size_stat_info = os.stat(self.file_path)
-            self.file_size_label.setText("Dimensione del file da analizzare: " +
-                                         str(self.file_size_stat_info.st_size) + " bytes.")
-            print("\nFile caricato correttamente.")
+            if self.flag == 0:
+
+                self.file_path = str(QtGui.QFileDialog.getOpenFileName())
+                self.read_text = self.read_file(self.file_path)
+                self.loaded_file_textarea.setText(self.read_text)
+                self.loaded_file_textarea.setToolTip("Percorso del file: " + self.file_path)
+                self.file_size_stat_info = os.stat(self.file_path)
+                self.file_size_label.setText("Dimensione del file da analizzare: " +
+                                             str(self.file_size_stat_info.st_size) + " bytes.")
+                print("\nFile caricato correttamente.")
+            else:
+                pass
 
             # Se lo split è avvenuto correttamente, abilita la connessione
             if self.split_file():
@@ -428,6 +495,11 @@ class TextAnalysisWindow(Connection):
         return file
 
     def check_before_split(self):
+
+        if self.flag == 0:
+            pass
+        elif self.flag == 1:
+            self.file_path = self.default_conf_file_path
 
         f = open(self.file_path, "r")
         file_content = f.read().splitlines()
@@ -528,6 +600,7 @@ class TextAnalysisWindow(Connection):
     def start_analysis(self):
 
         self.final_result_textarea.clear()
+        self.final_result_textarea.setText("Analisi eseguita su: " + str(self.hosts_number) + " host.\n")
 
         try:
             e = ExecutionTimeMeasurement()

@@ -203,6 +203,7 @@ class ResultsCollector():
 
         try:
             f = open("../res/text_analysis_result" + d_m_y + h_m_s + ".txt", 'w')
+            f.write("Analisi eseguita su: " + str(self.hosts_number) + " host.\n\n")
             for count in range(0, len(final_res)):
                 f.write(str(final_res[count]) + "\n")
             f.close()

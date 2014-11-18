@@ -14,7 +14,7 @@ class NameServer():
 
     def start_ns(self):
 
-        print("Sto facendo partire il Name Server...")
+        print("\nSto facendo partire il Name Server...")
 
         try:
 
