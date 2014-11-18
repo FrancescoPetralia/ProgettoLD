@@ -102,15 +102,18 @@ class SetHostsWindow(QtGui.QMainWindow):
         file_content = f.read().splitlines()
 
         hosts_number = file_content[3]
-        address = file_content[4]
-        file = file_content[5]
+
+        cnt = 3
+        for count in range(0, int(hosts_number)):
+            cnt += 1
+            addresses.append(file_content[cnt])
+
+        file = file_content[(len(file_content) - 1)]
 
         f.close()
 
-        for count in range(0, int(hosts_number)):
-            addresses.append(address)
-
-        print("\nConfigurazione caricata: " + hosts_number + ", " + str(addresses) + ", " + file)
+        print("\nConfigurazione caricata dal file " + file_path + ":\n"
+              + hosts_number + ", " + str(addresses) + ", " + file)
 
         self.hcw = HostsConnectionWindow(1)
         self.hcw.set_addresses(addresses)
@@ -311,6 +314,10 @@ class TextAnalysisWindow(Connection):
         self.menu = QtGui.QMenuBar(self)
         self.menu_analizzatore = QtGui.QMenu("Analizzatore")
         self.menu_analizzatore_help_action = self.menu_analizzatore.addAction("Help")
+        self.menu_analizzatore_help_action.triggered.connect(self.show_help)
+        self.menu_analizzatore_save_config_file_action = self.menu_analizzatore.addAction("Salva configurazione")
+        self.menu_analizzatore_save_config_file_action.setEnabled(False)
+        self.menu_analizzatore_save_config_file_action.triggered.connect(self.save_config_file)
         self.menu.addMenu(self.menu_analizzatore)
         self.menu_file = QtGui.QMenu("File")
         self.menu_file_load_file_action = self.menu_file.addAction("Carica File")
@@ -441,6 +448,37 @@ class TextAnalysisWindow(Connection):
         else:
             pass
 
+    def show_help(self):
+        print("\n Help caricato.")
+
+    def save_config_file(self):
+
+        now = datetime.datetime.now()
+
+        d_m_y = "_" + str(now.day) + str(now.month) + str(now.year) + "_"
+        h_m_s = str(now.hour) + str(now.minute) + str(now.second)
+
+        file_path = "../conf/conf_" + d_m_y + h_m_s + ".conf"
+
+        message = "/* File di configurazione, tramite il quale viene caricata una configurazione con un\nnumero di " \
+                  "hosts, indirizzi, e file da analizzare, già predefiniti.\nAttenersi a questo formato " \
+                  "(numero di hosts, indirizzi, file da analizzare). */\n"
+
+        try:
+            f = open(file_path, 'w')
+            f.write(message)
+            f.write(str(self.hosts_number) + "\n")
+            for elements in self.addresses:
+                f.write(elements + "\n")
+            f.write(self.file_path)
+
+            print("\nConfigurazione salvata nel file: " + file_path)
+            QtGui.QMessageBox.about(self, "Configurazione salvata", "Configurazione salvata nel file: " + file_path)
+        except Exception as e:
+            print("\nErrore durante il salvataggio della configurazione.")
+            QtGui.QMessageBox.about(self, "Errore nel salvataggio",
+                                    "Errore durante il salvataggio della configurazione.")
+
     def go_back(self):
 
         self.hide()
@@ -478,6 +516,7 @@ class TextAnalysisWindow(Connection):
             # Se lo split è avvenuto correttamente, abilita la connessione
             if self.split_file():
                 self.hosts_connection_button.setEnabled(True)
+                self.menu_analizzatore_save_config_file_action.setEnabled(True)
 
         except Exception as e:
 
