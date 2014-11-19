@@ -689,9 +689,9 @@ class TextAnalysisWindow(Connection):
         self.generate_graph(self.rc.get_twenty_most_common_chars(), 'c')
         self.generate_graph(self.rc.get_twenty_most_common_words(), 'w')
 
-    def generate_graph(self, l, flag):
+    def generate_graph(self, l, fl):
 
-        my_list, flag = l, flag
+        my_list, flag = l, fl
 
         now = datetime.datetime.now()
 
@@ -720,7 +720,7 @@ class TextAnalysisWindow(Connection):
             QtGui.QMessageBox.about(self, "Grafici generati con successo",
                                     '\nIstogramma dei caratteri  generato in: ../res/chars_bar_chart'
                                     + d_m_y + h_m_s + '.svg' +
-                                    '\nGrafico a torta dei caratteri generato in: ../res/chars_bar_chart'
+                                    '\nGrafico a torta dei caratteri generato in: ../res/chars_pie_chart'
                                     + d_m_y + h_m_s + '.svg')
 
         elif flag == 'w':
@@ -730,7 +730,16 @@ class TextAnalysisWindow(Connection):
             bar_chart.render_to_file('../res/words_bar_chart' + d_m_y + h_m_s + '.svg')
             pie_chart.render_to_file('../res/words_pie_chart' + d_m_y + h_m_s + '.svg')
             print('\nIstogramma delle parole generato in: ../res/words_bar_chart' + d_m_y + h_m_s + '.svg')
-            print('Grafico a torta delle parole generato in: ../res/words_bar_chart' + d_m_y + h_m_s + '.svg')
+            print('Grafico a torta delle parole generato in: ../res/words_pie_chart' + d_m_y + h_m_s + '.svg')
+
+        paths = []
+        paths.append('../res/chars_bar_chart' + d_m_y + h_m_s + '.svg')
+        paths.append('../res/chars_pie_chart' + d_m_y + h_m_s + '.svg')
+        paths.append('../res/words_bar_chart' + d_m_y + h_m_s + '.svg')
+        paths.append('../res/words_pie_chart' + d_m_y + h_m_s + '.svg')
+
+        for elements in paths:
+            os.system('open ' + elements)
 
     def close_pyro_connection(self):
 
