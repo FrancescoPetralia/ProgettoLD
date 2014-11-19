@@ -231,6 +231,9 @@ class HostsConnectionWindow(QtGui.QMainWindow):
 
         print("\n")
 
+        green_style = 'QLineEdit { border-style: solid; border-width: 2px; border-color: %s }' % '#c4df9b'
+        red_style = 'QLineEdit { border-style: solid; border-width: 2px; border-color: %s }' % '#f6989d'
+
         ssh_connection = paramiko.SSHClient()
         ssh_connection.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
@@ -248,12 +251,14 @@ class HostsConnectionWindow(QtGui.QMainWindow):
                 ssh_connection.close()
 
                 cnt = (cnt + 1)
+                self.textboxlist_addresses[count].setStyleSheet(green_style)
+                self.textboxlist_password[count].setStyleSheet(green_style)
                 print("Host " + str(count) + ": credenziali corrette.")
 
             except (paramiko.AuthenticationException, OSError, socket.gaierror):
-                style = 'QLineEdit { border-style: solid; border-width: 2px; border-color: %s }' % '#f6989d'
-                self.textboxlist_addresses[count].setStyleSheet(style)
-                self.textboxlist_password[count].setStyleSheet(style)
+
+                self.textboxlist_addresses[count].setStyleSheet(red_style)
+                self.textboxlist_password[count].setStyleSheet(red_style)
                 print("Host_" + str(count) + ": credenziali errate.")
                 QtGui.QMessageBox.about(self, "Credenziali Errate", "Host_" + str(count) + ": credenziali errate.")
 
@@ -445,6 +450,8 @@ class TextAnalysisWindow(Connection):
             # Se lo split è avvenuto correttamente, abilita la connessione
             if self.split_file():
                 self.hosts_connection_button.setEnabled(True)
+                self.menu_analizzatore_save_config_file_action.setEnabled(True)
+                self.menu_file_load_file_action.setEnabled(False)
         else:
             pass
 
@@ -517,6 +524,7 @@ class TextAnalysisWindow(Connection):
             if self.split_file():
                 self.hosts_connection_button.setEnabled(True)
                 self.menu_analizzatore_save_config_file_action.setEnabled(True)
+                self.menu_file_load_file_action.setEnabled(False)
 
         except Exception as e:
 
@@ -573,6 +581,7 @@ class TextAnalysisWindow(Connection):
         t = []
 
         for count in range(0, int(self.hosts_number)):
+
             t.append(threading.Thread(target=self.start_connection,
                                       args=[self.identifiers[count], self.addresses[count], self.passwords[count]]))
             time.sleep(1)
