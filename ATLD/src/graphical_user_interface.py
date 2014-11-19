@@ -24,6 +24,7 @@ class SetHostsWindow(QtGui.QMainWindow):
     def __init__(self):
 
         super(SetHostsWindow, self).__init__()
+
         Pyro4.config.HOST = "0.0.0.0"
         # Avvio del Server
         self.ns = NameServer()
@@ -64,7 +65,7 @@ class SetHostsWindow(QtGui.QMainWindow):
 
     def open_main_window(self):
 
-        self.hcw = HostsConnectionWindow(0)
+        self.hcw = HostsConnectionWindow(0, 0)
         self.hcw.set_hosts_number(self.get_hosts_number())
         self.hcw.show()
         self.hide()
@@ -112,10 +113,10 @@ class SetHostsWindow(QtGui.QMainWindow):
 
         f.close()
 
-        print("\nConfigurazione caricata dal file " + file_path + ":\n"
+        print("\nConfigurazione caricata dal file '" + file_path + "':\n"
               + hosts_number + ", " + str(addresses) + ", " + file)
 
-        self.hcw = HostsConnectionWindow(1)
+        self.hcw = HostsConnectionWindow(1, 0)
         self.hcw.set_addresses(addresses)
         self.hcw.set_hosts_number(hosts_number)
         self.hcw.set_file(file)
@@ -127,9 +128,19 @@ class SetHostsWindow(QtGui.QMainWindow):
 
 class HostsConnectionWindow(QtGui.QMainWindow):
 
-    def __init__(self, flag):
+    def __init__(self, flag_conf, flag_terminal):
 
         super(HostsConnectionWindow, self).__init__()
+
+        if flag_terminal == 1:
+            Pyro4.config.HOST = "0.0.0.0"
+            # Avvio del Server
+            self.ns = NameServer()
+
+            self.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
+
+        elif flag_terminal == 0:
+            pass
 
         self.host_number = 0
         self.offset_label = 55
@@ -174,7 +185,8 @@ class HostsConnectionWindow(QtGui.QMainWindow):
 
         self.addresses = []
         self.file_path = None
-        self.flag = flag
+        self.flag_c = flag_conf
+        self.flag_t = flag_terminal
 
     def go_back(self):
 
@@ -211,12 +223,15 @@ class HostsConnectionWindow(QtGui.QMainWindow):
             self.textboxlist_addresses[count].resize(self.textboxwidth, self.textboxheight)
             self.textboxlist_addresses[count].move(self.xpositiontextbox_a, (self.offset_textbox * (count + 1)))
 
-            if self.flag == 1:
+            if self.flag_c == 1:
 
                 self.textboxlist_addresses[count].setText(self.addresses[count])
-            elif self.flag == 0:
+            elif self.flag_c == 0:
 
-                self.textboxlist_addresses[count].setText(getpass.getuser() + "@" + socket.gethostname() + ".local")
+                if self.flag_t == 1:
+                    self.textboxlist_addresses[count].setText(self.addresses[count])
+                elif self.flag_t == 0:
+                    self.textboxlist_addresses[count].setText(getpass.getuser() + "@" + socket.gethostname() + ".local")
 
             self.labellist_password[count].resize(self.labelwidth, self.labelheight)
             self.labellist_password[count].move(self.xpositionlabel_p, (self.offset_label * (count + 1)))
@@ -271,12 +286,13 @@ class HostsConnectionWindow(QtGui.QMainWindow):
 
     def open_text_analysis_window(self, identifiers, addresses, passwords, hosts):
 
-        if self.flag == 0:
+        if self.flag_c == 0:
 
             self.taw = TextAnalysisWindow(identifiers, addresses, passwords, hosts, None, 0)
             self.taw.show()
             self.hide()
-        elif self.flag == 1:
+
+        elif self.flag_c == 1:
 
             self.taw = TextAnalysisWindow(identifiers, addresses, passwords, hosts, self.file_path, 1)
             self.taw.show()
@@ -465,7 +481,7 @@ class TextAnalysisWindow(Connection):
         d_m_y = "_" + str(now.day) + str(now.month) + str(now.year) + "_"
         h_m_s = str(now.hour) + str(now.minute) + str(now.second)
 
-        file_path = "../conf/conf_" + d_m_y + h_m_s + ".conf"
+        file_path = "../conf/conf" + d_m_y + h_m_s + ".conf"
 
         message = "/* File di configurazione, tramite il quale viene caricata una configurazione con un\nnumero di " \
                   "hosts, indirizzi, e file da analizzare, già predefiniti.\nAttenersi a questo formato " \
@@ -671,10 +687,14 @@ class TextAnalysisWindow(Connection):
                   + " secondi.\n")
             self.save_final_result_button.setEnabled(True)
             self.generate_graph_button.setEnabled(True)
-            QtGui.QMessageBox.about(self, "Analisi eseguita con successo", "Analisi eseguita con successo")
+            QtGui.QMessageBox.about(self, "Analisi eseguita con successo", "Analisi eseguita con successo!\n\n"
+                                                                           "Info: alcuni risultati, "
+                                                                           "come per esempio il numero di frasi, "
+                                                                           "potrebbero variare in base al numero di "
+                                                                           "hosts impostati.")
 
         except Exception as ex:
-            #print("\nErrore nell'eseguire l'analisi.")
+
             if str(ex) == 'list index out of range':
                 print("\nLa connessione agli host remoti  è ancora in corso..."
                       "\nPer favore aspetta ancora qualche secondo.")
