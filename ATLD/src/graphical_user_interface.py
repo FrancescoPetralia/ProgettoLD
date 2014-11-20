@@ -18,10 +18,25 @@ from file_splitter import FileSplitter
 from execution_time_measurement import ExecutionTimeMeasurement
 from results_collector import ResultsCollector
 
+'''
+Modulo che si occupa della gestione di tutte le finestre grafiche.
+'''
+
 
 class SetHostsWindow(QtGui.QMainWindow):
 
+    '''
+    In questa classe viene definita la finestra principale, in cui viene inserito il numero di host su cui
+    parallelizzare l'analisi. Viene inoltre definito il menu tramite il quale è possibile selezionare la voce apposita
+    per l'apertura del file d'aiuto, e per caricare una configurazione (contenente numero di host, indirizzi, file da
+    analizzare) predefinita.
+    '''
+
     def __init__(self):
+        '''
+        Definizione di tutte le variabili utili alla classe e avvio della classe NameServer().
+        :return:
+        '''
 
         super(SetHostsWindow, self).__init__()
 
@@ -64,6 +79,13 @@ class SetHostsWindow(QtGui.QMainWindow):
         self.hcw = None
 
     def open_main_window(self):
+        '''
+        Metodo collegato all'evento 'returnPressed' della textbox.
+        Istanzio la classe HostConnectionWindow() in modo da fare aprire la finestra di connessione agli host remoti.
+        Dopo l'istanziazione, viene richiamato il metodo set_hosts_number(), in modo da passare correttamente,
+         all'istanza appena creata, il numero di host inserito nella textbox della finestra principale.
+        :return:
+        '''
 
         self.hcw = HostsConnectionWindow(0, 0)
         self.hcw.set_hosts_number(self.get_hosts_number())
@@ -71,6 +93,16 @@ class SetHostsWindow(QtGui.QMainWindow):
         self.hide()
 
     def textbox_validation(self):
+        '''
+        Metodo che si occupa della validazione dei dati immessi nella textbox.
+        In particolare, se il contenuto della textbox non coincide con l'espressione regolare definita nel costruttore
+        di questa classe, la textbox resta vuota finché non viene immesso un valore che coincide con essa.
+        Inoltre, gestisce il render del background della textbox, sempre in base al match o meno dell'
+        espressione regolare (verde per input corretto, rosso per input errato).
+        In questo modo è possibile controllare l'esattezza dell'input della text box.
+        L'espressione regolare ammette l'inserimento di un solo carattere, compreso tra 1 ed 8.
+        :return:
+        '''
 
         sender = self.sender()
         validator = sender.validator()
@@ -87,13 +119,30 @@ class SetHostsWindow(QtGui.QMainWindow):
         sender.setStyleSheet('QLineEdit { background-color: %s }' % color)
 
     def get_hosts_number(self):
+        '''
+        Metodo che ritorna il numero di host inserito dall'utente, o caricato dal file di configurazione predefinito.
+        :return: numero di hosts
+        '''
 
         return self.textbox.text()
 
     def show_help(self):
+        '''
+        Metodo che permette la visualizzazione del file di help.
+        Questo metodo è collegato all'evento 'triggered' del menu item 'Help'
+        :return:
+        '''
         print("\n Help caricato.")
 
     def load_config_file(self):
+        '''
+        Metodo che legge il file di configurazione.
+        Questo metodo è collegato all'evento 'triggered' del menu item 'Carica configurazione'
+        In particolare, dopo aver letto, riga per riga, il file di
+        configurazione, imposto in modo corretto le variabili utili al passaggio dei dati di configurazione appena
+        letti dal file.
+        :return:
+        '''
 
         hosts_number, address, file, addresses = "", "", "", []
 
@@ -127,8 +176,27 @@ class SetHostsWindow(QtGui.QMainWindow):
 
 
 class HostsConnectionWindow(QtGui.QMainWindow):
+    '''
+    In questa classe viene definita la finestra di connessione agli hosts remoti.
+    All'interno della finestra, sono presenti 2 textbox per host, in base al numero di hosts, nelle quali vengono
+    inseriti, rispettivamente, gli indirizzi e le passworda degli hosts remoti a cui connettersi.
+    Le textbox sono di base configurate con l'hostname di sistema, ma è comunque consentita la modifica del
+    valore da parte dell'utente, in modo da poter inserire l'indirizzo desiderato.
+    Questa classe gestisce inoltre il rendering grafico delle textboxes nel caso in cui la connessione agli hosts remoti
+    avvenga con successo o meno.
+    Al termine del corretto inserimento delle credenziali, si aprirà la finestra di analisi del testo.
+    '''
 
     def __init__(self, flag_conf, flag_terminal):
+        '''
+        Definizione di tutte le variabili utili alla classe.
+        :param flag_conf: questo flag specifica se è stato caricato o meno il file di configurazione, in modo da
+        permettere alla finestra l'esecuzione di determinate azioni a seconda del valore del flag.
+        :param flag_terminal: questo flag specifica se sono stati inseriti, da parte dell'utente, parametri da
+        terminale (-n e -a, rispettivamente per il numero di hosts ed indirizzi degli hosts remoti), in modo da
+        permettere alla finestra l'esecuzione di determinate azioni a seconda del valore del flag.
+        :return:
+        '''
 
         super(HostsConnectionWindow, self).__init__()
 
@@ -189,6 +257,13 @@ class HostsConnectionWindow(QtGui.QMainWindow):
         self.flag_t = flag_terminal
 
     def go_back(self):
+        '''
+        Metodo che definisce il comportamento del bottone 'Indietro', usato per riconfigurare il numero di host senza
+        dover chiudere l'applicazione.
+        Nello specifico, nel momento in cui questo bottone viene cliccato, viene chiusa la finestra corrente, e
+        riaperta la finestra principale.
+        :return:
+        '''
 
         self.hide()
         self.shw = SetHostsWindow()
@@ -196,14 +271,37 @@ class HostsConnectionWindow(QtGui.QMainWindow):
         # Richiamare il metodo che termina il Name Server
 
     def set_file(self, file):
+        '''
+        Metodo che si occupa del settaggio del file di configurazione, ricevuto dalla finestra principale, e che sarà
+        poi passato alla finestra che si occuperà dell'analisi testuale.
+        :param file: file di configurazione caricato dall'utente.
+        :return:
+        '''
 
         self.file_path = file
 
     def set_addresses(self, addr):
+        '''
+        Metodo che si occupa del settaggio degli indirizzi ricevuti dalla finestra
+        principale.
+        Gli indirizzi ricevuti possono arrivare solamente nei seguenti modi:
+        1) Leggendo il file di configurazione.
+        2) Tramite l'apposito parametro -a passato come argomento nel terminale.
+
+        :param addr: lista contenente gli indirizzi degli hosts remoti a cui connettersi.
+        :return:
+        '''
 
         self.addresses = addr
 
     def set_hosts_number(self, n_addresses):
+        '''
+        Metodo che si occupa del settaggio delle textbox degli hosts remoti, in base al parametro in ingresso.
+        Vengono inoltre gestite le proprietà grafiche delle textboxes, come la posizione, dimensione, tipologia
+        (plain text o password) e contenuto.
+        :param n_addresses: numero di indirizzi correlati al numero di hosts remoti.
+        :return:
+        '''
 
         self.host_number = n_addresses
 
@@ -243,6 +341,18 @@ class HostsConnectionWindow(QtGui.QMainWindow):
         self.labelhosts.setText("Numero di host su cui parallelizzare l'analisi: " + str(self.host_number) + ".")
 
     def password_validation(self, addrs, pwds):
+        '''
+        Metodo che gestisce la validazione delle credenziali d'accesso.
+        Nello specifico, viene effettuata una connessione di prova agli indirizzi specificati, in modo da verificare la
+        correttezza delle credenziali d'accesso inserite dall'utente.
+        Viene inoltre gestito il rendering grafico delle textboxes sia nel caso in cui la validazione abbia
+        avuto successo, sia che la validazione abbia riscontrato degli errori.
+        Per aiutare ulteriormente l'utente all'individuzione dell'errore, vengono mostrate nella finestra delle
+        finestre di dialog in cui si comunica in quale hosts sono sate riscontrate credenziali daccesso non valide.
+        :param addrs: lista contenente gli indirizzi degli hosts remoti.
+        :param pwds: lista contenente le passwords degli host remoti.
+        :return:
+        '''
 
         print("\n")
 
@@ -285,6 +395,16 @@ class HostsConnectionWindow(QtGui.QMainWindow):
             return False
 
     def open_text_analysis_window(self, identifiers, addresses, passwords, hosts):
+        '''
+        Metodo che si occupa dell'apertura della finestra di analisi.
+        Nello specifico, viene istanziata la classe TextAnalysisWindow, alla quale vengono passati tutti i parametri
+        relativi agli hosts remoti a cui connettersi (ids, indirizzi, passwords, numero di hosts).
+        :param identifiers: lista contenente l'id ci ciascun host.
+        :param addresses: lista contenente l'indirizzo di ciascun host.
+        :param passwords: lista contenente la password di ciascun host.
+        :param hosts: numero di hosts.
+        :return:
+        '''
 
         if self.flag_c == 0:
 
@@ -299,6 +419,12 @@ class HostsConnectionWindow(QtGui.QMainWindow):
             self.hide()
 
     def on_click_button_proceed(self):
+        '''
+        Metodo collegato all'evento 'clicked' e 'returnPressed' rispettivamente del bottone 'Procedi' e
+        passwords textboxes.
+        Quando vengono scatenati questi due eventi, viene aperta la finestra di analisi testuale.
+        :return:
+        '''
 
         ids = []
         addrs = []
@@ -319,14 +445,46 @@ class HostsConnectionWindow(QtGui.QMainWindow):
 
 
 class TextAnalysisWindow(Connection):
+    '''
+    Classe che si occupa della gestione della finestra di analisi testuale. In questa finestra è possibile usufruire
+    di numerose funzionalità grafiche, tra cui:
+    - Selezionare a piacimento un file da analizzare.
+    - Salvare l'attuale configurazione.
+    - Caricare il file di help.
+    - Visualizzare il contenuto del file su cui si desidera effettuare l'analisi tetuale, ed altre informazioni
+    relative ad esso.
+    - Visualizzare i risultati dell'analisi testuale.
+    - Connettersi agli host remoti.
+    - Avviare l'analisi.
+    - Salvare l'analisi
+    - Generare i grafici relativi all'analisi.
+    - Ricerca interattiva delle occorrenze di una parola, frase o carattere.
+    '''
 
-    def __init__(self, identifiers, addresses, passwords, hosts, file, flag):
+    def __init__(self, identifiers, addresses, passwords, hosts, file, flag_conf):
+        '''
+        Definizione di tutte le variabili utili alla classe.
+        Questo costruttore riceve dalla finestra precedente tutti i parametri utili all'autenticazione, connessione
+        al NameServer (per trovare e far eseguire i PyRO Remote Objects) e alle operazioni relative al file da
+        analizzare.
+        :param identifiers: lista contenente gli id degli hosts remoti.
+        :param addresses: lista contenente gli indirizzi degli hosts remoti.
+        :param passwords: lista contenente le passwords degli hosts remoti.
+        :param hosts: numero di hosts su cui parallelizzare l'analisi.
+        :param file: file da caricare (specificato nel file di configurazione).
+        :param flag_conf: flag che determina se è stato selezionato il file di configurazione.
+        Se il flag è 0, significa che non è stato caricato nessun file di configurazione, e pertanto l'utente dovrà
+        scegliere manualmente, tramite un file chooser, il file testuale da analizzare. Se, invece, il flag assume
+        valore uguale a 1, significa che è stato caricato un file di configurazione, e pertanto ilprogramma carichrà
+        in automatico il file specificato all'interno del file di configurazione.
+        :return:
+        '''
 
         super(TextAnalysisWindow, self).__init__()
 
         self.hosts_number = hosts
         self.default_conf_file_path = file
-        self.flag = flag
+        self.flag_c = flag_conf
 
         self.setFixedSize(1020, 710)
         self.move(125, 30)
@@ -453,7 +611,7 @@ class TextAnalysisWindow(Connection):
         # Mi serve per controllare gli stati della finestra
         self.window_status = 0
 
-        if self.flag == 1:
+        if self.flag_c == 1:
 
             self.read_text = self.read_file(self.default_conf_file_path)
             self.loaded_file_textarea.setText(self.read_text)
@@ -472,9 +630,22 @@ class TextAnalysisWindow(Connection):
             pass
 
     def show_help(self):
+        '''
+        Metodo che permette la visualizzazione del file di help.
+        Questo metodo è collegato all'evento 'triggered' del menu item 'Help'
+        :return:
+        '''
         print("\n Help caricato.")
 
     def save_config_file(self):
+        '''
+        Metodo che si occupa del salvataggio, dentro la cartella ../res/ del progetto, della configurazione attuale
+        dell'applicazione (numero di hosts, indirizzi degli hosts remoti e file analizzato).
+        Il file salvato segue questo tipo di nomenclatura, es.: conf_19112014_135726.conf, ovver conf_ seguito dal
+        giorno, mese, anno, seguito da ora, minuti e secondi, seguito dall'estensione .conf.
+        Questo per differenziare le configurazioni salvate e permettere all'utente una migliore identificazione di esse.
+        :return:
+        '''
 
         now = datetime.datetime.now()
 
@@ -503,9 +674,17 @@ class TextAnalysisWindow(Connection):
                                     "Errore durante il salvataggio della configurazione.")
 
     def go_back(self):
+        '''
+        Metodo che definisce il comportamento del bottone 'Indietro', usato per tornare alla finestra di connessione
+        agli hosts remoti senza dover chiudere l'applicazione.
+        Nello specifico, nel momento in cui questo bottone viene cliccato, viene chiusa la finestra corrente, e
+        riaperta la finestra di connessione agli hosts remoti.
+        Da notare che alla riapertura della finestra di connessione saranno settati gli hostname di sistema.
+        :return:
+        '''
 
         self.hide()
-        self.hcw = HostsConnectionWindow(0)
+        self.hcw = HostsConnectionWindow(0, 0)
         self.hcw.set_hosts_number(self.hosts_number)
         self.hcw.show()
 
@@ -520,10 +699,18 @@ class TextAnalysisWindow(Connection):
                 pass
 
     def load_file(self):
+        '''
+        Metodo che si occupa del caricamento del file su cui si vuole eseguire l'analisi testuale.
+        Nello specifico, se flag_c, cioè quello relativo al caricamento o meno del file di configurazione, assume valore
+        0, significa che non è stato caricato alcun file di configurazione, per cui sarà data, all'utente, la
+        possibilità di scegliere il file da analizzare tramite un file chooser. Altrimenti, il programma imposterà
+        automaticamente il file da analizzato, in base a quanto specificato sul file di configurazione.
+        :return:
+        '''
 
         try:
 
-            if self.flag == 0:
+            if self.flag_c == 0:
 
                 self.file_path = str(QtGui.QFileDialog.getOpenFileName())
                 self.read_text = self.read_file(self.file_path)
@@ -550,6 +737,11 @@ class TextAnalysisWindow(Connection):
                                                                                   "non esiste.")
 
     def read_file(self, p1):
+        '''
+        Metodo che si occupa della lettura su file.
+        :param p1: percorso del file da legere.
+        :return:
+        '''
 
         #Lettura del file
         in_file = open(p1, "r")
@@ -558,10 +750,14 @@ class TextAnalysisWindow(Connection):
         return file
 
     def check_before_split(self):
+        '''
 
-        if self.flag == 0:
+        :return:
+        '''
+
+        if self.flag_c == 0:
             pass
-        elif self.flag == 1:
+        elif self.flag_c == 1:
             self.file_path = self.default_conf_file_path
 
         f = open(self.file_path, "r")
