@@ -38,13 +38,12 @@ class FileSplitter():
         :return: True in caso di successo, False in caso di fallimento.
         '''
 
-        print("\n Split del file in corso...")
-
         # Calcolo quante righe ha il file originario
         for elements in range(0, len(self.read_file(self.file_to_split))):
             self.total_file_lines = (self.total_file_lines + 1)
 
         print("\nRighe totali da analizzare: " + str(self.total_file_lines))
+        print("\nSplit del file in corso...")
 
         # Calcolo del quoziente e del resto per distribuire il carico di lavoro in modo che sia bilanciato.
         q, r = (divmod(self.total_file_lines, int(self.hosts_number)))
