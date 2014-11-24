@@ -5,7 +5,6 @@ import os
 #os.environ["PYRO_LOGLEVEL"] = "DEBUG"
 import threading
 import socket
-import getpass
 import Pyro4
 import time
 import paramiko
@@ -329,7 +328,7 @@ class HostsConnectionWindow(QtGui.QMainWindow):
                 if self.flag_t == 1:
                     self.textboxlist_addresses[count].setText(self.addresses[count])
                 elif self.flag_t == 0:
-                    self.textboxlist_addresses[count].setText(getpass.getuser() + "@" + socket.gethostname() + ".local")
+                    self.textboxlist_addresses[count].setText("")
 
             self.labellist_password[count].resize(self.labelwidth, self.labelheight)
             self.labellist_password[count].move(self.xpositionlabel_p, (self.offset_label * (count + 1)))
@@ -351,7 +350,8 @@ class HostsConnectionWindow(QtGui.QMainWindow):
         finestre di dialog in cui si comunica in quale hosts sono sate riscontrate credenziali daccesso non valide.
         :param addrs: lista contenente gli indirizzi degli hosts remoti.
         :param pwds: lista contenente le passwords degli host remoti.
-        :return:
+        :return: True nel caso in cui le credenziali d'accetto siano corrette, False nel caso in cui le credenziali
+        d'accesso siano sbagliate.
         '''
 
         print("\n")
@@ -446,7 +446,10 @@ class HostsConnectionWindow(QtGui.QMainWindow):
 
 class TextAnalysisWindow(Connection):
     '''
-    Classe che si occupa della gestione della finestra di analisi testuale. In questa finestra è possibile usufruire
+    Classe che si occupa della gestione della finestra di analisi testuale.
+    Eredita dalla classe Connection, in modo da definirne un'istanza e disporre di tutti i metodi necessari per il
+    networking con gli host remoti, tramite ssh e sftp, ed il PyRO NameServer.
+    In questa finestra è possibile usufruire
     di numerose funzionalità grafiche, tra cui:
     - Selezionare a piacimento un file da analizzare.
     - Salvare l'attuale configurazione.
@@ -740,7 +743,7 @@ class TextAnalysisWindow(Connection):
         '''
         Metodo che si occupa della lettura su file.
         :param p1: percorso del file da legere.
-        :return:
+        :return: Il contenuto letto dal file.
         '''
 
         #Lettura del file
@@ -751,7 +754,12 @@ class TextAnalysisWindow(Connection):
 
     def check_before_split(self):
         '''
-
+        Questo metodo esegue un controllo prima di far partire il file splitter, in modo da bilanciare il carico di
+        lavoro.
+        Nello specifico, conto quante linee contiene il file, e le confronto col numero di hosts su cui si vuole
+        eseguire l'analisi. Se le righe contenute nel file sono maggiori o uguali al numero di hosts, non esiste il
+        pericolo di un carico di lavoro sbilanciato, mentre se le righe contenute nel file sono minori del numero
+        di hosts, quest'ultimo assume lo stesso valore del numero di righe, in modo da bilanciare il carico di lavoro.
         :return:
         '''
 
@@ -779,6 +787,13 @@ class TextAnalysisWindow(Connection):
                                                     "in modo da bilanciare il carico di lavoro.")
 
     def split_file(self):
+        '''
+        Metodo che istanzia un oggetto di tipo FileSplitter(), passandogli come parametri il numero di host, ed il file
+        da analizzare.
+        Una volta avvenuta l'istanziazione dell'oggetto, l'oggetto richiamada il suo metodo split_file_between_hosts()
+        che si occuperà dello split del file in tanti file quanti sono gli host.
+        :return: True nel caso in cui lo split del file tra gli hosts sia avvenuto con successo.
+        '''
 
         self.check_before_split()
 
@@ -789,6 +804,13 @@ class TextAnalysisWindow(Connection):
             return True
 
     def remote_object_connection(self):
+        '''
+        Metodo che si occupa di creare una lista di thread che andranno ad eseguire il metodo start_connection().
+        Viene inoltre istanziata la classe ResultsCollector, che si occupa del raccoglimento dei risultati dei PyRO
+        objects. A ResultsCollector vengono passati i seguenti parametri: text_analyzer, ereditato dalla classe madre
+        Connection, che è una lista contenente tutti i PyRO Object trovati sul NameServer, ed il numero di hosts.
+        :return:
+        '''
 
         t = []
 
@@ -810,11 +832,29 @@ class TextAnalysisWindow(Connection):
         self.rc = ResultsCollector(self.text_analyzer, self.hosts_number)
 
     def start_connection(self, identifier, address, password):
+        '''
+        Questo metodo richiama open_server_connection() e  find_remote_object(), ereditati dalla classe Connection(),
+        passando gli id, indirizzi e passwords degli host, entrambi appartenenti alla classe, in modo da avviare la
+        connessione via ssh agli host remoti, autenticarsi e trasferire i file encessari via sftp.
+        :param identifier: lista contenente gli id degli hosts.
+        :param address: lista contenente gli indirizzi degli hosts.
+        :param password: lista contenente le password degli hosts.
+        :return:
+        '''
 
         self.open_server_connection(identifier, address, password)
         self.find_remote_object(identifier, address, password)
 
     def search_and_highlight(self):
+        '''
+        Metodo che si occupa della ricerca e dell'evidenziazione della stringa ricercata nel testo.
+        In particolare, con l'ausilio di una regexp, che è a tutti gli effetti la stringa che si vuole cercare, vengono
+        trovate tutte le occorrenze presenti nel testo, evidenziandole.
+        Inoltre viene gestito il render della textbox di ricerca nel caso in cui venga trovato un match (il bordo della
+        textbox diventa verde), sia nel caso in cui non venga trovato alcun match (il bordo della
+        textbox diventa rosso).
+        :return:
+        '''
 
         green_style = 'QLineEdit { border-style: solid; border-width: 2px; border-color: %s }' % '#c4df9b'
         red_style = 'QLineEdit { border-style: solid; border-width: 2px; border-color: %s }' % '#f6989d'
@@ -858,6 +898,14 @@ class TextAnalysisWindow(Connection):
             pass
 
     def start_analysis(self):
+        '''
+        Questo metodo richiama i metodi della classe FileSplitter che si occupano del raccoglimento dei risultati
+        parziali dei PyRO objects e della produzione del risultato finale, che sarà poi visualizzato all'interno
+        della finestra.
+        :return:
+        '''
+
+        print("\nAnalisi in corso...")
 
         self.final_result_textarea.clear()
         self.final_result_textarea.setText("Analisi eseguita su: " + str(self.hosts_number) + " host.\n")
@@ -884,7 +932,7 @@ class TextAnalysisWindow(Connection):
             self.save_final_result_button.setEnabled(True)
             self.generate_graph_button.setEnabled(True)
             QtGui.QMessageBox.about(self, "Analisi eseguita con successo", "Analisi eseguita con successo!\n\n"
-                                                                           "Info: alcuni risultati, "
+                                                                           "Nota: alcuni risultati, "
                                                                            "come per esempio il numero di frasi, "
                                                                            "potrebbero variare in base al numero di "
                                                                            "hosts impostati.")
@@ -897,8 +945,15 @@ class TextAnalysisWindow(Connection):
                 QtGui.QMessageBox.about(self, "Credenziali Errate",
                                         "\nLa connessione agli host remoti  è ancora in corso..."
                                         "\n\nPer favore aspetta ancora qualche secondo.")
+            else:
+                print("Si è verificato un errore durante l'analisi del file.")
+                QtGui.QMessageBox.about(self, "Errore analisi", "Si è verificato un errore durante l'analisi del file.")
 
     def save_results(self):
+        '''
+        Metodo che salva il risultato dell'analisi su file.
+        :return:
+        '''
 
         retval, message = self.rc.save()
 
@@ -910,11 +965,23 @@ class TextAnalysisWindow(Connection):
             QtGui.QMessageBox.about(self, "Errore nel salvataggio del file", message)
 
     def set_graph_state(self):
+        '''
+        Metodo che imposta lo stato dei grafici, ovvero, specifica, in base ad un flag, se il grafico da generare è
+        quello relativo ai caratteri, oppure quello relativo alle parole, passando la relativa lista.
+        :return:
+        '''
 
         self.generate_graph(self.rc.get_twenty_most_common_chars(), 'c')
         self.generate_graph(self.rc.get_twenty_most_common_words(), 'w')
 
     def generate_graph(self, l, fl):
+        '''
+        Metodo che genera i grafici (istogramma ed a torta) in base ai parametri ricevuti in ingresso.
+        :param l: lista contenente i valori da rapresentare graficamente (carattere/occorrenza
+        oppure parola/occorrenza)
+        :param fl: flag che specifica il tipo di lista (lista dei caratteri o lista delle parole)
+        :return:
+        '''
 
         my_list, flag = l, fl
 
@@ -967,6 +1034,13 @@ class TextAnalysisWindow(Connection):
             os.system('open ' + elements)
 
     def close_pyro_connection(self):
+        '''
+        Metodo che si occupa della chiusura in modo pulito della connessione con i PyRO objects.
+        Nello specifico, viene chiusa la connessione ssh e vengono eliminati i file mandati precedentemente tramite sftp
+        che, una volta chiusa la connessione, non servono più.
+        Questo metodo viene chiamato alla chiusura della finestra.
+        :return: True, nel caso in cui la connessione sia stata chiusa in modo corretto, altrimenti False.
+        '''
 
         print('\nSto chiudendo la connessione con PyRO remote objects...')
 
@@ -983,6 +1057,11 @@ class TextAnalysisWindow(Connection):
         return True
 
     def delete_local_files(self):
+        '''
+        Metodo che cancella i file locali temporanei presenti nella cartella ../temp del progetto.
+        Questo metodo viene chiamato alla chiusura della finestra.
+        :return:
+        '''
 
         print("\nSto eliminando i file locali...")
 
@@ -992,8 +1071,14 @@ class TextAnalysisWindow(Connection):
 
         print("\nFile locali eliminati con successo.")
 
-    # Override di closeEvent della classe QtGui.QtMainWindow per intercettare la chiusura della finestra
     def closeEvent(self, event):
+        '''
+        Override del metodo closeEvent della classe QtGui.QMainWindow, che intercetta la chiusura della finestra.
+        In questo modo, oltre al comportamento di default di questo metodo, posso aggiungere altre direttive, utili
+        al controllo dell'applicazione, migliorando ed estendendo il comportamento di base.
+        :param event: Evento intercettato (SIG_INT o SIG_TERM).
+        :return:
+        '''
 
         QtGui.QMainWindow.closeEvent(self, event)
 

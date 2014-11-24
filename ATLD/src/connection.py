@@ -9,10 +9,22 @@ import socket
 import time
 from PyQt4 import QtCore, QtGui
 
+'''
+Modulo che si occupa della gestione del networking con gli host remoti, tramite ssh e sftp, ed il PyRO NameServer.
+'''
+
 
 class Connection(QtGui.QMainWindow):
+    '''
+    Eredita da QtGui.QMainWindow.
+    Questa classe si occupa dell'interazione con i PyRO objects, gestendone la comunicazione.
+    '''
 
     def __init__(self):
+        '''
+        Definizione di tutte le variabili utili alla classe.
+        :return:
+        '''
 
         super(Connection, self).__init__()
 
@@ -22,8 +34,15 @@ class Connection(QtGui.QMainWindow):
         self.connection_flag = None
         self.ssh_err = ""
 
-    # Questo metodo ritorna l'indirizzo ip del server
     def get_ip_address(self):
+        '''
+        Questo metodo ritorna l'indirizzo ip del NameServer. In questo modo assegno un ip, all'interno della rete,
+        al server.
+        In particolare, tramite un socket UPD (volendo, è possibile specificare anche un trasporto TCP), mi connetto
+        a google.com, in modo tale da farmi assegnare un ip dalla rete. Indirizzo ip che sarà poi assegnato al
+        NameServer.
+        :return: Indirizzo IP del NameServer.
+        '''
         # SOCK_DGRAM imposta un trasporto UDP, mentre SOCK_STREAM un trasporto TCP
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         s.connect(("www.google.com", 80))
@@ -36,6 +55,16 @@ class Connection(QtGui.QMainWindow):
 
     # Metodo che cerca l'oggetto sul server
     def find_remote_object(self, identifier, address, password):
+        '''
+        Questo metodo cerca sul NameServer i PyRO Objects registrati.
+        In particolare, viene effettuato un lookup sul server cercando il nome dell'oggetto con il quale è stato
+        registrato.
+        Man mano che gli oggetti remoti sono stati trovati, viene creata una lista di remote objects.
+        :param identifier: lista contenente gli id degli hosts.
+        :param address: lista contenente gli indirizzi degli hosts.
+        :param password: lista contenente le passwords degli hosts.
+        :return:
+        '''
 
         time.sleep(5)
 
@@ -58,6 +87,15 @@ class Connection(QtGui.QMainWindow):
 
     # Apertura della connessione ssh e sftp
     def open_server_connection(self, identifier, address, password):
+        '''
+        Questo metodo instaura una connessione ssh con gli hosts remoti.
+        Per ogni sessione ssh, vengono aperte più connessione sftp, in modo da trasferire i file necessari all'analisi
+        remota.
+        :param identifier: lista contenente gli id degli hosts.
+        :param address: lista contenente gli indirizzi a cui conettersi.
+        :param password: lista contenente le passwords degli host.
+        :return:
+        '''
 
         print("\n")
         print("ID Oggetto: " + str(identifier))
@@ -147,6 +185,15 @@ class Connection(QtGui.QMainWindow):
     # Metodo che provvede alla chiusura della connessione ssh. Questo metodo provvede inoltre all'eliminazione del
     # Text_Analyzer_N, dove N = (1, 2, 3, ...), killandone anche il processo.
     def ssh_connection_close_and_cleanup(self, identifier, address, password):
+        '''
+        Questo metodo gestisce la chiusura pulita delle connessioni con gli hosts remoti.
+        In particolare, vengono chiuse tutte le connessioni ssh, i trasferimenti sftp, cancellati i file inviati
+        e terminati i relativi thread/processi.
+        :param identifier: lista contenente gli id degli hosts.
+        :param address: lista contenente gli indirizzi a cui conettersi.
+        :param password: lista contenente le passwords degli host.
+        :return:
+        '''
 
         ssh_connection = paramiko.SSHClient()
         ssh_connection.set_missing_host_key_policy(paramiko.AutoAddPolicy())

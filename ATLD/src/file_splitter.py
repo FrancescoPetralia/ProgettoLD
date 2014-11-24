@@ -17,6 +17,8 @@ class FileSplitter():
 
     def split_file_between_hosts(self):
 
+        print("\n Split del file in corso...")
+
         # Calcolo quante righe ha il file originario
         for elements in range(0, len(self.read_file(self.file_to_split))):
             self.total_file_lines = (self.total_file_lines + 1)
