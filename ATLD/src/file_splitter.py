@@ -1,9 +1,23 @@
 __author__ = 'francesco'
 
+'''
+Modulo che gestisce tutti i metodi per dividere il file da analizzare in base al numero di hosts.
+'''
+
 
 class FileSplitter():
+    '''
+    La classe FileSplitter gestisce i metodi di divisione del file in base al numero di hosts.
+    In particolare, vengono creati 'n' file a partire dal file originario.
+    '''
 
     def __init__(self, hosts_number, file_to_split):
+        '''
+
+        :param hosts_number: numero di hosts.
+        :param file_to_split: percorso del file da dividere.
+        :return:
+        '''
 
         self.hosts_number = int(hosts_number)
         self.file_to_split = file_to_split
@@ -16,6 +30,13 @@ class FileSplitter():
         self.upper_index = None
 
     def split_file_between_hosts(self):
+        '''
+        Metodo che gestisce la divisione del file in 'n' files più piccoli.
+        In base al numero di hosts, vengono creati dei file temporanei denominati nel seguente modo:
+        supponendo di avere 3 host, avrò i seguenti file temporanei, es.:
+        splitted_file_0, splitted_file_1, splitted_file_2.
+        :return: True in caso di successo, False in caso di fallimento.
+        '''
 
         print("\n Split del file in corso...")
 
@@ -65,6 +86,11 @@ class FileSplitter():
             return False
 
     def read_file(self, file):
+        '''
+        Metodo che legge il contenuto del file.
+        :param file: file da dividere.
+        :return: contenuto del file.
+        '''
         f = open(file, "r")
         self.file_content = f.read().splitlines()
         #print("\nTesto del file:\n" + str(self.file_content))
@@ -72,6 +98,12 @@ class FileSplitter():
         return self.file_content
 
     def write_file(self, file_name, interval):
+        '''
+        Metodo che scrive sul file temporaneo la porzione di file letta dal file originario.
+        :param file_name:
+        :param interval:
+        :return:
+        '''
         f = open("../temp/" + file_name + ".txt", 'w')
         for elements in interval:
             f.write(elements + "\n")

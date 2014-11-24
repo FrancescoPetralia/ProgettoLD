@@ -26,7 +26,7 @@ def main():
     metodo main() della classe Main. In questo metodo viene configurato il parser per poter eseguire l'applicazione
     da terminale. Nello specifico, vengono definiti i parametri -n e -a, usati rispettivamente per configurare il numero
     di nodi su cui parallelizzare l'analisi, e gli indirizzi a cui connettersi in remoto.
-    Nel caso in cui questi parametri non vengano specificati dall'utente a runtime, l'applicazione chiederà, tramite
+    Nel caso in cui questi parametri non vengano specificati dall'utente a runtime, l'applicazione chiedera, tramite
     le apposite finestre grafiche, di specificarli, in modo da continuare la regolare esecuzione del programma.
     :return:
     '''

@@ -22,7 +22,6 @@ class Connection(QtGui.QMainWindow):
 
     def __init__(self):
         '''
-        Definizione di tutte le variabili utili alla classe.
         :return:
         '''
 

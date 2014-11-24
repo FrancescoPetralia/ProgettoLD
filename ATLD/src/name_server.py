@@ -6,13 +6,29 @@ __author__ = 'francesco'
 import threading, socket, sys
 import Pyro4
 
+'''
+Modulo NameServer
+'''
+
 
 class NameServer():
+    '''
+    Classe NameServer che gestisce l'avvio del NameServer.
+    '''
 
     def __init__(self):
+        '''
+
+        :return:
+        '''
         self.start_ns_loop()
 
     def start_ns(self):
+        '''
+        Questo metodo avvia il NameServer.
+        Di default, il NameServer gira su 0.0.0.0:9090, mentre il Broadcast Server gira su 0.0.0.0:9091
+        :return:
+        '''
 
         print("\nSto facendo partire il Name Server...")
 
@@ -26,6 +42,10 @@ class NameServer():
             sys.exit(0)
 
     def start_ns_loop(self):
+        '''
+        In questo metodo, l'avvio del NameServer viene messo in un thread a parte.
+        :return:
+        '''
 
         ns_thread = threading.Thread(target=self.start_ns, args=[])
         ns_thread.daemon = True

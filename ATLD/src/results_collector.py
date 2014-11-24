@@ -3,8 +3,18 @@ __author__ = 'francesco'
 import datetime
 from collections import Counter
 
+'''
+Modulo ResulstsCollector. Gestisce la raccolta dei risultati parziali di ogni host in un unico risultato finale.
+'''
+
 
 class ResultsCollector():
+    '''
+    Gestisce la raccolta dei risultati parziali di ogni host in un unico risultato finale.
+    In particolare, ogni host restituisce un dizionario contenente i propri risultati parziali; una volta raccolti
+    tutti i sotto-dizionari, viene creata una lista che è la somma dei risultati parziali di ciasscun host e
+    che definisce il risultato finale dell'analisi.
+    '''
 
     def __init__(self, object, hosts_number):
 
@@ -20,6 +30,11 @@ class ResultsCollector():
         self.all_words_occurrences = None
 
     def collect_all_results(self):
+        '''
+        Questo metodo raccoglie i risultati parziali di ciascun host remoto e li somma, inserendoli all'interno di una
+        lista di tuple del tipo: [(risultato1, somma_totale), (risultato2, somma_totale), ..., ...]
+        :return:
+        '''
 
         ncnt = 0
         for count in range(0, self.hosts_number):
@@ -123,6 +138,12 @@ class ResultsCollector():
             print("Analisi testuale eseguita con successo.")
 
     def all_characters_occurrences_gather(self, chars_occurrences):
+        '''
+        Metodo che colleziona le occorrenze dei caratteri calcolate dagli hosts remoti in un unica lista di tuple, del
+        tipo: [(carattere_1, occorrenza), (carattere_2, occorrenza), ..., ...]
+        :param chars_occurrences:
+        :return: lista di tuple dei caratteri, ordinati in senso decrescente in base all'occorrenza.
+        '''
 
         keys, values, self.chars_occs = [], [], dict()
 
@@ -145,10 +166,20 @@ class ResultsCollector():
         return Counter(self.chars_occs).most_common()
 
     def get_twenty_most_common_chars(self):
+        '''
+        Metodo che ritorna i 20 caratteri più utilizzati.
+        :return: lista dei 20 caratteri più utilizzati.
+        '''
 
         return Counter(self.chars_occs).most_common(20)
 
     def all_words_occurrences_gather(self, words_occurrences):
+        '''
+        Metodo che colleziona le occorrenze delle parole calcolate dagli hosts remoti in un unica lista di tuple, del
+        tipo: [(parola_1, occorrenza), (parola_2, occorrenza), ..., ...]
+        :param chars_occurrences:
+        :return: lista di tuple delle parole, ordinate in senso decrescente in base all'occorrenza.
+        '''
 
         keys, values, self.words_occs = [], [], dict()
 
@@ -171,14 +202,27 @@ class ResultsCollector():
         return Counter(self.words_occs).most_common()
 
     def get_twenty_most_common_words(self):
+        '''
+        Metodo che ritorna le 20 parole più utilizzate.
+        :return: lista delle 20 parole più utilizzate.
+        '''
 
         return Counter(self.words_occs).most_common(20)
 
     def get_final_result(self):
+        '''
+        Metodo che ritorna la lista contenente il risulato finale.
+        :return: lista contenente il risultato finale.
+        '''
 
         return self.final_result
 
     def save(self):
+        '''
+        Metodo che salva la lista dei risultati su file.
+        :return: True, se il risultato è stato salvato correttamente su file. False se il risultato non è stato salvato
+        correttamente su file.
+        '''
 
         now = datetime.datetime.now()
 

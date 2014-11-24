@@ -24,7 +24,6 @@ class TextAnalyzer():
 
     def __init__(self, identifier):
         '''
-        Metodo init in cui vengono istanziate ed inizializzate tutte le variabili utili alla classe.
         :param identifier: id dell'analizzatore testuale.
         :return:
         '''

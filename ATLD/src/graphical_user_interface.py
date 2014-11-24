@@ -32,10 +32,6 @@ class SetHostsWindow(QtGui.QMainWindow):
     '''
 
     def __init__(self):
-        '''
-        Definizione di tutte le variabili utili alla classe e avvio della classe NameServer().
-        :return:
-        '''
 
         super(SetHostsWindow, self).__init__()
 
@@ -143,33 +139,37 @@ class SetHostsWindow(QtGui.QMainWindow):
         :return:
         '''
 
-        hosts_number, address, file, addresses = "", "", "", []
+        hosts_number, address, file, addresses, file_content = "", "", "", [], []
 
-        file_path = str(QtGui.QFileDialog.getOpenFileName())
+        try:
+            file_path = str(QtGui.QFileDialog.getOpenFileName())
 
-        f = open(file_path, 'r')
-        file_content = f.read().splitlines()
 
-        hosts_number = file_content[3]
+            f = open(file_path, 'r')
+            file_content = f.read().splitlines()
 
-        cnt = 3
-        for count in range(0, int(hosts_number)):
-            cnt += 1
-            addresses.append(file_content[cnt])
+            hosts_number = file_content[3]
 
-        file = file_content[(len(file_content) - 1)]
+            cnt = 3
+            for count in range(0, int(hosts_number)):
+                cnt += 1
+                addresses.append(file_content[cnt])
 
-        f.close()
+            file = file_content[(len(file_content) - 1)]
 
-        print("\nConfigurazione caricata dal file '" + file_path + "':\n"
-              + hosts_number + ", " + str(addresses) + ", " + file)
+            f.close()
 
-        self.hcw = HostsConnectionWindow(1, 0)
-        self.hcw.set_addresses(addresses)
-        self.hcw.set_hosts_number(hosts_number)
-        self.hcw.set_file(file)
-        self.hcw.show()
-        self.hide()
+            print("\nConfigurazione caricata dal file '" + file_path + "' (numero hosts, indirizzi, file):\n"
+                  + "Numero di hosts: " + hosts_number + ". \nIndirizzi: " + str(addresses) + ". \nFile: '" + file + "'.")
+
+            self.hcw = HostsConnectionWindow(1, 0)
+            self.hcw.set_addresses(addresses)
+            self.hcw.set_hosts_number(hosts_number)
+            self.hcw.set_file(file)
+            self.hcw.show()
+            self.hide()
+        except Exception as e:
+            print("\nNon hai scelto nessun file di configurazione.")
 
 #=======================================================================================================================
 
@@ -1065,11 +1065,14 @@ class TextAnalysisWindow(Connection):
 
         print("\nSto eliminando i file locali...")
 
-        for count in range(0, int(self.hosts_number)):
-            os.remove("../temp/splitted_file_" + str(count) + ".txt")
-            print("splitted_file_" + str(count) + ".txt rimosso.")
+        try:
+            for count in range(0, int(self.hosts_number)):
+                os.remove("../temp/splitted_file_" + str(count) + ".txt")
+                print("splitted_file_" + str(count) + ".txt rimosso.")
 
-        print("\nFile locali eliminati con successo.")
+            print("\nFile locali eliminati con successo.")
+        except Exception as e:
+            print("\nErrore nell'eliminazione dei file locali.")
 
     def closeEvent(self, event):
         '''
