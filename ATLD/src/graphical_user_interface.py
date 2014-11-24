@@ -1072,7 +1072,7 @@ class TextAnalysisWindow(Connection):
 
             print("\nFile locali eliminati con successo.")
         except Exception as e:
-            print("\nErrore nell'eliminazione dei file locali.")
+            print("\nErrore nell'eliminazione dei file locali." + str(e))
 
     def closeEvent(self, event):
         '''

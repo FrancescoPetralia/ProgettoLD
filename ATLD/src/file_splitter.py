@@ -61,7 +61,7 @@ class FileSplitter():
         print("\n")
 
         # Split del file
-        n = -1
+        '''n = -1
         for count in range(0, self.hosts_number):
             print("\n")
             self.lower_index = (n + 1)
@@ -74,7 +74,23 @@ class FileSplitter():
                 self.write_file(self.splitted_file_name + str(count), self.splitted_text_assigned_to_hosts[count])
                 n = elements
         tot = n
-        tot = (tot + 1)
+        tot = (tot + 1)'''
+        n = -1
+        for count in range(0, self.hosts_number):
+            self.lower_index = (n + 1)
+            self.upper_index = self.lower_index + (self.lines_per_host[count])
+            print("[" + str(self.lower_index) + ", " + str(self.upper_index) + "]")
+            for elements in range(self.lower_index, self.upper_index):
+                self.splitted_text_assigned_to_hosts[count].append(self.file_content[elements])
+                n = elements
+        tot = n
+        tot += 1
+
+        for count in range(0, self.hosts_number):
+            f = open("../temp/" + self.splitted_file_name + str(count) + ".txt", 'w')
+            for elements in self.splitted_text_assigned_to_hosts[count]:
+                f.write(elements + "\n")
+            f.close()
 
         # Controllo che lo split del file sia avvenuto correttamente
         if tot == self.total_file_lines:
