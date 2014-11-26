@@ -61,20 +61,6 @@ class FileSplitter():
         print("\n")
 
         # Split del file
-        '''n = -1
-        for count in range(0, self.hosts_number):
-            print("\n")
-            self.lower_index = (n + 1)
-            self.upper_index = self.lower_index + (self.lines_per_host[count])
-            print("[" + str(self.lower_index) + ", " + str(self.upper_index) + "]")
-            #print("Host " + str(count) + ":")
-            for elements in range(self.lower_index, self.upper_index):
-                self.splitted_text_assigned_to_hosts[count].append(self.file_content[elements])
-                #print("riga " + str(elements))
-                self.write_file(self.splitted_file_name + str(count), self.splitted_text_assigned_to_hosts[count])
-                n = elements
-        tot = n
-        tot = (tot + 1)'''
         n = -1
         for count in range(0, self.hosts_number):
             self.lower_index = (n + 1)
@@ -111,15 +97,3 @@ class FileSplitter():
         #print("\nTesto del file:\n" + str(self.file_content))
         f.close()
         return self.file_content
-
-    def write_file(self, file_name, interval):
-        '''
-        Metodo che scrive sul file temporaneo la porzione di file letta dal file originario.
-        :param file_name:
-        :param interval:
-        :return:
-        '''
-        f = open("../temp/" + file_name + ".txt", 'w')
-        for elements in interval:
-            f.write(elements + "\n")
-        f.close()

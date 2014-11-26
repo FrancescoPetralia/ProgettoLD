@@ -24,8 +24,8 @@ class ResultsCollector():
         self.ret_values = []
         self.final_result = []
         self.deserialized_dict = []
-        self.chars_occs = None
-        self.words_occs = None
+        self.chars_occs = dict()
+        self.words_occs = dict()
         self.all_chars_occurrences = None
         self.all_words_occurrences = None
 
@@ -139,72 +139,55 @@ class ResultsCollector():
 
     def all_characters_occurrences_gather(self, chars_occurrences):
         '''
-        Metodo che colleziona le occorrenze dei caratteri calcolate dagli hosts remoti in un unica lista di tuple, del
-        tipo: [(carattere_1, occorrenza), (carattere_2, occorrenza), ..., ...]
-        :param chars_occurrences:
-        :return: lista di tuple dei caratteri, ordinati in senso decrescente in base all'occorrenza.
+        Metodo che trasforma le occorrenze dei caratteri calcolate dagli hosts remoti, contenute in una lista
+        di liste di tuple, in un unico dizionario, strutturato nel seguente modo:
+        [(carattere_1, occorrenza), (carattere_2, occorrenza), ..., ...], dove carattere_n è la key, e occorrenza è il
+        valore relativo alla key.
+        :param chars_occurrences: lista di liste di tuple dei caratteri e delle relative occorrenze.
+        :return: dizionario dei caratteri, ordinati in senso decrescente in base all'occorrenza.
         '''
 
-        keys, values, self.chars_occs = [], [], dict()
-
-        for count in range(0, self.hosts_number):
-            for i in chars_occurrences[count]:
-                keys.append(i[0])
-                values.append(i[1])
-
-        for count in range(0, len(keys)):
-            i, s = -1, 0
-            for elements in keys:
-                i += 1
-                if keys[count] == elements:
-                    s += values[i]
-                else:
-                    pass
-
-            self.chars_occs.update(({keys[count]: s}))
+        for l in chars_occurrences:
+            for elements in l:
+                try:
+                    #print(elements[0])
+                    self.chars_occs[elements[0]] = (self.chars_occs[elements[0]] + elements[1])
+                except KeyError as e:
+                    self.chars_occs[elements[0]] = elements[1]
 
         return Counter(self.chars_occs).most_common()
 
     def get_twenty_most_common_chars(self):
         '''
         Metodo che ritorna i 20 caratteri più utilizzati.
-        :return: lista dei 20 caratteri più utilizzati.
+        :return: dizionario dei 20 caratteri più utilizzati.
         '''
 
         return Counter(self.chars_occs).most_common(20)
 
     def all_words_occurrences_gather(self, words_occurrences):
         '''
-        Metodo che colleziona le occorrenze delle parole calcolate dagli hosts remoti in un unica lista di tuple, del
-        tipo: [(parola_1, occorrenza), (parola_2, occorrenza), ..., ...]
-        :param chars_occurrences:
-        :return: lista di tuple delle parole, ordinate in senso decrescente in base all'occorrenza.
+        Metodo che trasforma le occorrenze dei caratteri calcolate dagli hosts remoti, contenute in una lista
+        di liste di tuple, in un unico dizionario, strutturato nel seguente modo:
+        [(parola_1, occorrenza), (parola_2, occorrenza), ..., ...], dove parola_n è la key, e occorrenza è il
+        valore relativo alla key.
+        :param words_occurrences: lista di liste di tuple delle parole e relative occorrenze.
+        :return: dizionario delle parole, ordinate in senso decrescente in base all'occorrenza.
         '''
 
-        keys, values, self.words_occs = [], [], dict()
-
-        for count in range(0, self.hosts_number):
-            for i in words_occurrences[count]:
-                keys.append(i[0])
-                values.append(i[1])
-
-        for count in range(0, len(keys)):
-            i, s = -1, 0
-            for elements in keys:
-                i += 1
-                if keys[count] == elements:
-                    s += values[i]
-                else:
-                    pass
-
-            self.words_occs.update(({keys[count]: s}))
+        for l in words_occurrences:
+            for elements in l:
+                try:
+                    self.words_occs[elements[0]] = (self.words_occs[elements[0]] + elements[1])
+                except KeyError as e:
+                    self.words_occs[elements[0]] = elements[1]
 
         return Counter(self.words_occs).most_common()
 
     def get_twenty_most_common_words(self):
         '''
         Metodo che ritorna le 20 parole più utilizzate.
-        :return: lista delle 20 parole più utilizzate.
+        :return: dizionario delle 20 parole più utilizzate.
         '''
 
         return Counter(self.words_occs).most_common(20)
@@ -247,7 +230,7 @@ class ResultsCollector():
 
         try:
             f = open("../res/text_analysis_result" + d_m_y + h_m_s + ".txt", 'w')
-            f.write("Analisi eseguita su: " + str(self.hosts_number) + " host.\n\n")
+            f.write("Analisi eseguita su " + str(self.hosts_number) + " host.\n\n")
             for count in range(0, len(final_res)):
                 f.write(str(final_res[count]) + "\n")
             f.close()

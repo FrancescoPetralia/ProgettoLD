@@ -310,8 +310,6 @@ class HostsConnectionWindow(QtGui.QMainWindow):
             self.labellist_password.append(QtGui.QLabel("Password Host_" + str(count) + ":", self))
             self.textboxlist_password.append(QtGui.QLineEdit(self))
 
-        self.textboxlist_password[int(self.host_number) - 1].returnPressed.connect(self.on_click_button_proceed)
-
         for count in range(0, int(self.host_number)):
 
             self.labellist_addresses[count].resize(self.labelwidth, self.labelheight)
@@ -319,6 +317,7 @@ class HostsConnectionWindow(QtGui.QMainWindow):
 
             self.textboxlist_addresses[count].resize(self.textboxwidth, self.textboxheight)
             self.textboxlist_addresses[count].move(self.xpositiontextbox_a, (self.offset_textbox * (count + 1)))
+            self.textboxlist_addresses[count].returnPressed.connect(self.on_click_button_proceed)
 
             if self.flag_c == 1:
 
@@ -336,6 +335,7 @@ class HostsConnectionWindow(QtGui.QMainWindow):
             self.textboxlist_password[count].setEchoMode(2)
             self.textboxlist_password[count].resize(self.textboxwidth, self.textboxheight)
             self.textboxlist_password[count].move(self.xpositiontextbox_p, (self.offset_textbox * (count + 1)))
+            self.textboxlist_password[count].returnPressed.connect(self.on_click_button_proceed)
 
         self.labelhosts.setText("Numero di host su cui parallelizzare l'analisi: " + str(self.host_number) + ".")
 
@@ -908,7 +908,7 @@ class TextAnalysisWindow(Connection):
         print("\nAnalisi in corso...")
 
         self.final_result_textarea.clear()
-        self.final_result_textarea.setText("Analisi eseguita su: " + str(self.hosts_number) + " host.\n")
+        self.final_result_textarea.setText("Analisi eseguita su " + str(self.hosts_number) + " host.\n")
 
         try:
             e = ExecutionTimeMeasurement()
@@ -946,7 +946,7 @@ class TextAnalysisWindow(Connection):
                                         "\nLa connessione agli host remoti  è ancora in corso..."
                                         "\n\nPer favore aspetta ancora qualche secondo.")
             else:
-                print("Si è verificato un errore durante l'analisi del file.")
+                print("Si è verificato un errore durante l'analisi del file." + str(ex))
                 QtGui.QMessageBox.about(self, "Errore analisi", "Si è verificato un errore durante l'analisi del file.")
 
     def save_results(self):
