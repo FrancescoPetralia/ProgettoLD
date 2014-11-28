@@ -16,7 +16,6 @@ class FileSplitter():
 
         :param hosts_number: numero di hosts.
         :param file_to_split: percorso del file da dividere.
-        :return:
         '''
 
         self.hosts_number = int(hosts_number)

@@ -33,7 +33,6 @@ class ResultsCollector():
         '''
         Questo metodo raccoglie i risultati parziali di ciascun host remoto e li somma, inserendoli all'interno di una
         lista di tuple del tipo: [(risultato1, somma_totale), (risultato2, somma_totale), ..., ...]
-        :return:
         '''
 
         ncnt = 0
@@ -150,7 +149,6 @@ class ResultsCollector():
         for l in chars_occurrences:
             for elements in l:
                 try:
-                    #print(elements[0])
                     self.chars_occs[elements[0]] = (self.chars_occs[elements[0]] + elements[1])
                 except KeyError as e:
                     self.chars_occs[elements[0]] = elements[1]
@@ -171,6 +169,10 @@ class ResultsCollector():
         di liste di tuple, in un unico dizionario, strutturato nel seguente modo:
         [(parola_1, occorrenza), (parola_2, occorrenza), ..., ...], dove parola_n è la key, e occorrenza è il
         valore relativo alla key.
+        La trasformazione viene effettuata per via delle grandi dimensioni che può arrivare ad assumere la lista di
+        occorrenze delle parole, dell'ordine milioni o decine di milioni.
+        In questo modo, adottando il dizionario, che è a tutti gli effetti una tabella hash, si riduce il
+        costo computazionale dovuto alla gestione di un insieme contenente una grandissima quantità di elementi.
         :param words_occurrences: lista di liste di tuple delle parole e relative occorrenze.
         :return: dizionario delle parole, ordinate in senso decrescente in base all'occorrenza.
         '''

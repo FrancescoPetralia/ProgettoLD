@@ -18,8 +18,7 @@ class NameServer():
 
     def __init__(self):
         '''
-
-        :return:
+        Avvio del loop del NameServer. In questo modo ascolta e serve le richieste in background.
         '''
         self.start_ns_loop()
 
@@ -27,7 +26,6 @@ class NameServer():
         '''
         Questo metodo avvia il NameServer.
         Di default, il NameServer gira su 0.0.0.0:9090, mentre il Broadcast Server gira su 0.0.0.0:9091
-        :return:
         '''
 
         print("\nSto facendo partire il Name Server...")
@@ -44,7 +42,7 @@ class NameServer():
     def start_ns_loop(self):
         '''
         In questo metodo, l'avvio del NameServer viene messo in un thread a parte.
-        :return:
+        Il thread relativo al NameServer è di tipo 'daemon'.
         '''
 
         ns_thread = threading.Thread(target=self.start_ns, args=[])

@@ -25,7 +25,6 @@ class TextAnalyzer():
     def __init__(self, identifier):
         '''
         :param identifier: id dell'analizzatore testuale.
-        :return:
         '''
 
         self.results = {}
@@ -51,14 +50,12 @@ class TextAnalyzer():
     def tokenize_words(self):
         '''
         Metodo che memorizza la lista di tutte le parole contenute nel file.
-        :return:
         '''
         self.all_tokenized_words = self.words_inside_file()
 
     def tokenize_sentences(self):
         '''
         Metodo che memorizza la lista di tutte le frasi contenute nel file.
-        :return:
         '''
         self.all_tokenized_sentences = self.sentences_inside_file()
 
@@ -266,7 +263,7 @@ class TextAnalyzer():
         '''
         Questo metodo ritorna l'indirizzo ip del NameServer. In questo modo assegno un ip, all'interno della rete,
         al server.
-        In particolare, tramite un socket UPD (volendo, è possibile specificare anche un trasporto TCP), mi connetto
+        In particolare, tramite un socket UDP (volendo, è possibile specificare anche un trasporto TCP), mi connetto
         a google.com, in modo tale da farmi assegnare un ip dalla rete. Indirizzo ip che sarà poi assegnato al
         NameServer.
         :return: Indirizzo IP del NameServer.
@@ -286,7 +283,6 @@ def stop_connection_and_unregister_from_ns(signal, frame):
     Questo metodo esegue la rimozione del PyRO Object dal NameServer.
     :param signal: Tipo di segnale (SIG_INT, SIG_TERM)
     :param frame:
-    :return:
     '''
 
     __NS__.remove(__PYRO_OBJ_NAME__)
@@ -296,7 +292,6 @@ def stop_connection_and_unregister_from_ns(signal, frame):
 def main():
     '''
     Metodo main utilizzato per mandare in esecuzione l'analizzatore e registrarlo sul NameServer.
-    :return:
     '''
 
     global __NS__, __PYRO_OBJ_NAME__

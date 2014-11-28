@@ -20,7 +20,6 @@ class TestOccurences(unittest.TestCase):
         '''
         Metodo di setup per lo unittesting. Vengono create le istanze necessarie al test.
         Le azioni all'interno di questo metodo vengono eseguite prima dell'esecuzione del test.
-        :return:
         '''
 
         self.a1 = TextAnalyzer(0)
@@ -32,7 +31,6 @@ class TestOccurences(unittest.TestCase):
         Questo metodo verifica che i risultati prodotti da due analizzatore distinti sianoi medesimi.
         Nello specifico, solleva una assertEqual nel caso in cui i risultati coincidano. Dunque il test è passato.
         Nel caso in cui il test non sia stato passato, viene sollevato un messaggio con relativo errore.
-        :return:
         '''
 
         self.assertEqual(self.r1, self.r2, "chars_occurrence_test: test non apssato.")
@@ -41,7 +39,7 @@ class TestOccurences(unittest.TestCase):
         '''
         In questo metodo sono contenute tutte le azioni da compiere dopo che il test è avvenuto, e i risultati sono
         stati prodotti.
-        :return:
+        In particolare, vengono cancellati i file di prova creati per il test.
         '''
 
         try:

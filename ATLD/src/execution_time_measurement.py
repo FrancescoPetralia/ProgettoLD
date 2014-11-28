@@ -23,14 +23,12 @@ class ExecutionTimeMeasurement:
     def start_measurement(self):
         '''
         Metodo che stabilisce l'inizio della misurazione.
-        :return:
         '''
         self.start = time.clock()
 
     def finish_measurement(self):
         '''
         Metodo che stabilisce la fine della misurazione.
-        :return:
         '''
         self.finish = time.clock()
         self.interval = (self.start - self.finish)

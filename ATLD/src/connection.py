@@ -21,9 +21,6 @@ class Connection(QtGui.QMainWindow):
     '''
 
     def __init__(self):
-        '''
-        :return:
-        '''
 
         super(Connection, self).__init__()
 
@@ -62,7 +59,6 @@ class Connection(QtGui.QMainWindow):
         :param identifier: lista contenente gli id degli hosts.
         :param address: lista contenente gli indirizzi degli hosts.
         :param password: lista contenente le passwords degli hosts.
-        :return:
         '''
 
         time.sleep(5)
@@ -93,7 +89,6 @@ class Connection(QtGui.QMainWindow):
         :param identifier: lista contenente gli id degli hosts.
         :param address: lista contenente gli indirizzi a cui conettersi.
         :param password: lista contenente le passwords degli host.
-        :return:
         '''
 
         print("\n")
@@ -133,7 +128,7 @@ class Connection(QtGui.QMainWindow):
 
             print("Trasferisco Pyro4...")
             sftp_connection.put("Pyro4.zip", "./Pyro4.zip")
-            time.sleep(1)
+            time.sleep(2)
 
             print("Trasferisco il file splitted_file_" + str(identifier) + ".txt")
             sftp_connection.put("../temp/splitted_file_" + str(identifier) + ".txt", "./splitted_file_" + str(identifier) + ".txt")
@@ -191,7 +186,6 @@ class Connection(QtGui.QMainWindow):
         :param identifier: lista contenente gli id degli hosts.
         :param address: lista contenente gli indirizzi a cui conettersi.
         :param password: lista contenente le passwords degli host.
-        :return:
         '''
 
         ssh_connection = paramiko.SSHClient()
