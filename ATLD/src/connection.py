@@ -200,7 +200,7 @@ class Connection(QtGui.QMainWindow):
 
             print("\nSto terminando il processo " + str(self.object_pid[identifier]) + "...")
             ssh_connection.exec_command("kill -s 15 {}".format(self.object_pid[identifier]))
-            print("\nTerminato.")
+            print("Terminato.")
             ssh_connection.exec_command("rm -r Pyro4")
             ssh_connection.exec_command("rm -r Pyro4.zip")
             ssh_connection.exec_command("rm text_analyzer.py")

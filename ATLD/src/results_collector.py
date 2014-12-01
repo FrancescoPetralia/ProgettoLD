@@ -170,8 +170,8 @@ class ResultsCollector():
         [(parola_1, occorrenza), (parola_2, occorrenza), ..., ...], dove parola_n è la key, e occorrenza è il
         valore relativo alla key.
         La trasformazione viene effettuata per via delle grandi dimensioni che può arrivare ad assumere la lista di
-        occorrenze delle parole, dell'ordine milioni o decine di milioni.
-        In questo modo, adottando il dizionario, che è a tutti gli effetti una tabella hash, si riduce il
+        occorrenze delle parole, dell'ordine di milioni o decine di milioni.
+        In questo modo, adottando il dizionario, che è di tipo hastable, cioè una tabella hash, si riduce il
         costo computazionale dovuto alla gestione di un insieme contenente una grandissima quantità di elementi.
         :param words_occurrences: lista di liste di tuple delle parole e relative occorrenze.
         :return: dizionario delle parole, ordinate in senso decrescente in base all'occorrenza.

@@ -194,7 +194,7 @@ class HostsConnectionWindow(QtGui.QMainWindow):
 
         super(HostsConnectionWindow, self).__init__()
 
-        if flag_terminal == 1:
+        if flag_terminal == 1 or flag_conf == 1:
             Pyro4.config.HOST = "0.0.0.0"
             # Avvio del Server
             self.ns = NameServer()
@@ -262,6 +262,45 @@ class HostsConnectionWindow(QtGui.QMainWindow):
         self.shw = SetHostsWindow()
         self.shw.show()
         # Richiamare il metodo che termina il Name Server
+
+    def load_config_file(self, conf_file):
+        '''
+        Metodo che legge il file di configurazione.
+        Questo metodo è collegato all'evento 'triggered' del menu item 'Carica configurazione'
+        In particolare, dopo aver letto, riga per riga, il file di
+        configurazione, imposto in modo corretto le variabili utili al passaggio dei dati di configurazione appena
+        letti dal file.
+        '''
+
+        hosts_number, address, file, addresses, file_content = "", "", "", [], []
+
+        try:
+            file_path = conf_file
+
+            f = open(file_path, 'r')
+            file_content = f.read().splitlines()
+
+            hosts_number = file_content[3]
+
+            cnt = 3
+            for count in range(0, int(hosts_number)):
+                cnt += 1
+                addresses.append(file_content[cnt])
+
+            file = file_content[(len(file_content) - 1)]
+
+            f.close()
+
+            print("\nConfigurazione caricata dal file '" + file_path + "' (numero hosts, indirizzi, file):\n"
+                  + "Numero di hosts: " + hosts_number + ". \nIndirizzi: " + str(addresses) + ". \nFile: '" + file
+                  + "'.")
+
+            self.set_addresses(addresses)
+            self.set_hosts_number(hosts_number)
+            self.set_file(file)
+
+        except Exception as e:
+            print("\nNon hai scelto nessun file di configurazione oppure il file non esiste.")
 
     def set_file(self, file):
         '''
