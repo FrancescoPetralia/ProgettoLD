@@ -2,6 +2,7 @@ __author__ = 'francesco'
 
 import sys
 import argparse
+import re
 from PyQt4 import QtGui, QtCore
 from graphical_user_interface import SetHostsWindow
 from graphical_user_interface import HostsConnectionWindow
@@ -39,58 +40,69 @@ def main():
     parser.add_argument("-c", help="Specifica il percorso del file di configurazione.")
     args = parser.parse_args()
 
-    if args.n is not None:
-        hosts_number = args.n
-        flag_t += 1
+    try:
 
-    if args.a is not None:
-        addresses = args.a
-        flag_t += 1
+        v = re.search("^[1-8]{1}$", args.n)
+        if v:
+            pass
+        else:
+            raise Exception
 
-    if args.c is not None:
-        file_path = args.c
-        flag_c += 1
+        if args.n is not None:
+            hosts_number = args.n
+            flag_t += 1
 
-    splitted_addresses = addresses.split(',')
+        if args.a is not None:
+            addresses = args.a
+            flag_t += 1
 
-    if args.n is None and args.a is not None:
-        hosts_number = len(splitted_addresses)
+        if args.c is not None:
+            file_path = args.c
+            flag_c += 1
 
-    '''if args.n is not None and args.a is None:
-        addresses = ""
-        for count in range(0, (int(hosts_number) - 1)):
-            addresses += ", "'''
+        splitted_addresses = addresses.split(',')
 
-    if len(splitted_addresses) > int(hosts_number):
-        d = len(splitted_addresses) - int(hosts_number)
-        for count in range(d, 0):
-            del splitted_addresses[count]
-    elif len(splitted_addresses) < int(hosts_number):
-        d = int(hosts_number) - len(splitted_addresses)
-        for count in range(0, d):
-            splitted_addresses.append("")
+        if args.n is None and args.a is not None:
+            hosts_number = len(splitted_addresses)
 
-    app = QtGui.QApplication(sys.argv)
+        if len(splitted_addresses) > int(hosts_number):
+            d = len(splitted_addresses) - int(hosts_number)
+            for count in range(d, 0):
+                del splitted_addresses[count]
+        elif len(splitted_addresses) < int(hosts_number):
+            d = int(hosts_number) - len(splitted_addresses)
+            for count in range(0, d):
+                splitted_addresses.append("")
 
-    if flag_c == 0 and flag_t > 0:
-        hcw = HostsConnectionWindow(0, 1)
-        hcw.set_addresses(splitted_addresses)
-        hcw.set_hosts_number(hosts_number)
-        hcw.show()
-        print("Parametri passati: \n" + "-numero di hosts: " + str(hosts_number) + ".\n" +
-              "-indirizzi: " + str(splitted_addresses))
-    elif flag_c > 0 and flag_t == 0:
+        app = QtGui.QApplication(sys.argv)
 
-        hcw = HostsConnectionWindow(1, 0)
-        hcw.load_config_file(file_path)
-        hcw.show()
-        print("Parametri passati: \n" + "-numero di hosts: " + str(hosts_number) + ".\n" +
-              "-indirizzi: " + str(splitted_addresses) + "\n -file di configurazione: '" + file_path + "'")
-    elif flag_c == 0 and flag_t == 0:
-        w1 = SetHostsWindow()
-        w1.show()
+        if flag_c == 0 and flag_t > 0:
+            hcw = HostsConnectionWindow(0, 1)
+            hcw.set_addresses(splitted_addresses)
+            hcw.set_hosts_number(hosts_number)
+            hcw.show()
+            print("Parametri passati: \n" + "-numero di hosts: " + str(hosts_number) + ".\n" +
+                  "-indirizzi: " + str(splitted_addresses))
+        elif flag_c > 0 and flag_t == 0:
 
-    sys.exit(app.exec_())
+            hcw = HostsConnectionWindow(1, 0)
+            hcw.load_config_file(file_path)
+            hcw.show()
+            print("Parametri passati: \n" + "-numero di hosts: " + str(hosts_number) + ".\n" +
+                  "-indirizzi: " + str(splitted_addresses) + "\n -file di configurazione: '" + file_path + "'")
+        elif flag_c > 0 and flag_t > 0:
+            raise Exception
+        elif flag_c == 0 and flag_t == 0:
+            w1 = SetHostsWindow()
+            w1.show()
+
+        sys.exit(app.exec_())
+
+    except Exception as e:
+        print("Errore nel setting dei parametri.")
+        print("Nota1: il parametro -n ammette soltanto numeri compresi tra 1 ed 8.")
+        print("Nota2: se hai deciso di caricare un file di configurazione tramite il parametro -c non è consentito "
+              "l'utilizzo dei parametri -n/-a, e viceversa.")
 
 if __name__ == "__main__":
 
