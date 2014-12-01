@@ -42,13 +42,13 @@ def main():
 
     try:
 
-        v = re.search("^[1-8]{1}$", args.n)
-        if v:
-            pass
-        else:
-            raise Exception
-
         if args.n is not None:
+            v = re.search("^[1-8]{1}$", args.n)
+            if v:
+                pass
+            else:
+                raise Exception
+
             hosts_number = args.n
             flag_t += 1
 
@@ -91,6 +91,7 @@ def main():
             print("Parametri passati: \n" + "-numero di hosts: " + str(hosts_number) + ".\n" +
                   "-indirizzi: " + str(splitted_addresses) + "\n -file di configurazione: '" + file_path + "'")
         elif flag_c > 0 and flag_t > 0:
+            flag_c, flag_t = 0, 0
             raise Exception
         elif flag_c == 0 and flag_t == 0:
             w1 = SetHostsWindow()
