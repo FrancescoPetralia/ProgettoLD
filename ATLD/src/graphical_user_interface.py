@@ -124,7 +124,8 @@ class SetHostsWindow(QtGui.QMainWindow):
         Metodo che permette la visualizzazione del file di help.
         Questo metodo è collegato all'evento 'triggered' del menu item 'Help'
         '''
-        print("\n Help caricato.")
+        os.system('open ../doc/manuale_di_utilizzo.pdf')
+        print("\nManuale di utilizzo caricato.")
 
     def load_config_file(self):
         '''
@@ -664,7 +665,8 @@ class TextAnalysisWindow(Connection):
         Metodo che permette la visualizzazione del file di help.
         Questo metodo è collegato all'evento 'triggered' del menu item 'Help'
         '''
-        print("\n Help caricato.")
+        os.system('open ../doc/manuale_di_utilizzo.pdf')
+        print("\nManuale di utilizzo caricato.")
 
     def save_config_file(self):
         '''

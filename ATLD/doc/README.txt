@@ -1,12 +1,12 @@
 ATLD 1.0 - Analisi testuale, in parallelo su hosts remoti, per file  di grandi dimensioni.
 
 IMPORTANTE: 
-Applicazione sviluppata e testata su MacBookPro 13 Retina su Mac OSX 10.10 Yosemite.
+Applicazione sviluppata e testata su MacBookPro 13 Retina - Mac OSX 10.10 Yosemite.
 
 * Breve descrizione dell'applicazione:
 
 	Questo programma consente l'esecuzione di una analisi testuale, su hosts remoti, 
-	di file di test di grandi dimensioni.
+	di file testuali di grandi dimensioni.
 	Sono presenti tre finestre, ognuna delle quali consente determinate azioni:
 	- Finestra di setting del numero di hosts e del file di configurazione (opzionale).
 	- Finestra di inserimento delle credenziali d'autenticazione per gli hosts remoti.
