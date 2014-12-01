@@ -145,6 +145,19 @@ class SetHostsWindow(QtGui.QMainWindow):
             f = open(file_path, 'r')
             file_content = f.read().splitlines()
 
+            message = []
+            message.append("/* File di configurazione, tramite il quale viene caricata una configurazione con un")
+            message.append("numero di hosts, indirizzi, e file da analizzare, già predefiniti.")
+            message.append("Attenersi a questo formato (numero di hosts, indirizzi, file da analizzare). */")
+
+            cnt = 0
+            for count in range(0, len(message)):
+                if message[count] == file_content[count]:
+                    cnt += 1
+
+            if cnt != 3:
+                raise Exception
+
             hosts_number = file_content[3]
 
             cnt = 3
@@ -165,8 +178,10 @@ class SetHostsWindow(QtGui.QMainWindow):
             self.hcw.set_file(file)
             self.hcw.show()
             self.hide()
+
         except Exception as e:
-            print("\nNon hai scelto nessun file di configurazione.")
+            print("\nNon hai scelto nessun file di configurazione oppure il file non esiste o non è un file di "
+                  "configurazione. Riprovare con un file adatto.")
 
 #=======================================================================================================================
 
@@ -201,7 +216,6 @@ class HostsConnectionWindow(QtGui.QMainWindow):
             self.ns = NameServer()
 
             self.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
-
         elif flag_terminal == 0:
             pass
 
@@ -281,6 +295,19 @@ class HostsConnectionWindow(QtGui.QMainWindow):
             f = open(file_path, 'r')
             file_content = f.read().splitlines()
 
+            message = []
+            message.append("/* File di configurazione, tramite il quale viene caricata una configurazione con un")
+            message.append("numero di hosts, indirizzi, e file da analizzare, già predefiniti.")
+            message.append("Attenersi a questo formato (numero di hosts, indirizzi, file da analizzare). */")
+
+            cnt = 0
+            for count in range(0, len(message)):
+                if message[count] == file_content[count]:
+                    cnt += 1
+
+            if cnt != 3:
+                raise Exception
+
             hosts_number = file_content[3]
 
             cnt = 3
@@ -301,7 +328,8 @@ class HostsConnectionWindow(QtGui.QMainWindow):
             self.set_file(file)
 
         except Exception as e:
-            print("\nNon hai scelto nessun file di configurazione oppure il file non esiste.")
+            print("\nNon hai scelto nessun file di configurazione oppure il file non esiste o non è un file di "
+                  "configurazione. Riprovare con un file adatto.")
 
     def set_file(self, file):
         '''
@@ -841,7 +869,7 @@ class TextAnalysisWindow(Connection):
 
             t.append(threading.Thread(target=self.start_connection,
                                       args=[self.identifiers[count], self.addresses[count], self.passwords[count]]))
-            time.sleep(1)
+            time.sleep(2)
             t[count].start()
             time.sleep(1)
             self.setWindowTitle("Analizzatore Testuale - " + str(count + 1) + " host collegati.")

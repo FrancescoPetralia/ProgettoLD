@@ -122,16 +122,16 @@ class Connection(QtGui.QMainWindow):
             #print(stdout.readline())
             print("Connessione sftp aperta.")
 
+            print("Trasferisco il file splitted_file_" + str(identifier) + ".txt")
+            sftp_connection.put("../temp/splitted_file_" + str(identifier) + ".txt", "./splitted_file_" + str(identifier) + ".txt")
+            time.sleep(2)
+
             print("Trasferisco il " + self.text_analyzer_name + str(identifier) + "...")
             sftp_connection.put("text_analyzer.py", "./text_analyzer.py")
-            time.sleep(1)
+            time.sleep(2)
 
             print("Trasferisco Pyro4...")
             sftp_connection.put("Pyro4.zip", "./Pyro4.zip")
-            time.sleep(2)
-
-            print("Trasferisco il file splitted_file_" + str(identifier) + ".txt")
-            sftp_connection.put("../temp/splitted_file_" + str(identifier) + ".txt", "./splitted_file_" + str(identifier) + ".txt")
             time.sleep(2)
 
             print("Scompatto l'archivio...")
