@@ -1,0 +1,989 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>text_analyzer.TextAnalyzer</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="text_analyzer-module.html">Module&nbsp;text_analyzer</a> ::
+        Class&nbsp;TextAnalyzer
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="text_analyzer.TextAnalyzer-class.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS DESCRIPTION ==================== -->
+<h1 class="epydoc">Class TextAnalyzer</h1><p class="nomargin-top"><span class="codelink"><a href="text_analyzer-pysrc.html#TextAnalyzer">source&nbsp;code</a></span></p>
+<p>La classe TextAnalyzer gestisce tutti i metodi utili all'analisi 
+  testuale del file.</p>
+
+<!-- ==================== INSTANCE METHODS ==================== -->
+<a name="section-InstanceMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Instance Methods</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-InstanceMethods"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="__init__"></a><span class="summary-sig-name">__init__</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">identifier</span>)</span><br />
+      :param identifier: id dell'analizzatore testuale.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="text_analyzer-pysrc.html#TextAnalyzer.__init__">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="text_analyzer.TextAnalyzer-class.html#read_file" class="summary-sig-name">read_file</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Metodo che legge il contenuto del file.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="text_analyzer-pysrc.html#TextAnalyzer.read_file">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="tokenize_words"></a><span class="summary-sig-name">tokenize_words</span>(<span class="summary-sig-arg">self</span>)</span><br />
+      Metodo che memorizza la lista di tutte le parole contenute nel file.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="text_analyzer-pysrc.html#TextAnalyzer.tokenize_words">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="tokenize_sentences"></a><span class="summary-sig-name">tokenize_sentences</span>(<span class="summary-sig-arg">self</span>)</span><br />
+      Metodo che memorizza la lista di tutte le frasi contenute nel file.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="text_analyzer-pysrc.html#TextAnalyzer.tokenize_sentences">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="text_analyzer.TextAnalyzer-class.html#get_number_of_chars" class="summary-sig-name">get_number_of_chars</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Metodo che ritorna il numero di caratteri contenuti nel file.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="text_analyzer-pysrc.html#TextAnalyzer.get_number_of_chars">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="text_analyzer.TextAnalyzer-class.html#words_inside_file" class="summary-sig-name">words_inside_file</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Metodo che tokenizza all'interno di una lista tutte le parole 
+      contenute nel file.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="text_analyzer-pysrc.html#TextAnalyzer.words_inside_file">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="text_analyzer.TextAnalyzer-class.html#get_number_of_words_inside_the_file" class="summary-sig-name">get_number_of_words_inside_the_file</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Metodo che ritorna il numero di parole all'interno del file.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="text_analyzer-pysrc.html#TextAnalyzer.get_number_of_words_inside_the_file">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="text_analyzer.TextAnalyzer-class.html#get_longest_word_in_the_file" class="summary-sig-name">get_longest_word_in_the_file</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Metodo che ritorna la parola pi&#249; lunga all'interno del file.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="text_analyzer-pysrc.html#TextAnalyzer.get_longest_word_in_the_file">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="text_analyzer.TextAnalyzer-class.html#get_shortest_word_in_the_file" class="summary-sig-name">get_shortest_word_in_the_file</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Metodo che ritorna la parola pi&#249; corta all'interno del file.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="text_analyzer-pysrc.html#TextAnalyzer.get_shortest_word_in_the_file">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="text_analyzer.TextAnalyzer-class.html#sentences_inside_file" class="summary-sig-name">sentences_inside_file</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Metodo che tokenizza all'interno di una lista tutte le frasi 
+      contenute nel file.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="text_analyzer-pysrc.html#TextAnalyzer.sentences_inside_file">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="text_analyzer.TextAnalyzer-class.html#get_number_of_sentences_inside_the_file" class="summary-sig-name">get_number_of_sentences_inside_the_file</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Metodo che ritorna il numero di frasi all'interno del file.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="text_analyzer-pysrc.html#TextAnalyzer.get_number_of_sentences_inside_the_file">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="text_analyzer.TextAnalyzer-class.html#get_longest_sentence_in_the_file" class="summary-sig-name">get_longest_sentence_in_the_file</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Metodo che ritorna la frase pi&#249; lunga all'interno del file.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="text_analyzer-pysrc.html#TextAnalyzer.get_longest_sentence_in_the_file">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="text_analyzer.TextAnalyzer-class.html#get_shortest_sentence_in_the_file" class="summary-sig-name">get_shortest_sentence_in_the_file</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Metodo che ritorna la frase pi&#249; corta all'interno del file.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="text_analyzer-pysrc.html#TextAnalyzer.get_shortest_sentence_in_the_file">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="text_analyzer.TextAnalyzer-class.html#get_number_of_lines" class="summary-sig-name">get_number_of_lines</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Metodo che ritorna quante linee contiene il file.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="text_analyzer-pysrc.html#TextAnalyzer.get_number_of_lines">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="text_analyzer.TextAnalyzer-class.html#get_number_of_consonants" class="summary-sig-name">get_number_of_consonants</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Metodo che ritorna il numero di consonanti all'interno del file.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="text_analyzer-pysrc.html#TextAnalyzer.get_number_of_consonants">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="text_analyzer.TextAnalyzer-class.html#get_number_of_vowels" class="summary-sig-name">get_number_of_vowels</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Metodo che ritorna il numero di vocali all'interno del file.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="text_analyzer-pysrc.html#TextAnalyzer.get_number_of_vowels">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="text_analyzer.TextAnalyzer-class.html#get_accented_characters_occurrence" class="summary-sig-name">get_accented_characters_occurrence</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Metodo che ritorna il numero di caratteri accentati all'interno del 
+      file.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="text_analyzer-pysrc.html#TextAnalyzer.get_accented_characters_occurrence">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="text_analyzer.TextAnalyzer-class.html#get_numbers_occurrence" class="summary-sig-name">get_numbers_occurrence</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Metodo che ritorna il numero totale di occorrenze di tutti i numeri 
+      che compaiono  all'interno del file.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="text_analyzer-pysrc.html#TextAnalyzer.get_numbers_occurrence">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="text_analyzer.TextAnalyzer-class.html#get_spaces_occurrence" class="summary-sig-name">get_spaces_occurrence</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Metodo che ritorna il numero di spazi all'interno del file.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="text_analyzer-pysrc.html#TextAnalyzer.get_spaces_occurrence">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="text_analyzer.TextAnalyzer-class.html#get_punctuation_occurrence" class="summary-sig-name">get_punctuation_occurrence</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Metodo che ritorna il numero di segni di punteggiature all'interno 
+      del file.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="text_analyzer-pysrc.html#TextAnalyzer.get_punctuation_occurrence">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="text_analyzer.TextAnalyzer-class.html#get_all_words_occurrence" class="summary-sig-name">get_all_words_occurrence</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Metodo che colleziona all'interno di un oggetto di tipo FreqDist 
+      tutte le parole e le relative occorrenze.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="text_analyzer-pysrc.html#TextAnalyzer.get_all_words_occurrence">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="text_analyzer.TextAnalyzer-class.html#get_all_chars_occurrence" class="summary-sig-name">get_all_chars_occurrence</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Metodo che colleziona all'interno di un oggetto di tipo FreqDist 
+      tutte le frasi e le relative occorrenze.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="text_analyzer-pysrc.html#TextAnalyzer.get_all_chars_occurrence">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="text_analyzer.TextAnalyzer-class.html#get_results" class="summary-sig-name">get_results</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Metodo che raccoglie all'interno di un dizionario tutte le 
+      statistiche relative al file analizzato.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="text_analyzer-pysrc.html#TextAnalyzer.get_results">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="text_analyzer.TextAnalyzer-class.html#get_ip_address" class="summary-sig-name">get_ip_address</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Questo metodo ritorna l'indirizzo ip del NameServer.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="text_analyzer-pysrc.html#TextAnalyzer.get_ip_address">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+</table>
+<!-- ==================== METHOD DETAILS ==================== -->
+<a name="section-MethodDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Method Details</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-MethodDetails"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+</table>
+<a name="read_file"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">read_file</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="text_analyzer-pysrc.html#TextAnalyzer.read_file">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Metodo che legge il contenuto del file. :return: contenuto del 
+  file.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_number_of_chars"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_number_of_chars</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="text_analyzer-pysrc.html#TextAnalyzer.get_number_of_chars">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Metodo che ritorna il numero di caratteri contenuti nel file. :return:
+  numero di caratteri contenuti nel file..</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="words_inside_file"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">words_inside_file</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="text_analyzer-pysrc.html#TextAnalyzer.words_inside_file">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Metodo che tokenizza all'interno di una lista tutte le parole 
+  contenute nel file. :return: lista contenente tutte le parole contenute 
+  nel file.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_number_of_words_inside_the_file"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_number_of_words_inside_the_file</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="text_analyzer-pysrc.html#TextAnalyzer.get_number_of_words_inside_the_file">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Metodo che ritorna il numero di parole all'interno del file. :return: 
+  numero di parole all'interno del file.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_longest_word_in_the_file"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_longest_word_in_the_file</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="text_analyzer-pysrc.html#TextAnalyzer.get_longest_word_in_the_file">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Metodo che ritorna la parola pi&#249; lunga all'interno del file. :return: 
+  parola pi&#249; lunga all'interno del file.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_shortest_word_in_the_file"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_shortest_word_in_the_file</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="text_analyzer-pysrc.html#TextAnalyzer.get_shortest_word_in_the_file">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Metodo che ritorna la parola pi&#249; corta all'interno del file. :return: 
+  parola pi&#249; corta all'interno del file.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="sentences_inside_file"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">sentences_inside_file</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="text_analyzer-pysrc.html#TextAnalyzer.sentences_inside_file">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Metodo che tokenizza all'interno di una lista tutte le frasi contenute
+  nel file. :return: lista contenente tutte le frasi contenute nel 
+  file.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_number_of_sentences_inside_the_file"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_number_of_sentences_inside_the_file</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="text_analyzer-pysrc.html#TextAnalyzer.get_number_of_sentences_inside_the_file">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Metodo che ritorna il numero di frasi all'interno del file. :return: 
+  numero di frasi all'interno del file.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_longest_sentence_in_the_file"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_longest_sentence_in_the_file</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="text_analyzer-pysrc.html#TextAnalyzer.get_longest_sentence_in_the_file">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Metodo che ritorna la frase pi&#249; lunga all'interno del file. :return: 
+  frase pi&#249; lunga all'interno del file.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_shortest_sentence_in_the_file"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_shortest_sentence_in_the_file</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="text_analyzer-pysrc.html#TextAnalyzer.get_shortest_sentence_in_the_file">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Metodo che ritorna la frase pi&#249; corta all'interno del file. :return: 
+  frase pi&#249; corta all'interno del file.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_number_of_lines"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_number_of_lines</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="text_analyzer-pysrc.html#TextAnalyzer.get_number_of_lines">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Metodo che ritorna quante linee contiene il file. :return: numero di 
+  linee del file.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_number_of_consonants"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_number_of_consonants</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="text_analyzer-pysrc.html#TextAnalyzer.get_number_of_consonants">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Metodo che ritorna il numero di consonanti all'interno del file. 
+  :return: numero di consonanti all'interno del file.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_number_of_vowels"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_number_of_vowels</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="text_analyzer-pysrc.html#TextAnalyzer.get_number_of_vowels">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Metodo che ritorna il numero di vocali all'interno del file. :return: 
+  numero di vocali all'interno del file.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_accented_characters_occurrence"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_accented_characters_occurrence</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="text_analyzer-pysrc.html#TextAnalyzer.get_accented_characters_occurrence">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Metodo che ritorna il numero di caratteri accentati all'interno del 
+  file. :return: numero di caratteri accentati all'interno del file.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_numbers_occurrence"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_numbers_occurrence</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="text_analyzer-pysrc.html#TextAnalyzer.get_numbers_occurrence">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Metodo che ritorna il numero totale di occorrenze di tutti i numeri 
+  che compaiono  all'interno del file. :return: numero totale di occorrenze
+  di tutti i numeri che compaiono all'interno del file.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_spaces_occurrence"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_spaces_occurrence</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="text_analyzer-pysrc.html#TextAnalyzer.get_spaces_occurrence">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Metodo che ritorna il numero di spazi all'interno del file. :return: 
+  numero di spazi all'interno del file.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_punctuation_occurrence"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_punctuation_occurrence</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="text_analyzer-pysrc.html#TextAnalyzer.get_punctuation_occurrence">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Metodo che ritorna il numero di segni di punteggiature all'interno del
+  file. :return: numero di segni di punteggiature all'interno del file.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_all_words_occurrence"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_all_words_occurrence</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="text_analyzer-pysrc.html#TextAnalyzer.get_all_words_occurrence">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Metodo che colleziona all'interno di un oggetto di tipo FreqDist tutte
+  le parole e le relative occorrenze. Nello specifico, &#232; una lista di tuple
+  avente la seguente struttura: [(parola1, occorrenza), (parola2, 
+  occorrenza), ..., ...] :return: ogetto FreqDist delle parole.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_all_chars_occurrence"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_all_chars_occurrence</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="text_analyzer-pysrc.html#TextAnalyzer.get_all_chars_occurrence">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Metodo che colleziona all'interno di un oggetto di tipo FreqDist tutte
+  le frasi e le relative occorrenze. Nello specifico, &#232; una lista di tuple 
+  avente la seguente struttura: [(frase1, occorrenza), (frase2, 
+  occorrenza), ..., ...] :return: oggetto FreqDist delle frasi.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_results"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_results</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="text_analyzer-pysrc.html#TextAnalyzer.get_results">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Metodo che raccoglie all'interno di un dizionario tutte le statistiche
+  relative al file analizzato. :return: dizionario contenente tutte le 
+  statistiche fatte sul file. Il dizionario ha come chiave il nome dell' 
+  analisi effettuata, e come valore il return del rispettivo metodo 
+  richiamato.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_ip_address"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_ip_address</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="text_analyzer-pysrc.html#TextAnalyzer.get_ip_address">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Questo metodo ritorna l'indirizzo ip del NameServer. In questo modo 
+  assegno un ip, all'interno della rete, al server. In particolare, tramite
+  un socket UDP (volendo, &#232; possibile specificare anche un trasporto TCP), 
+  mi connetto a google.com, in modo tale da farmi assegnare un ip dalla 
+  rete. Indirizzo ip che sar&#224; poi assegnato al NameServer. :return: 
+  Indirizzo IP del NameServer.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Tue Dec  2 10:18:36 2014
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

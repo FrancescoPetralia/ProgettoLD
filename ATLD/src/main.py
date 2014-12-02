@@ -1,3 +1,4 @@
+#coding=utf-8
 __author__ = 'francesco'
 
 import sys
@@ -88,7 +89,7 @@ def main():
             hcw = HostsConnectionWindow(1, 0)
             hcw.load_config_file(file_path)
             hcw.show()
-            print("Parametri passati: \n" + "-numero di hosts: " + str(hosts_number) + ".\n" +
+            print("\nParametri passati: \n" + "-numero di hosts: " + str(hosts_number) + ".\n" +
                   "-indirizzi: " + str(splitted_addresses) + "\n -file di configurazione: '" + file_path + "'")
         elif flag_c > 0 and flag_t > 0:
             flag_c, flag_t = 0, 0

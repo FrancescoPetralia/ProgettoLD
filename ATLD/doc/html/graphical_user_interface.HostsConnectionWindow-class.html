@@ -1,0 +1,558 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>graphical_user_interface.HostsConnectionWindow</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="graphical_user_interface-module.html">Module&nbsp;graphical_user_interface</a> ::
+        Class&nbsp;HostsConnectionWindow
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="graphical_user_interface.HostsConnectionWindow-class.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS DESCRIPTION ==================== -->
+<h1 class="epydoc">Class HostsConnectionWindow</h1><p class="nomargin-top"><span class="codelink"><a href="graphical_user_interface-pysrc.html#HostsConnectionWindow">source&nbsp;code</a></span></p>
+<pre class="base-tree">
+PyQt4.QtGui.QMainWindow --+
+                          |
+                         <strong class="uidshort">HostsConnectionWindow</strong>
+</pre>
+
+<hr />
+<p>In questa classe viene definita la finestra di connessione agli hosts 
+  remoti. All'interno della finestra, sono presenti 2 textbox per host, in 
+  base al numero di hosts, nelle quali vengono inseriti, rispettivamente, 
+  gli indirizzi e le passworda degli hosts remoti a cui connettersi. Le 
+  textbox sono di base configurate con l'hostname di sistema, ma &#195;&#168; 
+  comunque consentita la modifica del valore da parte dell'utente, in modo 
+  da poter inserire l'indirizzo desiderato. Questa classe gestisce inoltre 
+  il rendering grafico delle textboxes nel caso in cui la connessione agli 
+  hosts remoti avvenga con successo o meno. Al termine del corretto 
+  inserimento delle credenziali, si aprir&#195;&#160; la finestra di analisi del 
+  testo.</p>
+
+<!-- ==================== INSTANCE METHODS ==================== -->
+<a name="section-InstanceMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Instance Methods</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-InstanceMethods"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="graphical_user_interface.HostsConnectionWindow-class.html#__init__" class="summary-sig-name">__init__</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">flag_conf</span>,
+        <span class="summary-sig-arg">flag_terminal</span>)</span><br />
+      Definizione di tutte le variabili utili alla classe.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="graphical_user_interface-pysrc.html#HostsConnectionWindow.__init__">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="graphical_user_interface.HostsConnectionWindow-class.html#go_back" class="summary-sig-name">go_back</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Metodo che definisce il comportamento del bottone 'Indietro', usato 
+      per riconfigurare il numero di host senza dover chiudere 
+      l'applicazione.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="graphical_user_interface-pysrc.html#HostsConnectionWindow.go_back">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="graphical_user_interface.HostsConnectionWindow-class.html#load_config_file" class="summary-sig-name">load_config_file</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">conf_file</span>)</span><br />
+      Metodo che legge il file di configurazione.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="graphical_user_interface-pysrc.html#HostsConnectionWindow.load_config_file">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="graphical_user_interface.HostsConnectionWindow-class.html#set_file" class="summary-sig-name">set_file</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">file</span>)</span><br />
+      Metodo che si occupa del settaggio del file di configurazione, 
+      ricevuto dalla finestra principale, e che sar&#195; poi passato alla 
+      finestra che si occuper&#195;&#160; dell'analisi testuale.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="graphical_user_interface-pysrc.html#HostsConnectionWindow.set_file">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="graphical_user_interface.HostsConnectionWindow-class.html#set_addresses" class="summary-sig-name">set_addresses</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">addr</span>)</span><br />
+      Metodo che si occupa del settaggio degli indirizzi ricevuti dalla 
+      finestra principale.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="graphical_user_interface-pysrc.html#HostsConnectionWindow.set_addresses">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="graphical_user_interface.HostsConnectionWindow-class.html#set_hosts_number" class="summary-sig-name">set_hosts_number</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">n_addresses</span>)</span><br />
+      Metodo che si occupa del settaggio delle textbox degli hosts remoti, 
+      in base al parametro in ingresso.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="graphical_user_interface-pysrc.html#HostsConnectionWindow.set_hosts_number">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="graphical_user_interface.HostsConnectionWindow-class.html#password_validation" class="summary-sig-name">password_validation</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">addrs</span>,
+        <span class="summary-sig-arg">pwds</span>)</span><br />
+      Metodo che gestisce la validazione delle credenziali d'accesso.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="graphical_user_interface-pysrc.html#HostsConnectionWindow.password_validation">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="graphical_user_interface.HostsConnectionWindow-class.html#open_text_analysis_window" class="summary-sig-name">open_text_analysis_window</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">identifiers</span>,
+        <span class="summary-sig-arg">addresses</span>,
+        <span class="summary-sig-arg">passwords</span>,
+        <span class="summary-sig-arg">hosts</span>)</span><br />
+      Metodo che si occupa dell'apertura della finestra di analisi.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="graphical_user_interface-pysrc.html#HostsConnectionWindow.open_text_analysis_window">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="graphical_user_interface.HostsConnectionWindow-class.html#on_click_button_proceed" class="summary-sig-name">on_click_button_proceed</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Metodo collegato all'evento 'clicked' e 'returnPressed' 
+      rispettivamente del bottone 'Procedi' e passwords textboxes.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="graphical_user_interface-pysrc.html#HostsConnectionWindow.on_click_button_proceed">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+</table>
+<!-- ==================== METHOD DETAILS ==================== -->
+<a name="section-MethodDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Method Details</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-MethodDetails"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+</table>
+<a name="__init__"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">__init__</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">flag_conf</span>,
+        <span class="sig-arg">flag_terminal</span>)</span>
+    <br /><em class="fname">(Constructor)</em>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="graphical_user_interface-pysrc.html#HostsConnectionWindow.__init__">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Definizione di tutte le variabili utili alla classe. :param flag_conf:
+  questo flag specifica se &#195;&#168; stato caricato o meno il file di 
+  configurazione, in modo da permettere alla finestra l'esecuzione di 
+  determinate azioni a seconda del valore del flag. :param flag_terminal: 
+  questo flag specifica se sono stati inseriti, da parte dell'utente, 
+  parametri da terminale (-n e -a, rispettivamente per il numero di hosts 
+  ed indirizzi degli hosts remoti), in modo da permettere alla finestra 
+  l'esecuzione di determinate azioni a seconda del valore del flag.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="go_back"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">go_back</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="graphical_user_interface-pysrc.html#HostsConnectionWindow.go_back">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Metodo che definisce il comportamento del bottone 'Indietro', usato 
+  per riconfigurare il numero di host senza dover chiudere l'applicazione. 
+  Nello specifico, nel momento in cui questo bottone viene cliccato, viene 
+  chiusa la finestra corrente, e riaperta la finestra principale.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="load_config_file"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">load_config_file</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">conf_file</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="graphical_user_interface-pysrc.html#HostsConnectionWindow.load_config_file">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Metodo che legge il file di configurazione. Questo metodo &#195;&#168; collegato
+  all'evento 'triggered' del menu item 'Carica configurazione' In 
+  particolare, dopo aver letto, riga per riga, il file di configurazione, 
+  imposto in modo corretto le variabili utili al passaggio dei dati di 
+  configurazione appena letti dal file.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="set_file"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">set_file</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">file</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="graphical_user_interface-pysrc.html#HostsConnectionWindow.set_file">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Metodo che si occupa del settaggio del file di configurazione, 
+  ricevuto dalla finestra principale, e che sar&#195; poi passato alla finestra 
+  che si occuper&#195;&#160; dell'analisi testuale. :param file: file di 
+  configurazione caricato dall'utente.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="set_addresses"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">set_addresses</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">addr</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="graphical_user_interface-pysrc.html#HostsConnectionWindow.set_addresses">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Metodo che si occupa del settaggio degli indirizzi ricevuti dalla 
+  finestra principale. Gli indirizzi ricevuti possono arrivare solamente 
+  nei seguenti modi: 1) Leggendo il file di configurazione. 2) Tramite 
+  l'apposito parametro -a passato come argomento nel terminale. :param 
+  addr: lista contenente gli indirizzi degli hosts remoti a cui 
+  connettersi.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="set_hosts_number"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">set_hosts_number</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">n_addresses</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="graphical_user_interface-pysrc.html#HostsConnectionWindow.set_hosts_number">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Metodo che si occupa del settaggio delle textbox degli hosts remoti, 
+  in base al parametro in ingresso. Vengono inoltre gestite le propriet&#195;&#160; 
+  grafiche delle textboxes, come la posizione, dimensione, tipologia (plain
+  text o password) e contenuto. :param n_addresses: numero di indirizzi 
+  correlati al numero di hosts remoti.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="password_validation"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">password_validation</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">addrs</span>,
+        <span class="sig-arg">pwds</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="graphical_user_interface-pysrc.html#HostsConnectionWindow.password_validation">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Metodo che gestisce la validazione delle credenziali d'accesso. Nello 
+  specifico, viene effettuata una connessione di prova agli indirizzi 
+  specificati, in modo da verificare la correttezza delle credenziali 
+  d'accesso inserite dall'utente. Viene inoltre gestito il rendering 
+  grafico delle textboxes sia nel caso in cui la validazione abbia avuto 
+  successo, sia che la validazione abbia riscontrato degli errori. Per 
+  aiutare ulteriormente l'utente all'individuzione dell'errore, vengono 
+  mostrate nella finestra delle finestre di dialog in cui si comunica in 
+  quale hosts sono sate riscontrate credenziali daccesso non valide. :param
+  addrs: lista contenente gli indirizzi degli hosts remoti. :param pwds: 
+  lista contenente le passwords degli host remoti. :return: True nel caso 
+  in cui le credenziali d'accetto siano corrette, False nel caso in cui le 
+  credenziali d'accesso siano sbagliate.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="open_text_analysis_window"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">open_text_analysis_window</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">identifiers</span>,
+        <span class="sig-arg">addresses</span>,
+        <span class="sig-arg">passwords</span>,
+        <span class="sig-arg">hosts</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="graphical_user_interface-pysrc.html#HostsConnectionWindow.open_text_analysis_window">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Metodo che si occupa dell'apertura della finestra di analisi. Nello 
+  specifico, viene istanziata la classe TextAnalysisWindow, alla quale 
+  vengono passati tutti i parametri relativi agli hosts remoti a cui 
+  connettersi (ids, indirizzi, passwords, numero di hosts). :param 
+  identifiers: lista contenente l'id ci ciascun host. :param addresses: 
+  lista contenente l'indirizzo di ciascun host. :param passwords: lista 
+  contenente la password di ciascun host. :param hosts: numero di 
+  hosts.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="on_click_button_proceed"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">on_click_button_proceed</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="graphical_user_interface-pysrc.html#HostsConnectionWindow.on_click_button_proceed">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Metodo collegato all'evento 'clicked' e 'returnPressed' 
+  rispettivamente del bottone 'Procedi' e passwords textboxes. Quando 
+  vengono scatenati questi due eventi, viene aperta la finestra di analisi 
+  testuale.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Tue Dec  2 10:18:36 2014
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

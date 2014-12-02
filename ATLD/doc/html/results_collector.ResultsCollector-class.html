@@ -1,0 +1,430 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>results_collector.ResultsCollector</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="results_collector-module.html">Module&nbsp;results_collector</a> ::
+        Class&nbsp;ResultsCollector
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript:void(0);" class="privatelink"
+    onclick="toggle_private();">hide&nbsp;private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="results_collector.ResultsCollector-class.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS DESCRIPTION ==================== -->
+<h1 class="epydoc">Class ResultsCollector</h1><p class="nomargin-top"><span class="codelink"><a href="results_collector-pysrc.html#ResultsCollector">source&nbsp;code</a></span></p>
+<p>Gestisce la raccolta dei risultati parziali di ogni host in un unico 
+  risultato finale. In particolare, ogni host restituisce un dizionario 
+  contenente i propri risultati parziali; una volta raccolti tutti i 
+  sotto-dizionari, viene creata una lista che &#195;&#168; la somma dei risultati 
+  parziali di ciasscun host e che definisce il risultato finale 
+  dell'analisi.</p>
+
+<!-- ==================== INSTANCE METHODS ==================== -->
+<a name="section-InstanceMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Instance Methods</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-InstanceMethods"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="__init__"></a><span class="summary-sig-name">__init__</span>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">object</span>,
+        <span class="summary-sig-arg">hosts_number</span>)</span></td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="results_collector-pysrc.html#ResultsCollector.__init__">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="collect_all_results"></a><span class="summary-sig-name">collect_all_results</span>(<span class="summary-sig-arg">self</span>)</span><br />
+      Questo metodo raccoglie i risultati parziali di ciascun host remoto e
+      li somma, inserendoli all'interno di una lista di tuple del tipo: 
+      [(risultato1, somma_totale), (risultato2, somma_totale), ..., ...]</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="results_collector-pysrc.html#ResultsCollector.collect_all_results">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="results_collector.ResultsCollector-class.html#all_characters_occurrences_gather" class="summary-sig-name">all_characters_occurrences_gather</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">chars_occurrences</span>)</span><br />
+      Metodo che trasforma le occorrenze dei caratteri calcolate dagli 
+      hosts remoti, contenute in una lista di liste di tuple, in un unico 
+      dizionario, strutturato nel seguente modo: [(carattere_1, 
+      occorrenza), (carattere_2, occorrenza), ..., ...], dove carattere_n 
+      &#195;&#168; la key, e occorrenza &#195;&#168; il valore relativo alla key.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="results_collector-pysrc.html#ResultsCollector.all_characters_occurrences_gather">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="results_collector.ResultsCollector-class.html#get_twenty_most_common_chars" class="summary-sig-name">get_twenty_most_common_chars</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Metodo che ritorna i 20 caratteri pi&#195;&#185; utilizzati.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="results_collector-pysrc.html#ResultsCollector.get_twenty_most_common_chars">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="results_collector.ResultsCollector-class.html#all_words_occurrences_gather" class="summary-sig-name">all_words_occurrences_gather</a>(<span class="summary-sig-arg">self</span>,
+        <span class="summary-sig-arg">words_occurrences</span>)</span><br />
+      Metodo che trasforma le occorrenze dei caratteri calcolate dagli 
+      hosts remoti, contenute in una lista di liste di tuple, in un unico 
+      dizionario, strutturato nel seguente modo: [(parola_1, occorrenza), 
+      (parola_2, occorrenza), ..., ...], dove parola_n &#195;&#168; la key, e 
+      occorrenza &#195;&#168; il valore relativo alla key.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="results_collector-pysrc.html#ResultsCollector.all_words_occurrences_gather">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="results_collector.ResultsCollector-class.html#get_twenty_most_common_words" class="summary-sig-name">get_twenty_most_common_words</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Metodo che ritorna le 20 parole pi&#195;&#185; utilizzate.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="results_collector-pysrc.html#ResultsCollector.get_twenty_most_common_words">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="results_collector.ResultsCollector-class.html#get_final_result" class="summary-sig-name">get_final_result</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Metodo che ritorna la lista contenente il risulato finale.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="results_collector-pysrc.html#ResultsCollector.get_final_result">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="results_collector.ResultsCollector-class.html#save" class="summary-sig-name">save</a>(<span class="summary-sig-arg">self</span>)</span><br />
+      Metodo che salva la lista dei risultati su file.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="results_collector-pysrc.html#ResultsCollector.save">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+</table>
+<!-- ==================== METHOD DETAILS ==================== -->
+<a name="section-MethodDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td colspan="2" class="table-header">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <td align="left"><span class="table-header">Method Details</span></td>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-MethodDetails"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+</table>
+<a name="all_characters_occurrences_gather"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">all_characters_occurrences_gather</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">chars_occurrences</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="results_collector-pysrc.html#ResultsCollector.all_characters_occurrences_gather">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Metodo che trasforma le occorrenze dei caratteri calcolate dagli hosts
+  remoti, contenute in una lista di liste di tuple, in un unico dizionario,
+  strutturato nel seguente modo: [(carattere_1, occorrenza), (carattere_2, 
+  occorrenza), ..., ...], dove carattere_n &#195;&#168; la key, e occorrenza &#195;&#168; il 
+  valore relativo alla key. :param chars_occurrences: lista di liste di 
+  tuple dei caratteri e delle relative occorrenze. :return: dizionario dei 
+  caratteri, ordinati in senso decrescente in base all'occorrenza.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_twenty_most_common_chars"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_twenty_most_common_chars</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="results_collector-pysrc.html#ResultsCollector.get_twenty_most_common_chars">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Metodo che ritorna i 20 caratteri pi&#195;&#185; utilizzati. :return: dizionario
+  dei 20 caratteri pi&#195;&#185; utilizzati.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="all_words_occurrences_gather"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">all_words_occurrences_gather</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">words_occurrences</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="results_collector-pysrc.html#ResultsCollector.all_words_occurrences_gather">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Metodo che trasforma le occorrenze dei caratteri calcolate dagli hosts
+  remoti, contenute in una lista di liste di tuple, in un unico dizionario,
+  strutturato nel seguente modo: [(parola_1, occorrenza), (parola_2, 
+  occorrenza), ..., ...], dove parola_n &#195;&#168; la key, e occorrenza &#195;&#168; il 
+  valore relativo alla key. La trasformazione viene effettuata per via 
+  delle grandi dimensioni che pu&#195;&#178; arrivare ad assumere la lista di 
+  occorrenze delle parole, dell'ordine di milioni o decine di milioni. In 
+  questo modo, adottando il dizionario, che &#195;&#168; di tipo hastable, cio&#195;&#168; una 
+  tabella hash, si riduce il costo computazionale dovuto alla gestione di 
+  un insieme contenente una grandissima quantit&#195;&#160; di elementi. :param 
+  words_occurrences: lista di liste di tuple delle parole e relative 
+  occorrenze. :return: dizionario delle parole, ordinate in senso 
+  decrescente in base all'occorrenza.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_twenty_most_common_words"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_twenty_most_common_words</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="results_collector-pysrc.html#ResultsCollector.get_twenty_most_common_words">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Metodo che ritorna le 20 parole pi&#195;&#185; utilizzate. :return: dizionario 
+  delle 20 parole pi&#195;&#185; utilizzate.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_final_result"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_final_result</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="results_collector-pysrc.html#ResultsCollector.get_final_result">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Metodo che ritorna la lista contenente il risulato finale. :return: 
+  lista contenente il risultato finale.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<a name="save"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">save</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="results_collector-pysrc.html#ResultsCollector.save">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  <p>Metodo che salva la lista dei risultati su file. :return: True, se il 
+  risultato &#195;&#168; stato salvato correttamente su file. False se il risultato 
+  non &#195;&#168; stato salvato correttamente su file.</p>
+  <dl class="fields">
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+      <th class="navbar" width="100%"></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Tue Dec  2 10:18:36 2014
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>

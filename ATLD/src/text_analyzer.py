@@ -1,4 +1,4 @@
-# -*- coding: iso-8859-15 -*-
+#coding=utf-8
 
 __author__ = 'Francesco'
 
@@ -86,15 +86,15 @@ class TextAnalyzer():
 
     def get_longest_word_in_the_file(self):
         '''
-        Metodo che ritorna la parola più lunga all'interno del file.
-        :return: parola più lunga all'interno del file.
+        Metodo che ritorna la parola piÃ¹ lunga all'interno del file.
+        :return: parola piÃ¹ lunga all'interno del file.
         '''
         return max(self.all_tokenized_words, key=len)
 
     def get_shortest_word_in_the_file(self):
         '''
-        Metodo che ritorna la parola più corta all'interno del file.
-        :return: parola più corta all'interno del file.
+        Metodo che ritorna la parola piÃ¹ corta all'interno del file.
+        :return: parola piÃ¹ corta all'interno del file.
         '''
         return min(self.all_tokenized_words, key=len)
 
@@ -118,15 +118,15 @@ class TextAnalyzer():
 
     def get_longest_sentence_in_the_file(self):
         '''
-        Metodo che ritorna la frase più lunga all'interno del file.
-        :return: frase più lunga all'interno del file.
+        Metodo che ritorna la frase piÃ¹ lunga all'interno del file.
+        :return: frase piÃ¹ lunga all'interno del file.
         '''
         return max(self.all_tokenized_sentences, key=len)
 
     def get_shortest_sentence_in_the_file(self):
         '''
-        Metodo che ritorna la frase più corta all'interno del file.
-        :return: frase più corta all'interno del file.
+        Metodo che ritorna la frase piÃ¹ corta all'interno del file.
+        :return: frase piÃ¹ corta all'interno del file.
         '''
         return min(self.all_tokenized_sentences, key=len)
 
@@ -168,7 +168,7 @@ class TextAnalyzer():
         Metodo che ritorna il numero di caratteri accentati all'interno del file.
         :return: numero di caratteri accentati all'interno del file.
         '''
-        accented_chars = "àèéìòù"
+        accented_chars = "Ã Ã¨Ã©Ã¬Ã²Ã¹"
         tot = 0
         for ac in self.read_file():
             if ac in accented_chars:
@@ -203,7 +203,7 @@ class TextAnalyzer():
         Metodo che ritorna il numero di segni di punteggiature all'interno del file.
         :return: numero di segni di punteggiature all'interno del file.
         '''
-        punctuation = "!?',.;:-_@#*+-=/£$%&()[]{}<> "
+        punctuation = "!?',.;:-_@#*+-=/Â£$%&()[]{}<> "
         tot = 0
         for p in self.read_file():
             if p in punctuation:
@@ -213,7 +213,7 @@ class TextAnalyzer():
     def get_all_words_occurrence(self):
         '''
         Metodo che colleziona all'interno di un oggetto di tipo FreqDist tutte le parole e le relative occorrenze.
-        Nello specifico, è una lista di tuple avente la seguente struttura:
+        Nello specifico, Ã¨ una lista di tuple avente la seguente struttura:
         [(parola1, occorrenza), (parola2, occorrenza), ..., ...]
         :return: ogetto FreqDist delle parole.
         '''
@@ -224,7 +224,7 @@ class TextAnalyzer():
     def get_all_chars_occurrence(self):
         '''
         Metodo che colleziona all'interno di un oggetto di tipo FreqDist tutte le frasi e le relative occorrenze.
-        Nello specifico, è una lista di tuple avente la seguente struttura:
+        Nello specifico, Ã¨ una lista di tuple avente la seguente struttura:
         [(frase1, occorrenza), (frase2, occorrenza), ..., ...]
         :return: oggetto FreqDist delle frasi.
         '''
@@ -263,8 +263,8 @@ class TextAnalyzer():
         '''
         Questo metodo ritorna l'indirizzo ip del NameServer. In questo modo assegno un ip, all'interno della rete,
         al server.
-        In particolare, tramite un socket UDP (volendo, è possibile specificare anche un trasporto TCP), mi connetto
-        a google.com, in modo tale da farmi assegnare un ip dalla rete. Indirizzo ip che sarà poi assegnato al
+        In particolare, tramite un socket UDP (volendo, Ã¨ possibile specificare anche un trasporto TCP), mi connetto
+        a google.com, in modo tale da farmi assegnare un ip dalla rete. Indirizzo ip che sarÃ  poi assegnato al
         NameServer.
         :return: Indirizzo IP del NameServer.
         '''
